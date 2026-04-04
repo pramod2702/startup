@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>{% block title %}VICTNOW - Luxury Fragrances{% endblock %}</title>
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=9.1">
+    
+    <!-- Custom Navbar Styles -->
+    <style>
+    .navbar {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%) !important;
+        border-bottom: 2px solid #d4af37 !important;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    }
+    
+    .navbar-brand {
+        font-family: 'Playfair Display', serif !important;
+        font-size: 1.8rem !important;
+        color: #d4af37 !important;
+        font-weight: 700;
+        text-decoration: none;
+        transition: color 0.3s ease;
+    }
+    
+    .navbar-brand:hover {
+        color: #fff !important;
+    }
+    
+    .nav-link {
+        color: #fff !important;
+        font-weight: 500;
+        margin: 0 10px;
+        transition: color 0.3s ease, transform 0.2s ease;
+    }
+    
+    .nav-link:hover {
+        color: #d4af37 !important;
+        transform: translateY(-2px);
+    }
+    
+    .btn-warning {
+        background: linear-gradient(135deg, #d4af37, #b8941f) !important;
+        border: none;
+        color: #000;
+        font-weight: 600;
+        padding: 8px 20px;
+        border-radius: 25px;
+        transition: all 0.3s ease;
+        box-shadow: 0 4px 15px rgba(212, 175, 55, 0.3);
+    }
+    
+    .btn-warning:hover {
+        background: linear-gradient(135deg, #b8941f, #d4af37) !important;
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(212, 175, 55, 0.4);
+    }
+    
+    /* Mobile Footer Styles */
+    @media (max-width: 768px) {
+        .footer {
+            padding: 30px 15px 15px !important;
+        }
+        
+        .footer-grid {
+            grid-template-columns: 1fr !important;
+            gap: 25px !important;
+            text-align: center;
+        }
+        
+        .footer-section h3,
+        .footer-section h4 {
+            font-size: 1.2rem !important;
+            text-align: center;
+            margin-bottom: 15px !important;
+        }
+        
+        .footer-section ul {
+            text-align: center;
+            padding: 0;
+        }
+        
+        .footer-section li {
+            margin-bottom: 8px !important;
+        }
+        
+        .footer-section a {
+            font-size: 0.9rem !important;
+        }
+        
+        .footer-address {
+            font-size: 0.9rem !important;
+            margin-bottom: 15px !important;
+        }
+        
+        .copyright {
+            font-size: 0.8rem !important;
+            margin-top: 15px !important;
+        }
+        
+        .footer-section div {
+            margin-top: 15px;
+        }
+        
+        .footer-section div a {
+            font-size: 18px !important;
+            margin: 0 10px !important;
+        }
+    }
+    
+    /* Small mobile footer adjustments */
+    @media (max-width: 480px) {
+        .footer {
+            padding: 25px 10px 10px !important;
+        }
+        
+        .footer-grid {
+            gap: 20px !important;
+        }
+        
+        .footer-section h3,
+        .footer-section h4 {
+            font-size: 1.1rem !important;
+        }
+        
+        .footer-section a {
+            font-size: 0.85rem !important;
+        }
+        
+        .footer-address {
+            font-size: 0.85rem !important;
+        }
+        
+        .copyright {
+            font-size: 0.75rem !important;
+        }
+        
+        .footer-section div a {
+            font-size: 16px !important;
+            margin: 0 8px !important;
+        }
+    }
+    
+    /* Mobile Navbar Styles */
+    @media (max-width: 991.98px) {
+        .navbar {
+            padding: 15px !important;
+            background: rgba(10, 10, 10, 0.98) !important;
+            backdrop-filter: blur(15px);
+        }
+        
+        .navbar-brand {
+            font-size: 1.5rem !important;
+            color: #d4af37 !important;
+            font-weight: 700;
+        }
+        
+        .navbar-toggler {
+            display: block !important;
+            border: 2px solid #d4af37 !important;
+            padding: 8px 12px !important;
+            border-radius: 8px;
+            background: rgba(212, 175, 55, 0.1);
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-toggler:hover {
+            background: rgba(212, 175, 55, 0.2);
+            transform: scale(1.05);
+        }
+        
+        .navbar-toggler-icon {
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23d4af37' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2.5' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e") !important;
+            width: 25px;
+            height: 25px;
+        }
+        
+        /* Redesigned Sidebar */
+        .navbar-collapse {
+            position: fixed;
+            top: 0;
+            left: -100%;
+            width: 85%;
+            max-width: 320px;
+            height: 100vh;
+            background: linear-gradient(135deg, rgba(10, 10, 10, 0.98), rgba(26, 26, 26, 0.98)) !important;
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-right: 3px solid #d4af37;
+            transition: left 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            z-index: 1050;
+            overflow-y: auto;
+            padding: 0;
+        }
+        
+        .navbar-collapse.show {
+            left: 0;
+            box-shadow: 5px 0 25px rgba(0, 0, 0, 0.8);
+        }
+        
+        /* Sidebar Header */
+        .navbar-collapse::before {
+            content: '';
+            display: block;
+            height: 80px;
+            background: linear-gradient(135deg, #d4af37, #b8941f);
+            margin-bottom: 20px;
+            position: relative;
+        }
+        
+        .navbar-collapse::after {
+            content: 'VICTNOW';
+            position: absolute;
+            top: 25px;
+            left: 20px;
+            color: #000;
+            font-size: 1.8rem;
+            font-weight: 700;
+            font-family: 'Playfair Display', serif;
+        }
+        
+        /* Close Button */
+        .navbar-collapse .close-sidebar {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            border: 2px solid #d4af37;
+            color: #d4af37;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 18px;
+        }
+        
+        .navbar-collapse .close-sidebar:hover {
+            background: #d4af37;
+            color: #000;
+            transform: rotate(90deg);
+        }
+        
+        /* Navigation Links */
+        .navbar-nav {
+            text-align: left !important;
+            margin: 0 !important;
+            padding: 0 20px;
+        }
+        
+        .navbar-nav .nav-link {
+            padding: 15px 20px !important;
+            font-size: 1rem !important;
+            color: #fff !important;
+            font-weight: 500;
+            border-radius: 8px;
+            margin: 8px 0;
+            transition: all 0.3s ease;
+            border-left: 3px solid transparent;
+            position: relative;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: #d4af37 !important;
+            background: rgba(212, 175, 55, 0.1);
+            border-left-color: #d4af37;
+            transform: translateX(5px);
+        }
+        
+        .navbar-nav .nav-link::before {
+            content: '→';
+            position: absolute;
+            right: 20px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            color: #d4af37;
+        }
+        
+        .navbar-nav .nav-link:hover::before {
+            opacity: 1;
+            right: 15px;
+        }
+        
+        /* Cart and User Auth Section */
+        .navbar-nav.ms-auto {
+            margin-top: 30px !important;
+            padding-top: 20px;
+            border-top: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .navbar-nav.ms-auto .nav-item {
+            margin: 15px 0;
+        }
+        
+        .navbar-nav.ms-auto .nav-link {
+            display: flex;
+            align-items: center;
+            padding: 12px 20px !important;
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 8px;
+        }
+        
+        .navbar-nav.ms-auto .nav-link:hover {
+            background: rgba(212, 175, 55, 0.2);
+            border-color: #d4af37;
+        }
+        
+        .navbar-nav.ms-auto .nav-link i {
+            margin-right: 12px;
+            font-size: 1.1rem;
+        }
+        
+        /* Shop Now Button */
+        .btn.btn-sm {
+            width: 100%;
+            padding: 12px 20px !important;
+            font-size: 1rem !important;
+            background: linear-gradient(135deg, #d4af37, #b8941f) !important;
+            border: none;
+            border-radius: 8px;
+            margin-top: 20px;
+            font-weight: 600;
+            letter-spacing: 1px;
+            transition: all 0.3s ease;
+        }
+        
+        .btn.btn-sm:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.4);
+        }
+        
+        /* User Dropdown Mobile */
+        .dropdown-menu {
+            position: static !important;
+            transform: none !important;
+            border: none !important;
+            box-shadow: none !important;
+            background: rgba(26, 26, 26, 0.95) !important;
+            margin: 10px 0 !important;
+            border-radius: 8px;
+        }
+        
+        .dropdown-item {
+            padding: 12px 20px !important;
+            font-size: 0.9rem !important;
+            color: #fff !important;
+            border-radius: 4px;
+            margin: 2px 0;
+        }
+        
+        .dropdown-item:hover {
+            background: rgba(212, 175, 55, 0.2) !important;
+            color: #d4af37 !important;
+        }
+        
+        /* Overlay */
+        .navbar-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1040;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        
+        .navbar-overlay.show {
+            opacity: 1;
+            visibility: visible;
+        }
+        
+        /* Hide desktop elements on mobile */
+        .desktop-only {
+            display: none !important;
+        }
+        
+        /* Show mobile elements */
+        .mobile-only {
+            display: block !important;
+        }
+        
+        /* Mobile Product Horizontal Scroll */
+        .products-grid,
+        .products-gri {
+            display: flex !important;
+            flex-direction: row !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            gap: 15px !important;
+            padding: 0 15px 15px !important;
+            scroll-behavior: smooth !important;
+            -webkit-overflow-scrolling: touch !important;
+            -ms-overflow-style: none !important;
+            scrollbar-width: thin !important;
+            scrollbar-color: #d4af37 rgba(0, 0, 0, 0.3) !important;
+        }
+        
+        .products-grid::-webkit-scrollbar,
+        .products-gri::-webkit-scrollbar {
+            height: 6px !important;
+        }
+        
+        .products-grid::-webkit-scrollbar-track,
+        .products-gri::-webkit-scrollbar-track {
+            background: rgba(0, 0, 0, 0.3) !important;
+            border-radius: 10px !important;
+        }
+        
+        .products-grid::-webkit-scrollbar-thumb,
+        .products-gri::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #d4af37, #b8941f) !important;
+            border-radius: 10px !important;
+        }
+        
+        .product-card {
+            flex: 0 0 auto !important;
+            min-width: 280px !important;
+            max-width: 280px !important;
+            margin-bottom: 0 !important;
+        }
+        
+        /* Collection Page Mobile Horizontal Scroll */
+        .collection .products-grid {
+            display: flex !important;
+            flex-direction: row !important;
+            overflow-x: auto !important;
+            overflow-y: hidden !important;
+            gap: 15px !important;
+            padding: 0 15px 15px !important;
+            scroll-behavior: smooth !important;
+            -webkit-overflow-scrolling: touch !important;
+        }
+        
+        .collection .product-card {
+            flex: 0 0 auto !important;
+            min-width: 280px !important;
+            max-width: 280px !important;
+            margin-bottom: 0 !important;
+        }
+        
+        /* Small mobile adjustments */
+        @media (max-width: 480px) {
+            .product-card {
+                min-width: 250px !important;
+                max-width: 250px !important;
+            }
+            
+            .collection .product-card {
+                min-width: 250px !important;
+                max-width: 250px !important;
+            }
+        }
+    }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body style="padding-top: 76px;">
+    <!-- Bootstrap Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark">
+            <div class="container-fluid">
+                <a class="navbar-brand" href="{% url 'home' %}">
+                    VICTNOW
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <!-- Navigation links -->
+                    <ul class="navbar-nav mx-auto">
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/">HOME</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/collection/">COLLECTION</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/corporate-gifting/">CORPORATE GIFTING</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/about/">ABOUT</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/reviews/">REVIEWS</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-white" href="/contact/">CONTACT</a>
+                        </li>
+                    </ul>
+                    
+                    <!-- Cart and User auth -->
+                    <div class="navbar-nav ms-auto d-flex align-items-center">
+                        <!-- Cart -->
+                        <div class="nav-item">
+                            <a href="/cart/" class="nav-link text-warning position-relative" style="padding: 8px 15px;">
+                                <i class="fas fa-shopping-cart"></i>
+                                <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark" style="display: none; font-size: 0.7rem; min-width: 18px; text-align: center;">0</span>
+                            </a>
+                        </div>
+                        
+                        <!-- User auth -->
+                        <div class="nav-item">
+                            <!-- Logged out state -->
+                            <a href="/login/" class="nav-link text-warning" id="authLink" style="display: block;">
+                                <i class="fas fa-user"></i>
+                            </a>
+                            
+                            <!-- Logged in state -->
+                            <div class="dropdown" id="userDropdown" style="display: none;">
+                                <a class="nav-link text-warning dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                    <i class="fas fa-user-circle"></i>
+                                    <span id="userName" class="ms-1"></span>
+                                </a>
+                                <ul class="dropdown-menu dropdown-menu-end" style="background: linear-gradient(135deg, #1a1a1a, #2a2a2a); border: 1px solid #d4af37; border-radius: 10px; padding: 10px;">
+                                    <li>
+                                        <a class="dropdown-item text-warning" href="/orders/" onclick="goToMyOrders(event)" style="padding: 8px 15px; border-radius: 5px; transition: all 0.3s ease;">
+                                            <i class="fas fa-shopping-bag me-2"></i> My Orders
+                                        </a>
+                                    </li>
+                                    <li><hr class="dropdown-divider" style="border-color: #d4af37;"></li>
+                                    <li>
+                                        <a class="dropdown-item text-danger" href="#" onclick="logout(event)" style="padding: 8px 15px; border-radius: 5px; transition: all 0.3s ease;">
+                                            <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        
+                        <!-- Shop Now button -->
+                        <div class="nav-item ms-2">
+                            <a href="/collection/" class="btn btn-warning btn-sm">
+                                Shop Now
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+
+    <!-- Mobile Sidebar Overlay -->
+    <div class="navbar-overlay" id="navbarOverlay"></div>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{% static 'js/script.js' %}"></script>
+    
+    <script>
+        // Mobile Sidebar Redesign
+        document.addEventListener('DOMContentLoaded', function() {
+            const navbarToggler = document.querySelector('.navbar-toggler');
+            const navbarCollapse = document.querySelector('.navbar-collapse');
+            const navbarOverlay = document.querySelector('#navbarOverlay');
+            const closeSidebar = document.querySelector('.close-sidebar');
+            
+            // Check if mobile view
+            function isMobile() {
+                return window.innerWidth <= 991.98;
+            }
+            
+            // Handle sidebar toggle
+            if (navbarToggler && navbarCollapse && navbarOverlay) {
+                navbarToggler.addEventListener('click', function(e) {
+                    if (isMobile()) {
+                        e.preventDefault();
+                        navbarCollapse.classList.toggle('show');
+                        navbarOverlay.classList.toggle('show');
+                        document.body.style.overflow = navbarCollapse.classList.contains('show') ? 'hidden' : '';
+                    }
+                });
+            }
+            
+            // Handle close button
+            if (closeSidebar && navbarCollapse && navbarOverlay) {
+                closeSidebar.addEventListener('click', function() {
+                    navbarCollapse.classList.remove('show');
+                    navbarOverlay.classList.remove('show');
+                    document.body.style.overflow = '';
+                });
+            }
+            
+            // Handle overlay click
+            if (navbarOverlay && navbarCollapse) {
+                navbarOverlay.addEventListener('click', function() {
+                    navbarCollapse.classList.remove('show');
+                    navbarOverlay.classList.remove('show');
+                    document.body.style.overflow = '';
+                });
+            }
+            
+            // Handle window resize
+            window.addEventListener('resize', function() {
+                if (!isMobile()) {
+                    navbarCollapse.classList.remove('show');
+                    navbarOverlay.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
+            });
+            
+            // Handle escape key
+            document.addEventListener('keydown', function(e) {
+                if (e.key === 'Escape' && navbarCollapse.classList.contains('show')) {
+                    navbarCollapse.classList.remove('show');
+                    navbarOverlay.classList.remove('show');
+                    document.body.style.overflow = '';
+                }
+            });
+        });
+    </script>
+    
+    <script>
+        // Authentication Functions
+        function checkAuthStatus() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const authLink = document.getElementById('authLink');
+            const userDropdown = document.getElementById('userDropdown');
+            const userName = document.getElementById('userName');
+            
+            if (currentUser && authLink && userDropdown && userName) {
+                authLink.style.display = 'none';
+                userDropdown.style.display = 'block';
+                userName.textContent = currentUser.name || currentUser.username || 'User';
+            } else {
+                if (authLink) authLink.style.display = 'block';
+                if (userDropdown) userDropdown.style.display = 'none';
+            }
+        }
+        
+        function logout(e) {
+            if (e) e.preventDefault();
+            console.log('Logout clicked');
+            localStorage.removeItem('currentUser');
+            const authLink = document.getElementById('authLink');
+            const userDropdown = document.getElementById('userDropdown');
+            if (authLink) authLink.style.display = 'block';
+            if (userDropdown) userDropdown.style.display = 'none';
+            window.location.href = '/';
+        }
+        
+        function goToMyOrders(e) {
+            if (e) e.preventDefault();
+            console.log('My Orders clicked');
+            
+            // Check if user is logged in
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                alert('Please login first');
+                window.location.href = '/login/';
+                return;
+            }
+            
+            window.location.href = '/orders/';
+        }
+        
+        function goToCart(e) {
+            if (e) e.preventDefault();
+            console.log('Cart clicked');
+            
+            // Check if user is logged in
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                alert('Please login first');
+                window.location.href = '/login/';
+                return;
+            }
+            
+            try {
+                window.location.href = '/cart/';
+            } catch (error) {
+                console.error('Navigation error:', error);
+            }
+        }
+        
+        // Cart Functions
+        function addToCart(productId, productName, productPrice, productImage = null) {
+            console.log('Adding to cart:', { productId, productName, productPrice, productImage });
+
+            // Check if user is logged in
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                showNotification('Please login to add items to cart', 'error');
+                setTimeout(() => {
+                    window.location.href = '/login/';
+                }, 1500);
+                return;
+            }
+
+            // Check if product is available (stock check)
+            const button = document.querySelector(`[data-product-id="${productId}"]`);
+            if (button && button.disabled) {
+                showNotification('This product is currently out of stock', 'error');
+                return;
+            }
+
+            // Store cart data in localStorage
+            let cartData = JSON.parse(localStorage.getItem('cartData') || '[]');
+
+            // Check if item already exists in cart
+            const existingItemIndex = cartData.findIndex(item => item.id === productId);
+
+            if (existingItemIndex !== -1) {
+                // Update existing item quantity
+                cartData[existingItemIndex].quantity += 1;
+                cartData[existingItemIndex].subtotal += productPrice;
+            } else {
+                // Add new item to cart
+                cartData.push({
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    quantity: 1,
+                    subtotal: productPrice,
+                    image: productImage
+                });
+            }
+
+            // Store updated cart data
+            localStorage.setItem('cartData', JSON.stringify(cartData));
+
+            // Show success notification
+            showNotification(`${productName} added to cart!`, 'success');
+
+            // Update cart count
+            updateCartCount();
+
+            // Add animation to cart icon
+            const cartIcon = document.querySelector('.fa-shopping-cart');
+            if (cartIcon) {
+                cartIcon.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    cartIcon.style.transform = 'scale(1)';
+                }, 300);
+            }
+        }
+
+        function updateCartCount() {
+            const cartData = JSON.parse(localStorage.getItem('cartData') || '[]');
+            const cartCountElement = document.getElementById('cart-count');
+            if (cartCountElement) {
+                const totalItems = cartData.reduce((sum, item) => sum + item.quantity, 0);
+                cartCountElement.textContent = totalItems;
+                cartCountElement.style.display = totalItems > 0 ? 'flex' : 'none';
+            }
+        }
+
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = `
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                min-width: 300px;
+                max-width: 400px;
+                padding: 15px;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                animation: slideInRight 0.3s ease;
+            `;
+            notification.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="fw-bold">${message}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+        
+        // Initialize cart functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('=== INITIALIZING CART FUNCTIONALITY ===');
+            
+            // Check auth status
+            checkAuthStatus();
+            
+            // Update cart count
+            updateCartCount();
+            
+            // Function to attach button listeners
+            function attachButtonListeners() {
+                const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+                console.log('Found Add to Cart buttons:', addToCartButtons.length);
+                
+                addToCartButtons.forEach((button, index) => {
+                    console.log(`Button ${index}:`, {
+                        class: button.className,
+                        productId: button.getAttribute('data-product-id'),
+                        productName: button.getAttribute('data-product-name'),
+                        productPrice: button.getAttribute('data-product-price'),
+                        productImage: button.getAttribute('data-product-image')
+                    });
+                    
+                    // Remove existing listeners to avoid duplicates
+                    button.removeEventListener('click', handleAddToCart);
+                    
+                    // Add new listener
+                    button.addEventListener('click', handleAddToCart);
+                    
+                    console.log(`Event listener attached to button ${index}`);
+                });
+                
+                return addToCartButtons.length;
+            }
+            
+            // Handle add to cart click
+            function handleAddToCart(e) {
+                console.log('=== BUTTON CLICKED ===');
+                console.log('Button clicked:', this);
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const productId = this.getAttribute('data-product-id');
+                const productName = this.getAttribute('data-product-name');
+                const productPrice = parseFloat(this.getAttribute('data-product-price'));
+                const productImage = this.getAttribute('data-product-image');
+                
+                console.log('Extracted data:', { productId, productName, productPrice, productImage });
+                
+                if (!productId || !productName || !productPrice) {
+                    console.error('Missing product data');
+                    showNotification('Invalid product data', 'error');
+                    return;
+                }
+                
+                addToCart(productId, productName, productPrice, productImage);
+            }
+            
+            // Initial attachment
+            let buttonCount = attachButtonListeners();
+            
+            // Fallback: try again after delay (for dynamic content)
+            setTimeout(() => {
+                console.log('Retrying button attachment...');
+                const newButtonCount = attachButtonListeners();
+                if (newButtonCount > buttonCount) {
+                    console.log(`Found ${newButtonCount - buttonCount} additional buttons`);
+                }
+            }, 500);
+            
+            // Fallback: try again after longer delay
+            setTimeout(() => {
+                console.log('Final retry for button attachment...');
+                attachButtonListeners();
+            }, 2000);
+            
+            // Test direct button click
+            setTimeout(() => {
+                const testButton = document.querySelector('.add-to-cart-btn');
+                if (testButton) {
+                    console.log('Test button found:', testButton);
+                    console.log('Test button attributes:', {
+                        id: testButton.getAttribute('data-product-id'),
+                        name: testButton.getAttribute('data-product-name'),
+                        price: testButton.getAttribute('data-product-price')
+                    });
+                } else {
+                    console.error('No Add to Cart button found on page');
+                }
+            }, 1000);
+            
+            // Make addToCart globally available for manual testing
+            window.addToCart = addToCart;
+            window.testAddToCart = function() {
+                const testButton = document.querySelector('.add-to-cart-btn');
+                if (testButton) {
+                    console.log('Manually triggering button click');
+                    testButton.click();
+                } else {
+                    console.error('No button found to test');
+                }
+            };
+        });
+    </script>
+
+<!-- Footer -->
+<footer class="footer" style="padding: 40px 20px 20px; background: linear-gradient(135deg, #0a0a0a, #1a1a1a); border-top: 2px solid #d4af37;">
+    <div class="footer-container">
+        <div class="container">
+            <div class="footer-grid" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <h3 style="color: #d4af37; font-size: 24px; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">VICTNOW</h3>
+                    </div>
+                    <p class="footer-address" style="color: white; line-height: 1.6; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+                        Venue Plaza<br>
+                        Yewalewadi
+                    </p>
+                    <p class="copyright" style="color: #ccc; font-size: 14px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">© 2026 VICTNOW. All rights reserved.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Quick Links</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 10px;"><a href="/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Home</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/collection/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Collection</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/about/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">About</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/contact/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Services</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 10px;"><a href="/corporate-gifting/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Corporate Gifting</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/bulk-order/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Bulk Orders</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/trail-customer/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Trial Packs</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/track-bulk-order/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Track Order</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Contact</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 10px; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+                            <i class="fas fa-phone" style="margin-right: 10px; color: #d4af37;"></i> +91 98765 43210
+                        </li>
+                        <li style="margin-bottom: 10px; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+                            <i class="fas fa-envelope" style="margin-right: 10px; color: #d4af37;"></i> info@victnow.com
+                        </li>
+                        <li style="margin-bottom: 10px; color: white; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+                            <i class="fas fa-map-marker-alt" style="margin-right: 10px; color: #d4af37;"></i> Venue Plaza, Yewalewadi
+                        </li>
+                    </ul>
+                    
+                    <div style="margin-top: 20px;">
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; transition: transform 0.3s;">
+                            <i class="fab fa-facebook"></i>
+                        </a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; transition: transform 0.3s;">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; transition: transform 0.3s;">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; text-decoration: none; transition: transform 0.3s;">
+                            <i class="fab fa-linkedin"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+</body>
+</html>

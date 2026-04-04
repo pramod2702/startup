@@ -1,0 +1,248 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} - VICTNOW{% endblock %}
+
+{% block content %}
+<!-- Include Razorpay Script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<!-- Include Dynamic Payment JS -->
+<script src="{% static 'js/razorpay-dynamic.js' %}"></script>
+
+<section class="product-detail-section" style="padding: 80px 0; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);">
+    <div class="container">
+        <div class="row">
+            <!-- Product Image -->
+            <div class="col-md-6">
+                <div class="product-image-container" style="text-align: center;">
+                    {% if product.image %}
+                        <img src="{{ product.image.url }}" alt="{{ product.name }}" 
+                             style="max-width: 100%; height: auto; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                    {% else %}
+                        <img src="{% static 'images/default-perfume.jpg' %}" alt="{{ product.name }}" 
+                             style="max-width: 100%; height: auto; border-radius: 15px; box-shadow: 0 20px 40px rgba(0,0,0,0.3);">
+                    {% endif %}
+                </div>
+            </div>
+            
+            <!-- Product Details -->
+            <div class="col-md-6">
+                <div class="product-details" style="color: #fff;">
+                    <h1 style="font-size: 2.5rem; font-weight: 700; margin-bottom: 20px;">{{ product.name }}</h1>
+                    <p class="subtitle" style="color: #d4af37; font-size: 1.2rem; margin-bottom: 20px;">
+                        {{ product.category|upper }} • {{ product.size|upper }}
+                    </p>
+                    
+                    <!-- Dynamic Price Display -->
+                    <p class="price" style="font-size: 2rem; color: #d4af37; font-weight: 700; margin-bottom: 30px;">
+                        ₹<span id="product-price">{{ product.price }}</span>
+                    </p>
+                    
+                    <p style="font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px; color: #ccc;">
+                        {{ product.description|default:"Experience the luxury and elegance of VICTNOW fragrances. Crafted with the finest ingredients to provide a lasting impression." }}
+                    </p>
+                    
+                    <!-- Quantity Selector -->
+                    <div class="quantity-selector" style="margin-bottom: 30px;">
+                        <label style="display: block; margin-bottom: 10px; font-weight: 600;">Quantity:</label>
+                        <select id="quantity" name="quantity" 
+                                style="padding: 12px; border-radius: 8px; border: 1px solid #d4af37; background: #1a1a1a; color: #fff; font-size: 1rem;">
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    
+                    <!-- Total Price Display -->
+                    <div class="total-price" style="margin-bottom: 30px; padding: 20px; background: rgba(212, 175, 55, 0.1); border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.3);">
+                        <h4 style="color: #d4af37; margin-bottom: 10px;">Order Total:</h4>
+                        <p style="font-size: 1.5rem; font-weight: 700; color: #fff; margin: 0;">
+                            ₹<span id="total-price">{{ product.price }}</span>
+                        </p>
+                        <small style="color: #ccc;">+ ₹500 shipping</small>
+                    </div>
+                    
+                    <!-- Action Buttons -->
+                    <div class="action-buttons">
+                        <!-- Add to Cart Button -->
+                        <button onclick="addToCart()" 
+                                class="btn btn-outline-warning" 
+                                style="padding: 15px 30px; font-size: 1.1rem; border-radius: 8px; margin-right: 15px; border: 2px solid #d4af37; color: #d4af37; background: transparent;">
+                            <i class="fas fa-shopping-cart" style="margin-right: 10px;"></i>
+                            Add to Cart
+                        </button>
+                        
+                        <!-- Buy Now Button with Dynamic Payment -->
+                        <button onclick="buyNow()" 
+                                class="btn btn-warning" 
+                                style="padding: 15px 30px; font-size: 1.1rem; border-radius: 8px; background: linear-gradient(135deg, #d4af37, #b8941f); color: #0a0a0a; border: none; font-weight: 600;">
+                            <i class="fas fa-bolt" style="margin-right: 10px;"></i>
+                            Buy Now - ₹<span id="buy-now-price">{{ product.price }}</span>
+                        </button>
+                    </div>
+                    
+                    <!-- Product Features -->
+                    <div class="product-features" style="margin-top: 40px;">
+                        <h4 style="color: #d4af37; margin-bottom: 20px;">Product Features:</h4>
+                        <ul style="list-style: none; padding: 0;">
+                            <li style="margin-bottom: 10px; color: #ccc;">
+                                <i class="fas fa-check" style="color: #d4af37; margin-right: 10px;"></i>
+                                Premium Quality Ingredients
+                            </li>
+                            <li style="margin-bottom: 10px; color: #ccc;">
+                                <i class="fas fa-check" style="color: #d4af37; margin-right: 10px;"></i>
+                                Long-lasting Fragrance
+                            </li>
+                            <li style="margin-bottom: 10px; color: #ccc;">
+                                <i class="fas fa-check" style="color: #d4af37; margin-right: 10px;"></i>
+                                Elegant Packaging
+                            </li>
+                            <li style="margin-bottom: 10px; color: #ccc;">
+                                <i class="fas fa-check" style="color: #d4af37; margin-right: 10px;"></i>
+                                Authentic VICTNOW Product
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Product data
+const productData = {
+    id: {{ product.id }},
+    name: '{{ product.name|escapejs }}',
+    price: {{ product.price }},
+    category: '{{ product.category|escapejs }}',
+    size: '{{ product.size|escapejs }}'
+};
+
+// Update total price when quantity changes
+document.getElementById('quantity').addEventListener('change', updateTotalPrice);
+
+function updateTotalPrice() {
+    const quantity = parseInt(document.getElementById('quantity').value);
+    const unitPrice = productData.price;
+    const total = unitPrice * quantity;
+    
+    // Update displays
+    document.getElementById('total-price').textContent = total.toFixed(2);
+    document.getElementById('buy-now-price').textContent = total.toFixed(2);
+    
+    console.log(`Price updated: ${quantity} x ₹${unitPrice} = ₹${total}`);
+}
+
+// Add to Cart function
+function addToCart() {
+    const quantity = parseInt(document.getElementById('quantity').value);
+    
+    console.log('Adding to cart:', {
+        product: productData.name,
+        quantity: quantity,
+        price: productData.price
+    });
+    
+    // Add to cart logic (existing implementation)
+    const cartItem = {
+        product_id: productData.id,
+        name: productData.name,
+        price: productData.price,
+        quantity: quantity,
+        subtotal: productData.price * quantity
+    };
+    
+    // Get existing cart
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    cart.push(cartItem);
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    alert(`${productData.name} added to cart!`);
+}
+
+// Buy Now with Dynamic Payment
+function buyNow() {
+    const quantity = parseInt(document.getElementById('quantity').value);
+    const totalPrice = productData.price * quantity;
+    
+    console.log('=== BUY NOW CLICKED ===');
+    console.log('Product:', productData.name);
+    console.log('Quantity:', quantity);
+    console.log('Total Price (₹):', totalPrice);
+    
+    // Collect customer information (you can add a form for this)
+    const customerInfo = {
+        name: prompt('Enter your name:') || 'Customer',
+        email: prompt('Enter your email:') || 'customer@example.com',
+        phone: prompt('Enter your phone number:') || '9999999999',
+        address: prompt('Enter your address:') || 'Customer Address'
+    };
+    
+    if (!customerInfo.name || !customerInfo.email || !customerInfo.phone) {
+        alert('Please fill in all contact details.');
+        return;
+    }
+    
+    // Prepare product data for payment
+    const paymentProductData = {
+        product_id: productData.id,
+        quantity: quantity,
+        name: customerInfo.name,
+        email: customerInfo.email,
+        phone: customerInfo.phone,
+        address: customerInfo.address,
+        city: 'Customer City'
+    };
+    
+    console.log('Calling payNow with:');
+    console.log('Price:', totalPrice);
+    console.log('Product Name:', productData.name);
+    console.log('Product Data:', paymentProductData);
+    
+    // Call the dynamic payment function
+    payNow(totalPrice, productData.name, paymentProductData);
+}
+
+// Initialize on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateTotalPrice();
+    console.log('Product page loaded with dynamic pricing');
+    console.log('Product data:', productData);
+});
+</script>
+
+<style>
+.product-detail-section {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.btn-outline-warning:hover {
+    background: #d4af37;
+    color: #0a0a0a;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+}
+
+.btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+}
+
+.quantity-selector select:focus {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.2);
+}
+
+.total-price {
+    transition: all 0.3s ease;
+}
+
+.total-price:hover {
+    background: rgba(212, 175, 55, 0.2);
+    transform: translateY(-2px);
+}
+</style>
+{% endblock %}

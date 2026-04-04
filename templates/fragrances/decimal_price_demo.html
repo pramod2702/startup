@@ -1,0 +1,301 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+
+{% block title %}Decimal Price Demo - VICTNOW{% endblock %}
+
+{% block content %}
+<!-- Include Razorpay Script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<!-- Include Dynamic Payment JS -->
+<script src="{% static 'js/razorpay-dynamic.js' %}"></script>
+
+<section class="demo-section" style="padding: 80px 0; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 style="color: #d4af37; font-size: 3rem; font-weight: 700; margin-bottom: 20px;">
+                Decimal Price Payment Demo
+            </h1>
+            <p style="color: #ccc; font-size: 1.2rem;">
+                Test decimal prices like ₹53.20 - Razorpay should show exact amount
+            </p>
+        </div>
+        
+        <!-- Specific Test Case: ₹53.20 -->
+        <div class="row mb-5">
+            <div class="col-md-6 mx-auto">
+                <div class="test-case-card" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 40px; text-align: center; border: 2px solid #ff6b6b;">
+                    <h3 style="color: #ff6b6b; margin-bottom: 15px; font-size: 1.5rem;">🎯 YOUR TEST CASE</h3>
+                    <p style="color: #fff; font-size: 2rem; font-weight: 700; margin-bottom: 10px;">₹53.20</p>
+                    <p style="color: #ccc; margin-bottom: 25px;">Should become 5320 paise</p>
+                    <button onclick="testDecimalPayment(53.20, 'Test Product ₹53.20')" 
+                            class="btn btn-danger btn-lg w-100">
+                        <i class="fas fa-calculator" style="margin-right: 10px;"></i>
+                        Test ₹53.20 → Should show ₹53.20
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- More Decimal Test Cases -->
+        <div class="row mb-5">
+            <div class="col-md-4 mb-4">
+                <div class="price-card" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 30px; text-align: center; border: 2px solid #4ecdc4;">
+                    <h4 style="color: #4ecdc4; margin-bottom: 15px;">.99 Case</h4>
+                    <p style="color: #fff; font-size: 1.8rem; font-weight: 700; margin-bottom: 20px;">₹99.99</p>
+                    <button onclick="testDecimalPayment(99.99, 'Test Product ₹99.99')" 
+                            class="btn btn-outline-info w-100">
+                        Test ₹99.99
+                    </button>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="price-card" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 30px; text-align: center; border: 2px solid #95e77e;">
+                    <h4 style="color: #95e77e; margin-bottom: 15px;">.50 Case</h4>
+                    <p style="color: #fff; font-size: 1.8rem; font-weight: 700; margin-bottom: 20px;">₹149.50</p>
+                    <button onclick="testDecimalPayment(149.50, 'Test Product ₹149.50')" 
+                            class="btn btn-outline-success w-100">
+                        Test ₹149.50
+                    </button>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="price-card" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 30px; text-align: center; border: 2px solid #ffe66d;">
+                    <h4 style="color: #ffe66d; margin-bottom: 15px;">Large Decimal</h4>
+                    <p style="color: #fff; font-size: 1.8rem; font-weight: 700; margin-bottom: 20px;">₹999.75</p>
+                    <button onclick="testDecimalPayment(999.75, 'Test Product ₹999.75')" 
+                            class="btn btn-outline-warning w-100">
+                        Test ₹999.75
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Custom Decimal Amount -->
+        <div class="row mb-5">
+            <div class="col-md-6 mx-auto">
+                <div class="custom-decimal-card" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 40px; text-align: center; border: 2px solid #a8e6cf;">
+                    <h3 style="color: #a8e6cf; margin-bottom: 25px;">Custom Decimal Amount</h3>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" style="background: #a8e6cf; color: #0a0a0a; border: none; font-weight: bold;">₹</span>
+                        <input type="number" id="customDecimalAmount" class="form-control" 
+                               placeholder="53.20" value="53.20" min="0.01" max="9999.99" step="0.01">
+                    </div>
+                    <div class="expected-result mb-3" style="background: rgba(168, 230, 207, 0.1); padding: 15px; border-radius: 8px;">
+                        <small style="color: #a8e6cf;">Expected in paise: </small>
+                        <span id="expectedPaise" style="color: #fff; font-weight: bold; font-family: monospace;">5320</span>
+                    </div>
+                    <button onclick="testCustomDecimalPayment()" 
+                            class="btn btn-success btn-lg w-100">
+                        <i class="fas fa-flask" style="margin-right: 10px;"></i>
+                        Test Custom Decimal
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Calculation Debug Console -->
+        <div class="row">
+            <div class="col-md-10 mx-auto">
+                <div class="debug-console" style="background: #1a1a1a; border-radius: 10px; padding: 20px; border: 1px solid #444;">
+                    <h4 style="color: #d4af37; margin-bottom: 15px;">
+                        <i class="fas fa-calculator" style="margin-right: 10px;"></i>
+                        Calculation Debug Console
+                    </h4>
+                    <div id="debugOutput" style="background: #000; color: #00ff00; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 0.9rem; height: 300px; overflow-y: auto;">
+                        Ready to test decimal price calculations...
+                        
+Expected flow:
+1. Frontend: ₹53.20 (float)
+2. Backend: receives 53.20 (float)  
+3. Backend: 53.20 * 100 = 5320.0
+4. Backend: int(5320.0) = 5320 paise
+5. Razorpay: 5320 / 100 = ₹53.20 ✅
+                    </div>
+                    <div class="mt-3">
+                        <button onclick="clearDebug()" class="btn btn-sm btn-outline-secondary me-2">Clear Console</button>
+                        <button onclick="showCalculationExample()" class="btn btn-sm btn-outline-info">Show Example</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Override console.log to show in debug console
+const originalLog = console.log;
+console.log = function(...args) {
+    originalLog.apply(console, args);
+    const debugOutput = document.getElementById('debugOutput');
+    if (debugOutput) {
+        debugOutput.innerHTML += args.join(' ') + '\n';
+        debugOutput.scrollTop = debugOutput.scrollHeight;
+    }
+};
+
+function clearDebug() {
+    document.getElementById('debugOutput').innerHTML = 'Console cleared...\n';
+}
+
+function showCalculationExample() {
+    console.log('\n=== CALCULATION EXAMPLE FOR ₹53.20 ===');
+    console.log('Step 1: Frontend sends price = 53.20 (float)');
+    console.log('Step 2: Backend receives amount = 53.20 (float)');
+    console.log('Step 3: Backend converts to float = 53.20');
+    console.log('Step 4: Backend calculates amount * 100 = 5320.0');
+    console.log('Step 5: Backend converts to int = 5320 paise');
+    console.log('Step 6: Razorpay displays 5320 / 100 = ₹53.20');
+    console.log('==========================================\n');
+}
+
+function testDecimalPayment(price, productName) {
+    console.log(`\n=== TESTING DECIMAL PAYMENT: ${productName} ===`);
+    console.log(`Input Price: ₹${price}`);
+    console.log(`Price Type: ${typeof price}`);
+    console.log(`Price * 100 = ${price * 100}`);
+    console.log(`int(price * 100) = ${parseInt(price * 100)}`);
+    console.log(`Expected paise: ${parseInt(price * 100)}`);
+    console.log(`Razorpay should show: ₹${price}`);
+    
+    const productData = {
+        test_decimal: true,
+        original_price: price,
+        calculation_check: {
+            'price': price,
+            'price_type': typeof price,
+            'price_times_100': price * 100,
+            'int_conversion': parseInt(price * 100),
+            'expected_paise': parseInt(price * 100)
+        }
+    };
+    
+    payNow(price, productName, productData);
+}
+
+function testCustomDecimalPayment() {
+    const amount = parseFloat(document.getElementById('customDecimalAmount').value);
+    
+    if (!amount || amount <= 0) {
+        alert('Please enter a valid amount');
+        return;
+    }
+    
+    console.log(`\n=== TESTING CUSTOM DECIMAL: ₹${amount} ===`);
+    console.log(`Amount: ${amount}`);
+    console.log(`Type: ${typeof amount}`);
+    console.log(`Amount * 100: ${amount * 100}`);
+    console.log(`Expected paise: ${parseInt(amount * 100)}`);
+    
+    const productData = {
+        custom_decimal: true,
+        amount: amount,
+        calculation: {
+            'input': amount,
+            'multiplied': amount * 100,
+            'final_paise': parseInt(amount * 100)
+        }
+    };
+    
+    payNow(amount, `Custom Product - ₹${amount}`, productData);
+}
+
+// Update expected paise when custom amount changes
+document.getElementById('customDecimalAmount').addEventListener('input', function() {
+    const amount = parseFloat(this.value) || 0;
+    const expectedPaise = parseInt(amount * 100);
+    document.getElementById('expectedPaise').textContent = expectedPaise;
+});
+
+// Add hover effects
+document.querySelectorAll('.price-card').forEach(card => {
+    card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-5px)';
+        this.style.boxShadow = '0 15px 30px rgba(78, 205, 196, 0.3)';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+        this.style.boxShadow = 'none';
+    });
+});
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Decimal Price Demo Loaded');
+    console.log('Test ₹53.20 - should show exactly ₹53.20 in Razorpay');
+    
+    // Initialize expected paise display
+    const initialAmount = parseFloat(document.getElementById('customDecimalAmount').value) || 0;
+    document.getElementById('expectedPaise').textContent = parseInt(initialAmount * 100);
+});
+</script>
+
+<style>
+.test-case-card {
+    transition: all 0.3s ease;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0.7); }
+    70% { box-shadow: 0 0 0 20px rgba(255, 107, 107, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 107, 107, 0); }
+}
+
+.price-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(78, 205, 196, 0.3);
+}
+
+.btn-outline-info:hover {
+    background: #4ecdc4;
+    color: #0a0a0a;
+    transform: translateY(-2px);
+}
+
+.btn-outline-success:hover {
+    background: #95e77e;
+    color: #0a0a0a;
+    transform: translateY(-2px);
+}
+
+.btn-outline-warning:hover {
+    background: #ffe66d;
+    color: #0a0a0a;
+    transform: translateY(-2px);
+}
+
+.custom-decimal-card {
+    transition: all 0.3s ease;
+}
+
+.custom-decimal-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(168, 230, 207, 0.3);
+}
+
+#debugOutput {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.form-control {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: white;
+}
+
+.form-control:focus {
+    background: #2a2a2a;
+    border-color: #a8e6cf;
+    box-shadow: 0 0 0 0.2rem rgba(168, 230, 207, 0.25);
+    color: white;
+}
+
+.input-group-text {
+    border: none;
+}
+</style>
+{% endblock %}

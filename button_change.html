@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Button Text Change</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a2e0a;
+            color: white;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        
+        h2 {
+            color: #d4af37;
+            margin-bottom: 30px;
+        }
+        
+        .btn-trial-submit {
+            background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+            color: #0a2e0a;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+        }
+        
+        .btn-trial-submit:hover {
+            background: linear-gradient(135deg, #b8941f 0%, #9c7a1a 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.4);
+        }
+        
+        .btn-trial-submit:active {
+            transform: translateY(0);
+        }
+        
+        .button-container {
+            margin: 30px 0;
+        }
+        
+        .message {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+    </style>
+</head>
+<body>
+    <h2>Trial Pack Order</h2>
+    
+    <div class="message">
+        <p>Your trial pack is ready. Click the button below to proceed to payment.</p>
+    </div>
+    
+    <div class="button-container">
+        <!-- Changed button text from "Complete Order" to "Proceed to Payment" -->
+        <button class="btn-trial-submit" onclick="submitTrialOrder()">
+            <i class="fas fa-credit-card"></i> Proceed to Payment
+        </button>
+    </div>
+    
+    <script>
+        function submitTrialOrder() {
+            console.log('Proceeding to payment...');
+            
+            // Show loading state
+            const btn = event.target;
+            const originalContent = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                alert('Redirecting to payment gateway...');
+                // In real app: window.location.href = '/payment/';
+                
+                // Reset for demo
+                btn.innerHTML = originalContent;
+                btn.disabled = false;
+            }, 2000);
+        }
+    </script>
+</body>
+</html>

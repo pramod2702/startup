@@ -1,0 +1,393 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+
+{% block title %}Payment - VICTNOW{% endblock %}
+
+{% block content %}
+<!-- Payment Header -->
+<section class="payment-header">
+    <div class="container">
+        <h1>Payment Information</h1>
+        <p>Choose your payment method and complete your order</p>
+    </div>
+</section>
+
+<!-- Razorpay Payment Integration -->
+<section class="payment-section">
+    <div class="container">
+        <div class="payment-container">
+            <div class="razorpay-section">
+                <h2>Complete Your Payment</h2>
+                <p>Secure payment powered by Razorpay</p>
+                <p style="color: #d4af37; font-weight: bold; margin: 20px 0;">Redirecting to Razorpay Dashboard...</p>
+                
+                <div id="rzp-button-container">
+                    <button type="button" class="btn btn-primary btn-large" onclick="openRazorpayDirect()" data-component-name="&lt;button /&gt;">
+                        <i class="fas fa-lock" style="margin-right: 10px;"></i>
+                        Go to Payment
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    // Auto-open Razorpay when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        console.log('Payment page loaded - Auto-opening Razorpay...');
+        
+        // Open Razorpay link after 2 seconds
+        setTimeout(() => {
+            openRazorpayDirect();
+        }, 2000);
+    });
+</script>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
+    color: #ffffff;
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.payment-header {
+    padding: 80px 20px;
+    text-align: center;
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.payment-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #d4af37;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 3px 12px rgba(212, 175, 55, 0.4);
+}
+
+.payment-header p {
+    font-size: 1.1rem;
+    color: rgba(212, 175, 55, 0.8);
+    margin: 0;
+}
+
+.payment-section {
+    padding: 60px 20px;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.payment-container {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
+    backdrop-filter: blur(30px);
+    border-radius: 25px;
+    padding: 50px;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(212, 175, 55, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.razorpay-section {
+    text-align: center;
+    position: relative;
+    z-index: 1;
+}
+
+.razorpay-section h2 {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #ffffff;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.razorpay-section p {
+    font-size: 1rem;
+    color: rgba(212, 175, 55, 0.8);
+    margin-bottom: 30px;
+}
+
+#rzp-button-container {
+    margin-top: 30px;
+}
+
+.btn {
+    padding: 20px 40px;
+    border: none;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-sizing: border-box;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    position: relative;
+    z-index: 9999;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #d4af37, #b8941f);
+    color: #0a0a0a;
+    box-shadow: 0 15px 35px rgba(212, 175, 55, 0.4);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #e5c453, #c7a520);
+    transform: translateY(-2px);
+    box-shadow: 0 20px 45px rgba(212, 175, 55, 0.5);
+}
+
+.btn-large {
+    font-size: 1.3rem;
+    padding: 25px 50px;
+}
+
+@media (max-width: 768px) {
+    .payment-header {
+        padding: 60px 15px;
+    }
+    
+    .payment-header h1 {
+        font-size: 2rem;
+    }
+    
+    .payment-section {
+        padding: 40px 15px;
+        max-width: 100%;
+    }
+    
+    .payment-container {
+        padding: 40px 30px;
+    }
+    
+    .btn-large {
+        font-size: 1.1rem;
+        padding: 20px 40px;
+    }
+}
+</style>
+
+<script>
+    // Show/hide appropriate forms
+    document.getElementById('card-form').style.display = (method === 'credit' || method === 'debit') ? 'block' : 'none';
+    document.getElementById('paypal-form').style.display = method === 'paypal' ? 'block' : 'none';
+    
+    console.log('Payment method selection complete:', method);
+}
+
+function goToPaymentPage() {
+    console.log('goToPaymentPage() called');
+    // Redirect to payment page
+    window.location.href = '{% url "cart_payment" %}';
+}
+
+function backToCheckout() {
+    window.location.href = '/cart-checkout/';
+}
+
+function proceedToPayment() {
+    console.log('proceedToPayment() called');
+    console.log('selectedPaymentMethod:', selectedPaymentMethod);
+    console.log('cartData:', cartData);
+    
+    if (!selectedPaymentMethod) {
+        console.log('No payment method selected');
+        alert('Please select a payment method');
+        return;
+    }
+    
+    if (cartData.length === 0) {
+        console.log('Cart is empty');
+        alert('No items to checkout');
+        return;
+    }
+    
+    console.log('Payment method selected:', selectedPaymentMethod);
+    
+    if (selectedPaymentMethod === 'credit' || selectedPaymentMethod === 'debit') {
+        // Validate card form
+        const cardNumber = document.getElementById('card_number').value;
+        const cardName = document.getElementById('card_name').value;
+        const expiryDate = document.getElementById('expiry_date').value;
+        const cvv = document.getElementById('cvv').value;
+        
+        console.log('Card validation - cardNumber:', cardNumber, 'cardName:', cardName);
+        
+        if (!cardNumber || !cardName || !expiryDate || !cvv) {
+            console.log('Missing card information');
+            alert('Please fill in all card information');
+            return;
+        }
+        
+        // Simple validation
+        if (cardNumber.replace(/\s/g, '').length < 13) {
+            console.log('Invalid card number length');
+            alert('Please enter a valid card number');
+            return;
+        }
+        
+        if (!expiryDate.match(/^\d{2}\/\d{2}$/)) {
+            console.log('Invalid expiry date format');
+            alert('Please enter expiry date in MM/YY format');
+            return;
+        }
+    }
+    
+    console.log('All validations passed, processing payment...');
+    // Process payment
+    processPayment();
+}
+
+function initiatePayment() {
+    console.log('initiatePayment() called');
+    console.log('selectedPaymentMethod:', selectedPaymentMethod);
+    console.log('cartData:', cartData);
+    
+    if (!selectedPaymentMethod) {
+        console.log('No payment method selected');
+        alert('Please select a payment method');
+        return;
+    }
+    
+    if (cartData.length === 0) {
+        console.log('Cart is empty');
+        alert('No items to checkout');
+        return;
+    }
+    
+    console.log('Payment method selected:', selectedPaymentMethod);
+    
+    if (selectedPaymentMethod === 'credit' || selectedPaymentMethod === 'debit') {
+        // Validate card form
+        const cardNumber = document.getElementById('card_number').value;
+        const cardName = document.getElementById('card_name').value;
+        const expiryDate = document.getElementById('expiry_date').value;
+        const cvv = document.getElementById('cvv').value;
+        
+        console.log('Card validation - cardNumber:', cardNumber, 'cardName:', cardName);
+        
+        if (!cardNumber || !cardName || !expiryDate || !cvv) {
+            console.log('Missing card information');
+            alert('Please fill in all card information');
+            return;
+        }
+        
+        // Simple validation
+        if (cardNumber.replace(/\s/g, '').length < 13) {
+            console.log('Invalid card number length');
+            alert('Please enter a valid card number');
+            return;
+        }
+        
+        if (!expiryDate.match(/^\d{2}\/\d{2}$/)) {
+            console.log('Invalid expiry date format');
+            alert('Please enter expiry date in MM/YY format');
+            return;
+        }
+    }
+    
+    console.log('All validations passed, processing payment...');
+    // Process payment
+    processPayment();
+}
+
+function processPayment() {
+    // Show loading state
+    const payButton = document.getElementById('pay-button');
+    const originalText = payButton.innerHTML;
+    payButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+    payButton.disabled = true;
+    
+    // Simulate payment processing
+    setTimeout(() => {
+        // Create order record (in real app, this would be sent to backend)
+        const order = {
+            items: cartData,
+            paymentMethod: selectedPaymentMethod,
+            total: document.getElementById('cart-total').textContent,
+            timestamp: new Date().toISOString()
+        };
+        
+        // Store order
+        let orders = JSON.parse(localStorage.getItem('orders') || '[]');
+        orders.push(order);
+        localStorage.setItem('orders', JSON.stringify(orders));
+        
+        // Clear cart
+        localStorage.removeItem('cart');
+        sessionStorage.removeItem('checkoutCart');
+        
+        // Show success message
+        alert('Payment successful! Your order has been placed.');
+        
+        // Redirect to success page
+        window.location.href = '/collection/';
+    }, 2000);
+}
+
+function processPayPal() {
+    // Simulate PayPal redirect
+    alert('Redirecting to PayPal...');
+    setTimeout(() => {
+        processPayment();
+    }, 1000);
+}
+
+function openRazorpayDirect() {
+    console.log('Razorpay button clicked - using auto-redirect only');
+    // Function is now handled by auto-redirect on page load
+    // No manual opening needed
+}
+
+// Format card number input
+document.addEventListener('DOMContentLoaded', function() {
+    loadCartData();
+    
+    const cardNumberInput = document.getElementById('card_number');
+    if (cardNumberInput) {
+        cardNumberInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\s/g, '');
+            let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+            e.target.value = formattedValue;
+        });
+    }
+    
+    const expiryInput = document.getElementById('expiry_date');
+    if (expiryInput) {
+        expiryInput.addEventListener('input', function(e) {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length >= 2) {
+                value = value.slice(0, 2) + '/' + value.slice(2, 4);
+            }
+            e.target.value = value;
+        });
+    }
+    
+    const cvvInput = document.getElementById('cvv');
+    if (cvvInput) {
+        cvvInput.addEventListener('input', function(e) {
+            e.target.value = e.target.value.replace(/\D/g, '');
+        });
+    }
+});
+</script>
+{% endblock %}

@@ -1,0 +1,609 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+
+{% block title %}Customer Reviews - VICTNOW{% endblock %}
+
+{% block content %}
+<!-- Professional Reviews Header -->
+<section class="page-header" style="background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%); padding: 120px 0; text-align: center; position: relative; overflow: hidden;">
+    <!-- Premium Background Pattern -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"grid\" width=\"20\" height=\"20\" patternUnits=\"userSpaceOnUse\"><path d=\"M 20 0 L 0 0 0 20\" fill=\"none\" stroke=\"rgba(99, 102, 241, 0.05)\" stroke-width=\"0.5\"/></pattern></defs></svg>'); opacity: 0.3; z-index: 0;"></div>
+    
+    <!-- Animated Floating Elements -->
+    <div class="floating-element" style="position: absolute; top: 15%; left: 10%; width: 60px; height: 60px; background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1)); border-radius: 50%; animation: float-up 8s ease-in-out infinite; z-index: 0;"></div>
+    <div class="floating-element" style="position: absolute; top: 25%; right: 15%; width: 40px; height: 40px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.2), rgba(139, 92, 246, 0.1)); border-radius: 50%; animation: float-up 10s ease-in-out infinite reverse; z-index: 0;"></div>
+    <div class="floating-element" style="position: absolute; bottom: 20%; left: 20%; width: 50px; height: 50px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.2), rgba(5, 150, 105, 0.1)); border-radius: 50%; animation: float-up 12s ease-in-out infinite; z-index: 0;"></div>
+    
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1;">
+        <div class="animate-fade-in-up" style="display: inline-block; background: linear-gradient(135deg, #f59e0b, #d97706); color: #ffffff; padding: 8px 20px; border-radius: 25px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 20px; box-shadow: 0 8px 20px rgba(245, 158, 11, 0.3); animation: slideInDown 0.8s ease-out;">
+            Customer Voices
+        </div>
+        
+        <h1 class="animate-fade-in-up" style="color: #ffffff; font-size: 3.5rem; margin-bottom: 20px; font-weight: 800; letter-spacing: -0.02em; animation: slideInLeft 1s ease-out; animation-delay: 0.2s;">Customer Reviews</h1>
+        <p class="animate-fade-in-up" style="color: #cbd5e1; font-size: 1.3rem; margin-bottom: 40px; font-weight: 300; animation: slideInRight 1s ease-out; animation-delay: 0.4s;">Real experiences from our valued customers</p>
+        
+        <!-- Review Stats -->
+        <div class="stats-container" style="display: flex; justify-content: center; gap: 60px; margin-top: 40px;">
+            <div class="stat-item animate-fade-in-up" style="text-align: center; animation: fadeInScale 1s ease-out; animation-delay: 0.6s;">
+                <div class="stat-number" style="font-size: 2.5rem; color: #ffffff; font-weight: 800; margin-bottom: 8px;">4.8</div>
+                <div style="font-size: 0.95rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">Average Rating</div>
+            </div>
+            <div class="stat-item animate-fade-in-up" style="text-align: center; animation: fadeInScale 1s ease-out; animation-delay: 0.8s;">
+                <div class="stat-number" style="font-size: 2.5rem; color: #ffffff; font-weight: 800; margin-bottom: 8px;">500+</div>
+                <div style="font-size: 0.95rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">Happy Customers</div>
+            </div>
+            <div class="stat-item animate-fade-in-up" style="text-align: center; animation: fadeInScale 1s ease-out; animation-delay: 1s;">
+                <div class="stat-number" style="font-size: 2.5rem; color: #ffffff; font-weight: 800; margin-bottom: 8px;">98%</div>
+                <div style="font-size: 0.95rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.5px;">Satisfaction Rate</div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Reviews Section -->
+<section class="reviews-section" style="padding: 100px 0; background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); position: relative;">
+    <!-- Subtle Background Pattern -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('data:image/svg+xml,<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 100 100\"><defs><pattern id=\"dots\" width=\"30\" height=\"30\" patternUnits=\"userSpaceOnUse\"><circle cx=\"15\" cy=\"15\" r=\"1.5\" fill=\"rgba(245, 158, 11, 0.08)\"/><circle cx=\"5\" cy=\"5\" r=\"0.8\" fill=\"rgba(99, 102, 241, 0.05)\"/><circle cx=\"25\" cy=\"25\" r=\"0.8\" fill=\"rgba(16, 185, 129, 0.05)\"/><circle cx=\"5\" cy=\"25\" r=\"0.5\" fill=\"rgba(139, 92, 246, 0.03)\"/><circle cx=\"25\" cy=\"5\" r=\"0.5\" fill=\"rgba(139, 92, 246, 0.03)\"/></pattern></defs><rect width=\"100\" height=\"100\" fill=\"url(%23dots)\"/></svg>'); opacity: 0.6; z-index: 0;"></div>
+    
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1;">
+        <div class="reviews-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start;">
+            
+            <!-- Left Column - Review Submission Form -->
+            <div class="review-form-container animate-fade-in-left" style="animation: slideInLeft 1.2s ease-out;">
+                <div class="form-card" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border-radius: 20px; padding: 40px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.08); border: 1px solid #e2e8f0; position: relative; overflow: hidden; transition: all 0.3s ease;" onmouseover="this.style.transform='translateY(-5px) scale(1.02)'; this.style.boxShadow='0 30px 60px rgba(0, 0, 0, 0.12)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 20px 40px rgba(0, 0, 0, 0.08)';">
+                    <!-- Form Header -->
+                    <div class="form-header animate-fade-in-up" style="text-align: center; margin-bottom: 30px; animation: fadeInScale 1s ease-out;">
+                        <div class="icon-container" style="width: 64px; height: 64px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 16px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3); animation: pulse 2s ease-in-out infinite;">
+                            <i class="fas fa-star" style="color: #ffffff; font-size: 24px;"></i>
+                        </div>
+                        <h2 style="color: #1e293b; font-size: 1.8rem; margin-bottom: 10px; font-weight: 700;">Share Your Experience</h2>
+                        <p style="color: #64748b; font-size: 1rem; margin: 0;">Help others by sharing your VICTNOW experience</p>
+                    </div>
+                    
+                    <!-- Review Form -->
+                    <form id="reviewForm" style="display: flex; flex-direction: column; gap: 20px;">
+                        <!-- Name Field -->
+                        <div>
+                            <label style="display: block; color: #000000; font-weight: 700; margin-bottom: 10px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                                Your Name <span style="color: #f59e0b;">*</span>
+                            </label>
+                            <input type="text" id="reviewerName" required placeholder="Enter your full name" style="width: 100%; padding: 16px 20px; border: 2px solid #cbd5e1; border-radius: 12px; font-size: 0.95rem; transition: all 0.3s ease; background: #ffffff; outline: none; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);" onfocus="this.style.borderColor='#f59e0b'; this.style.boxShadow='0 0 0 4px rgba(245, 158, 11, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08)';" onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 2px 8px rgba(0, 0, 0, 0.04)';">
+                        </div>
+                        
+                        <!-- Email Field -->
+                        <div>
+                            <label style="display: block; color: #000000; font-weight: 700; margin-bottom: 10px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                                Email Address <span style="color: #f59e0b;">*</span>
+                            </label>
+                            <input type="email" id="reviewerEmail" required placeholder="your.email@example.com" style="width: 100%; padding: 16px 20px; border: 2px solid #cbd5e1; border-radius: 12px; font-size: 0.95rem; transition: all 0.3s ease; background: #ffffff; outline: none; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);" onfocus="this.style.borderColor='#f59e0b'; this.style.boxShadow='0 0 0 4px rgba(245, 158, 11, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08)';" onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 2px 8px rgba(0, 0, 0, 0.04)';">
+                        </div>
+                        
+                        <!-- Rating Field -->
+                        <div>
+                            <label style="display: block; color: #000000; font-weight: 700; margin-bottom: 10px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                                Rating <span style="color: #f59e0b;">*</span>
+                            </label>
+                            <div style="display: flex; gap: 8px; font-size: 1.5rem;">
+                                <span class="star-rating" data-rating="1" style="cursor: pointer; color: #cbd5e1; transition: all 0.2s ease;" onmouseover="this.style.color='#f59e0b'; this.style.transform='scale(1.1)';" onmouseout="this.style.color='#cbd5e1'; this.style.transform='scale(1)';" onclick="setRating(1)">★</span>
+                                <span class="star-rating" data-rating="2" style="cursor: pointer; color: #cbd5e1; transition: all 0.2s ease;" onmouseover="this.style.color='#f59e0b'; this.style.transform='scale(1.1)';" onmouseout="this.style.color='#cbd5e1'; this.style.transform='scale(1)';" onclick="setRating(2)">★</span>
+                                <span class="star-rating" data-rating="3" style="cursor: pointer; color: #cbd5e1; transition: all 0.2s ease;" onmouseover="this.style.color='#f59e0b'; this.style.transform='scale(1.1)';" onmouseout="this.style.color='#cbd5e1'; this.style.transform='scale(1)';" onclick="setRating(3)">★</span>
+                                <span class="star-rating" data-rating="4" style="cursor: pointer; color: #cbd5e1; transition: all 0.2s ease;" onmouseover="this.style.color='#f59e0b'; this.style.transform='scale(1.1)';" onmouseout="this.style.color='#cbd5e1'; this.style.transform='scale(1)';" onclick="setRating(4)">★</span>
+                                <span class="star-rating" data-rating="5" style="cursor: pointer; color: #cbd5e1; transition: all 0.2s ease;" onmouseover="this.style.color='#f59e0b'; this.style.transform='scale(1.1)';" onmouseout="this.style.color='#cbd5e1'; this.style.transform='scale(1)';" onclick="setRating(5)">★</span>
+                            </div>
+                            <input type="hidden" id="reviewRating" value="0" required>
+                        </div>
+                        
+                        <!-- Product Field -->
+                        <div>
+                            <label style="display: block; color: #000000; font-weight: 700; margin-bottom: 10px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                                Product Purchased
+                            </label>
+                            <select id="reviewProduct" style="width: 100%; padding: 16px 20px; border: 2px solid #cbd5e1; border-radius: 12px; font-size: 0.95rem; transition: all 0.3s ease; background: #ffffff; outline: none; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04); font-weight: 500;" onfocus="this.style.borderColor='#f59e0b'; this.style.boxShadow='0 0 0 4px rgba(245, 158, 11, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08)';" onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 2px 8px rgba(0, 0, 0, 0.04)';">
+                                <option value="">Select Product</option>
+                                <option value="VICTNOW NEXUS">VICTNOW NEXUS</option>
+                                <option value="VICTNOW ELITE">VICTNOW ELITE</option>
+                                <option value="VICTNOW PREMIUM">VICTNOW PREMIUM</option>
+                                <option value="VICTNOW CLASSIC">VICTNOW CLASSIC</option>
+                                <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Review Text -->
+                        <div>
+                            <label style="display: block; color: #000000; font-weight: 700; margin-bottom: 10px; font-size: 0.95rem; text-transform: uppercase; letter-spacing: 0.5px;">
+                                Your Review <span style="color: #f59e0b;">*</span>
+                            </label>
+                            <textarea id="reviewText" required placeholder="Share your experience with VICTNOW fragrances..." rows="4" style="width: 100%; padding: 16px 20px; border: 2px solid #cbd5e1; border-radius: 12px; font-size: 0.95rem; transition: all 0.3s ease; background: #ffffff; resize: vertical; min-height: 120px; outline: none; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);" onfocus="this.style.borderColor='#f59e0b'; this.style.boxShadow='0 0 0 4px rgba(245, 158, 11, 0.15), 0 4px 12px rgba(0, 0, 0, 0.08)';" onblur="this.style.borderColor='#cbd5e1'; this.style.boxShadow='0 2px 8px rgba(0, 0, 0, 0.04)';"></textarea>
+                        </div>
+                        
+                        <!-- Submit Button -->
+                        <button type="submit" style="background: linear-gradient(135deg, #f59e0b, #d97706); color: #ffffff; border: none; padding: 16px 32px; border-radius: 12px; font-size: 1rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3); text-transform: uppercase; letter-spacing: 0.5px; margin-top: 10px;" onmouseover="this.style.transform='translateY(-2px)'; this.style.boxShadow='0 15px 35px rgba(245, 158, 11, 0.4)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 10px 25px rgba(245, 158, 11, 0.3)';">
+                            Submit Review
+                        </button>
+                    </form>
+                </div>
+            </div>
+            
+            <!-- Right Column - Existing Reviews -->
+            <div class="existing-reviews animate-fade-in-right" style="animation: slideInRight 1.2s ease-out; animation-delay: 0.3s;">
+                <div class="reviews-header animate-fade-in-up" style="text-align: center; margin-bottom: 40px; animation: fadeInScale 1s ease-out;">
+                    <h2 style="color: #1e293b; font-size: 2rem; margin-bottom: 10px; font-weight: 700;">Recent Reviews</h2>
+                    <p style="color: #64748b; font-size: 1rem;">What our customers are saying</p>
+                </div>
+                
+                {% if testimonials %}
+                    <div class="reviews-list" style="display: flex; flex-direction: column; gap: 20px;">
+                        {% for testimonial in testimonials %}
+                        <div class="review-card animate-fade-in-up" style="background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%); border-radius: 16px; padding: 30px; box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05); border: 1px solid #e2e8f0; transition: all 0.3s ease; animation: slideInUp 0.6s ease-out; animation-delay: {{ forloop.counter0|add:1|mul:0.2 }}s;" onmouseover="this.style.transform='translateY(-8px) rotateX(2deg)'; this.style.boxShadow='0 25px 50px rgba(0, 0, 0, 0.15)';" onmouseout="this.style.transform='translateY(0) rotateX(0)'; this.style.boxShadow='0 10px 30px rgba(0, 0, 0, 0.05)';">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 15px;">
+                                <div class="reviewer-info">
+                                    <h3 style="color: #1e293b; font-size: 1.1rem; margin-bottom: 5px; font-weight: 600;">{{ testimonial.client_name }}</h3>
+                                    <p style="color: #64748b; font-size: 0.9rem; margin: 0;">{{ testimonial.client_title }}</p>
+                                </div>
+                                <div class="rating-stars" style="color: #f59e0b; font-size: 1rem;">
+                                    {% for i in testimonial.rating %}
+                                        <i class="fas fa-star animate-pulse" style="animation: starPulse 2s ease-in-out infinite; animation-delay: {{ forloop.counter0|mul:0.1 }}s;"></i>
+                                    {% endfor %}
+                                    {% for i in testimonial.rating|make_range:5 %}
+                                        <i class="far fa-star" style="opacity: 0.3;"></i>
+                                    {% endfor %}
+                                </div>
+                            </div>
+                            <div class="review-content" style="color: #374151; font-size: 1rem; line-height: 1.6; margin-bottom: 15px; position: relative; padding-left: 20px;">
+                                <span style="position: absolute; left: 0; top: 0; font-size: 2rem; color: #f59e0b; opacity: 0.3;">"</span>
+                                "{{ testimonial.content }}"
+                            </div>
+                            <div class="review-date" style="color: #94a3b8; font-size: 0.85rem; font-weight: 500;">
+                                {{ testimonial.created_at|date:"F d, Y" }}
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="no-reviews animate-fade-in-up" style="text-align: center; padding: 60px 20px; background: linear-gradient(135deg, #f8fafc 0%, #ffffff 100%); border-radius: 16px; border: 1px solid #e2e8f0; animation: fadeInScale 1s ease-out;">
+                        <div class="no-reviews-icon" style="width: 80px; height: 80px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px; box-shadow: 0 10px 25px rgba(99, 102, 241, 0.3); animation: pulse 2s ease-in-out infinite;">
+                            <i class="fas fa-comment" style="color: #ffffff; font-size: 32px;"></i>
+                        </div>
+                        <h3 style="color: #1e293b; font-size: 1.5rem; margin-bottom: 10px; font-weight: 600;">No Reviews Yet</h3>
+                        <p style="color: #64748b; font-size: 1rem; margin-bottom: 20px;">Be the first to share your experience with VICTNOW fragrances!</p>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Success Message (Hidden by default) -->
+<div id="successMessage" class="success-message" style="position: fixed; top: 20px; right: 20px; background: linear-gradient(135deg, #10b981, #059669); color: #ffffff; padding: 20px 30px; border-radius: 12px; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3); z-index: 99999; display: none; max-width: 400px; animation: slideInRight 0.5s ease-out;">
+    <div style="display: flex; align-items: center; gap: 15px;">
+        <i class="fas fa-check-circle success-icon" style="font-size: 1.5rem; animation: checkmarkBounce 0.6s ease-out;"></i>
+        <div>
+            <h4 style="margin: 0 0 5px 0; font-size: 1.1rem; font-weight: 600;">Thank You!</h4>
+            <p style="margin: 0; font-size: 0.9rem;">Your review has been submitted successfully.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+// Rating functionality
+let selectedRating = 0;
+
+function setRating(rating) {
+    selectedRating = rating;
+    document.getElementById('reviewRating').value = rating;
+    
+    // Update star colors
+    const stars = document.querySelectorAll('.star-rating');
+    stars.forEach((star, index) => {
+        if (index < rating) {
+            star.style.color = '#f59e0b';
+        } else {
+            star.style.color = '#cbd5e1';
+        }
+    });
+    
+    console.log('Rating set to:', rating);
+}
+
+// Form submission
+document.getElementById('reviewForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    // Get form values
+    const name = document.getElementById('reviewerName').value;
+    const email = document.getElementById('reviewerEmail').value;
+    const rating = document.getElementById('reviewRating').value;
+    const product = document.getElementById('reviewProduct').value;
+    const reviewText = document.getElementById('reviewText').value;
+    
+    // Validate rating
+    if (rating === '0') {
+        alert('Please select a rating');
+        return;
+    }
+    
+    // Log the review data (in production, this would be sent to server)
+    console.log('Review submitted:', {
+        name: name,
+        email: email,
+        rating: rating,
+        product: product,
+        review: reviewText
+    });
+    
+    // Show success message
+    const successMsg = document.getElementById('successMessage');
+    successMsg.style.display = 'block';
+    
+    // Reset form
+    document.getElementById('reviewForm').reset();
+    setRating(0);
+    
+    // Hide success message after 5 seconds
+    setTimeout(() => {
+        successMsg.style.display = 'none';
+    }, 5000);
+    
+    // In production, you would send this data to your server
+    // fetch('/submit-review/', { method: 'POST', body: JSON.stringify(reviewData) })
+});
+
+// Star hover effects
+document.querySelectorAll('.star-rating').forEach(star => {
+    star.addEventListener('mouseenter', function() {
+        const rating = parseInt(this.dataset.rating);
+        const stars = document.querySelectorAll('.star-rating');
+        stars.forEach((s, index) => {
+            if (index < rating) {
+                s.style.color = '#f59e0b';
+                s.style.transform = 'scale(1.1)';
+            } else {
+                s.style.color = '#cbd5e1';
+                s.style.transform = 'scale(1)';
+            }
+        });
+    });
+});
+
+document.querySelector('.star-rating').parentElement.addEventListener('mouseleave', function() {
+    // Reset to selected rating
+    setRating(selectedRating);
+});
+</script>
+
+<style>
+/* Animation Keyframes */
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes slideInLeft {
+    from {
+        opacity: 0;
+        transform: translateX(-50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes fadeInScale {
+    from {
+        opacity: 0;
+        transform: scale(0.8);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+@keyframes float-up {
+    0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(-20px) rotate(180deg);
+        opacity: 0.8;
+    }
+}
+
+@keyframes pulse {
+    0%, 100% {
+        transform: scale(1);
+        box-shadow: 0 10px 25px rgba(245, 158, 11, 0.3);
+    }
+    50% {
+        transform: scale(1.05);
+        box-shadow: 0 15px 35px rgba(245, 158, 11, 0.5);
+    }
+}
+
+@keyframes starPulse {
+    0%, 100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+    50% {
+        transform: scale(1.2);
+        opacity: 0.8;
+    }
+}
+
+@keyframes checkmarkBounce {
+    0% {
+        transform: scale(0) rotate(-45deg);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.2) rotate(10deg);
+        opacity: 1;
+    }
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+/* Animation Classes */
+.animate-fade-in-up {
+    opacity: 0;
+    animation: slideInUp 0.8s ease-out forwards;
+}
+
+.animate-fade-in-left {
+    opacity: 0;
+    animation: slideInLeft 1.2s ease-out forwards;
+}
+
+.animate-fade-in-right {
+    opacity: 0;
+    animation: slideInRight 1.2s ease-out forwards;
+}
+
+/* Enhanced Hover Effects */
+.form-card:hover {
+    transform: translateY(-5px) scale(1.02) !important;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.12) !important;
+}
+
+.review-card:hover {
+    transform: translateY(-8px) rotateX(2deg) !important;
+    box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Star Rating Animations */
+.star-rating {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.star-rating:hover {
+    transform: scale(1.2) rotate(72deg);
+    filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.6));
+}
+
+/* Form Input Focus Animations */
+input:focus, textarea:focus, select:focus {
+    transform: translateY(-2px);
+    box-shadow: 0 0 0 4px rgba(245, 158, 11, 0.15), 0 8px 25px rgba(0, 0, 0, 0.15) !important;
+    border-color: #f59e0b !important;
+}
+
+/* Button Animations */
+button[type="submit"] {
+    position: relative;
+    overflow: hidden;
+}
+
+button[type="submit"]:hover {
+    transform: translateY(-3px) scale(1.05);
+    box-shadow: 0 20px 40px rgba(245, 158, 11, 0.4);
+}
+
+button[type="submit"]:active {
+    transform: translateY(-1px) scale(1.02);
+}
+
+/* Success Message Animation */
+.success-message.show {
+    animation: slideInRight 0.5s ease-out, pulse 0.6s ease-out 0.3s;
+}
+
+/* Number Counter Animation */
+.stat-number {
+    position: relative;
+    display: inline-block;
+}
+
+.stat-number::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, #f59e0b, #d97706);
+    opacity: 0.3;
+    animation: numberGlow 2s ease-in-out infinite;
+}
+
+@keyframes numberGlow {
+    0%, 100% {
+        opacity: 0;
+        transform: scale(0.95);
+    }
+    50% {
+        opacity: 0.3;
+        transform: scale(1.05);
+    }
+}
+
+/* Responsive Animations */
+@media (max-width: 768px) {
+    .reviews-grid {
+        grid-template-columns: 1fr !important;
+        gap: 40px !important;
+    }
+    
+    .animate-fade-in-left,
+    .animate-fade-in-right {
+        animation: slideInUp 1s ease-out forwards;
+    }
+    
+    .review-card:hover {
+        transform: translateY(-5px) !important;
+    }
+    
+    .form-card:hover {
+        transform: translateY(-3px) scale(1.01) !important;
+    }
+}
+
+/* Loading Animation */
+.loading-spinner {
+    display: none;
+    width: 20px;
+    height: 20px;
+    border: 2px solid #ffffff;
+    border-top: 2px solid transparent;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+button[type="submit"]:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+button[type="submit"]:disabled .loading-spinner {
+    display: inline-block;
+}
+
+/* Smooth Scroll Behavior */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Enhanced Background Animation */
+.floating-element {
+    border-radius: 50%;
+    filter: blur(1px);
+}
+
+/* Review Content Animation */
+.review-content {
+    position: relative;
+    overflow: hidden;
+}
+
+.review-content::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(245, 158, 11, 0.1), transparent);
+    animation: shimmer 3s infinite;
+}
+
+@keyframes shimmer {
+    0% {
+        left: -100%;
+    }
+    100% {
+        left: 100%;
+    }
+}
+</style>
+
+<!-- Footer -->
+<footer class="footer" style="padding: 40px 20px 20px;">
+    <div class="footer-container">
+        <div class="container">
+            <div class="footer-grid" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <h3 style="color: #d4af37; font-size: 24px; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">VICTNOW</h3>
+                    </div>
+                    <p class="footer-address" style="color: white; line-height: 1.6; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+                        Venue Plaza<br>
+                        Yewalewadi
+                    </p>
+                    <p class="copyright" style="color: #ccc; font-size: 14px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"> 2026 VICTNOW. All rights reserved.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Quick Links</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 10px;"><a href="/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Home</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/collection/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Collection</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/about/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">About</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/contact/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Contact</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/privacy/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Privacy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Contact</h4>
+                    <p style="color: white; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fas fa-phone" style="margin-right: 10px;"></i> 7038511559</p>
+                    <p style="color: white; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fas fa-envelope" style="margin-right: 10px;"></i> victnowperfume@gmail.com</p>
+                    <div class="social-icons">
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Newsletter</h4>
+                    <p style="color: white; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Subscribe to get exclusive offers</p>
+                    <form class="newsletter-form" action="/newsletter/" method="POST" style="display: flex; gap: 10px;">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="PFsLWXeb2F2Dn1ZggICrfY4gRZC1HCGRtxSCMyFbiVuZozLoEDKzqDYI8XKelKtz">
+                        <input type="email" name="email" placeholder="Your email" required="" style="flex: 1; padding: 12px; border: 1px solid #d4af37; background: rgba(255,255,255,0.2); color: white; border-radius: 5px;">
+                        <button type="submit" style="background: #d4af37; color: #000; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background 0.3s;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+{% endblock %}

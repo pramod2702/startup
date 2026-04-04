@@ -1,0 +1,527 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+
+{% block title %}Payment - VICTNOW{% endblock %}
+
+{% block content %}
+<!-- Payment Header -->
+<section class="payment-header">
+    <div class="container">
+        <h1>Payment Information</h1>
+        <p>Choose your payment method and complete your order</p>
+    </div>
+</section>
+
+<!-- Trail Customer Form -->
+<section class="trail-form-section">
+    <div class="container">
+        <h2>Trail Customer Form</h2>
+        <p class="subtitle">Trial Pack Order - Experience our premium fragrances</p>
+        
+        <form name="trail_customer" onsubmit="handleSubmit(event)">
+            <div class="form-group">
+                <label for="name">
+                    <i class="fas fa-user" style="margin-right: 8px;"></i>Full Name *
+                </label>
+                <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">
+                    <i class="fas fa-envelope" style="margin-right: 8px;"></i>Email Address *
+                </label>
+                <input type="email" id="email" name="email" placeholder="Enter your email address" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">
+                    <i class="fas fa-phone" style="margin-right: 8px;"></i>Phone Number *
+                </label>
+                <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="city">
+                    <i class="fas fa-map-marker-alt" style="margin-right: 8px;"></i>City *
+                </label>
+                <input type="text" id="city" name="city" placeholder="Enter your city" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="address">
+                    <i class="fas fa-home" style="margin-right: 8px;"></i>Shipping Address *
+                </label>
+                <textarea id="address" name="address" placeholder="Enter your complete shipping address" required style="min-height: 120px; resize: vertical;"></textarea>
+            </div>
+            
+            <div class="price-tag">
+                <span class="label">Total Price: ₹999</span>
+            </div>
+            
+            <button type="submit" class="submit-btn">
+                <i class="fas fa-lock" style="margin-right: 10px;"></i>
+                Go to Payment
+            </button>
+        </form>
+    </div>
+</section>
+
+<!-- Razorpay Payment Integration -->
+<section class="razorpay-section" id="razorpay-section" style="display: none;">
+    <div class="container">
+        <h2>Complete Your Payment</h2>
+        <p>Secure payment powered by Razorpay</p>
+        
+        <div class="razorpay-button-container">
+            <button id="rzp-button" class="btn btn-primary btn-large" onclick="initiateRazorpayPayment()">
+                <i class="fas fa-lock"></i>
+                Pay Now
+            </button>
+        </div>
+    </div>
+</section>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2d1b1b 50%, #1a1a1a 75%, #0a0a0a 100%);
+    color: white;
+    line-height: 1.6;
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.payment-header {
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.payment-header h1 {
+    color: #d4af37;
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    font-weight: 800;
+}
+
+.trail-form-section {
+    background: rgba(20, 20, 20, 0.95);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 40px;
+    backdrop-filter: blur(10px);
+}
+
+.trail-form-section h2 {
+    color: #d4af37;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.subtitle {
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 1rem;
+    margin-bottom: 30px;
+}
+
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    color: #d4af37;
+    font-weight: 600;
+    margin-bottom: 10px;
+    font-size: 1rem;
+}
+
+.form-group input, .form-group textarea {
+    width: 100%;
+    padding: 15px;
+    border: 2px solid rgba(212, 175, 55, 0.3);
+    border-radius: 8px;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.submit-btn {
+    background: linear-gradient(135deg, #d4af37, #b8941f);
+    color: #0a0a0a;
+    border: none;
+    padding: 15px 30px;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.price-tag {
+    display: inline-block;
+    background: #000000;
+    border: 2px solid #d4af37;
+    padding: 20px 40px;
+    border-radius: 25px;
+    margin-bottom: 30px;
+    position: relative;
+    box-shadow: 0 4px 12px rgba(212, 175, 55, 0.3);
+    transition: all 0.3s ease;
+    overflow: hidden;
+}
+
+.price-tag .label {
+    color: #ffffff;
+    font-size: 1.8rem;
+    font-weight: 900;
+    text-shadow: 
+        0 2px 4px rgba(0, 0, 0, 0.5),
+        0 0 20px rgba(255, 255, 255, 0.8);
+    position: relative;
+    display: block;
+    text-align: center;
+    letter-spacing: 2px;
+}
+
+.success-message {
+    background: rgba(40, 167, 69, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    color: #51cf66;
+    padding: 30px;
+    border-radius: 15px;
+    text-align: center;
+    display: none;
+}
+
+.success-message h3 {
+    margin-bottom: 15px;
+}
+
+.success-message.show {
+    display: block;
+}
+
+.razorpay-section {
+    background: rgba(20, 20, 20, 0.98);
+    border-radius: 20px;
+    padding: 40px;
+    margin-bottom: 40px;
+    backdrop-filter: blur(10px);
+}
+
+.razorpay-section h2 {
+    color: #d4af37;
+    font-size: 2rem;
+    margin-bottom: 20px;
+    font-weight: 700;
+}
+
+.razorpay-button-container {
+    text-align: center;
+}
+
+.btn {
+    padding: 15px 30px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #d4af37, #b8941f);
+    color: #0a0a0a;
+    box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+}
+
+.btn-large {
+    font-size: 1.1rem;
+    padding: 20px 40px;
+}
+</style>
+
+<script>
+// Store order data for Razorpay
+let orderData = {};
+
+function handleSubmit(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const formData = new FormData(form);
+    
+    // Collect order data
+    orderData = {
+        name: formData.get('name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        address: formData.get('address'),
+        product: 'Trail Pack - ₹999',
+        amount: 999,
+        currency: 'INR'
+    };
+    
+    // Store order data for Razorpay
+    localStorage.setItem('pendingOrder', JSON.stringify(orderData));
+    
+    // Log form data
+    console.log('Trail Customer Form Submitted:');
+    for (let [key, value] of formData.entries()) {
+        console.log(key + ':', value);
+    }
+    
+    // Show success message
+    const successMsg = document.getElementById('successMessage');
+    successMsg.classList.add('show');
+    
+    // Hide form
+    form.style.display = 'none';
+    
+    // Show Razorpay payment options
+    showRazorpayOptions();
+}
+
+function showRazorpayOptions() {
+    // Create Razorpay payment container
+    const paymentContainer = document.createElement('div');
+    paymentContainer.className = 'razorpay-container';
+    paymentContainer.innerHTML = `
+        <div class="razorpay-modal">
+            <div class="razorpay-header">
+                <h3><i class="fas fa-credit-card"></i> Choose Payment Method</h3>
+                <button class="close-razorpay" onclick="closeRazorpayModal()">×</button>
+            </div>
+            <div class="razorpay-body">
+                <div class="payment-methods">
+                    <button class="payment-method active" onclick="selectPaymentMethod('razorpay')">
+                        <i class="fas fa-mobile-alt"></i>
+                        <span>Razorpay</span>
+                        <small>UPI, Cards, NetBanking</small>
+                    </button>
+                    <button class="payment-method" onclick="selectPaymentMethod('cod')">
+                        <i class="fas fa-money-bill-wave"></i>
+                        <span>Cash on Delivery</span>
+                        <small>Pay when you receive</small>
+                    </button>
+                </div>
+                
+                <div class="razorpay-button-container">
+                    <button id="rzp-button" class="btn btn-primary btn-large" onclick="initiateRazorpayPayment()">
+                        <i class="fas fa-lock"></i>
+                        Pay Now
+                    </button>
+                </div>
+            </div>
+        </div>
+    `;
+    
+    // Add to page
+    document.body.appendChild(paymentContainer);
+    
+    // Add styles
+    const style = document.createElement('style');
+    style.textContent = `
+        .razorpay-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.8);
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            backdrop-filter: blur(10px);
+        }
+        
+        .razorpay-modal {
+            background: linear-gradient(145deg, rgba(20, 20, 20, 0.98), rgba(10, 10, 10, 0.95));
+            border-radius: 20px;
+            padding: 40px;
+            max-width: 500px;
+            width: 90%;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            position: relative;
+        }
+        
+        .razorpay-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            color: #d4af37;
+        }
+        
+        .razorpay-header h3 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+        
+        .close-razorpay {
+            background: none;
+            border: none;
+            color: #d4af37;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 5px;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        .razorpay-body {
+            margin-bottom: 30px;
+        }
+        
+        .payment-methods {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+        
+        .payment-method {
+            background: rgba(212, 175, 55, 0.1);
+            border: 2px solid rgba(212, 175, 55, 0.3);
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            color: white;
+        }
+        
+        .payment-method.active {
+            background: linear-gradient(135deg, #d4af37, #b8941f);
+            border-color: #d4af37;
+            transform: scale(1.05);
+        }
+        
+        .payment-method i {
+            display: block;
+            font-size: 2rem;
+            margin-bottom: 10px;
+        }
+        
+        .payment-method span {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+        
+        .payment-method small {
+            display: block;
+            opacity: 0.8;
+            font-size: 0.85rem;
+            margin-top: 5px;
+        }
+        
+        .razorpay-button-container {
+            text-align: center;
+        }
+        
+        .btn {
+            padding: 15px 30px;
+            border: none;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #d4af37, #b8941f);
+            color: #0a0a0a;
+            box-shadow: 0 8px 20px rgba(212, 175, 55, 0.3);
+        }
+        
+        .btn-large {
+            font-size: 1.1rem;
+            padding: 20px 40px;
+        }
+    `;
+    document.head.appendChild(style);
+}
+
+function selectPaymentMethod(method) {
+    // Update active payment method
+    document.querySelectorAll('.payment-method').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    event.target.classList.add('active');
+    
+    // Store selected method
+    localStorage.setItem('selectedPaymentMethod', method);
+    
+    console.log('Selected payment method:', method);
+}
+
+function closeRazorpayModal() {
+    const modal = document.querySelector('.razorpay-container');
+    if (modal) {
+        modal.remove();
+    }
+}
+
+function initiateRazorpayPayment() {
+    const orderData = JSON.parse(localStorage.getItem('pendingOrder') || '{}');
+    const paymentMethod = localStorage.getItem('selectedPaymentMethod') || 'razorpay';
+    
+    // Razorpay configuration
+    const options = {
+        key: 'rzp_live_eitRXl4WbMU1K0kDKH6lMri', // Your live Razorpay key
+        amount: orderData.amount * 100, // Amount in paise (₹999 = 99900 paise)
+        currency: 'INR',
+        name: 'VICTNOW - Trail Pack Order',
+        description: orderData.product,
+        image: 'https://your-domain.com/logo.png', // Your logo URL
+        handler: function (response) {
+            console.log('Razorpay response:', response);
+            if (response.razorpay_payment_id) {
+                // Payment successful
+                console.log('Payment Successful! Payment ID: ' + response.razorpay_payment_id);
+                // Redirect to success page
+                window.location.href = '/payment-success/';
+            } else {
+                // Payment failed
+                console.log('Payment Failed:', response.error.description);
+            }
+        },
+        modal: {
+            ondismiss: function() {
+                console.log('Razorpay modal closed');
+            }
+        }
+    };
+    
+    const rzp = new Razorpay(options);
+    rzp.open();
+}
+</script>
+{% endblock %}

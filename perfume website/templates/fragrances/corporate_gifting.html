@@ -1,0 +1,602 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+
+<!-- Razorpay Payment Gateway -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<!-- Custom Razorpay Integration -->
+<script src="{% static 'js/razorpay_payment.js' %}"></script>
+
+{% block title %}Corporate Gifting - BlooMic{% endblock %}
+
+{% block content %}
+<!-- Corporate Gifting Header -->
+<section class="corporate-gifting-header" style="background-image: url('/media/products/gift.png'); background-size: cover; background-position: center; background-attachment: fixed; padding: 120px 0 80px; position: relative; overflow: hidden;">
+    <div class="container">
+        <div class="corporate-content">
+            <div class="corporate-text">
+                <p class="corporate-subtitle">CORPORATE SERVICES</p>
+                <h1>The Art of <span class="italic-text">Premium Gifting</span></h1>
+                <p class="corporate-description">
+                    Elevate your corporate relationships with BlooMic's bespoke gifting solutions. We create unforgettable unboxing experiences with our premium matte deep green boxes, featuring gold foil branding and luxurious silk interiors.
+                </p>
+                <ul class="corporate-features">
+                    <li>
+                        <i class="fas fa-check"></i>
+                        <span>Matte deep green box with gold foil logo</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check"></i>
+                        <span>Silk-lined interior for premium protection</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check"></i>
+                        <span>Personalized branding available</span>
+                    </li>
+                    <li>
+                        <i class="fas fa-check"></i>
+                        <span>Perfect for executives & corporate gifting</span>
+                    </li>
+                </ul>
+                <a href="/bulk_customer/" style="cursor: pointer; background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #0a2e0a; padding: 18px 40px; border: none; border-radius: 50px; font-weight: 700; font-size: 16px; text-transform: uppercase; letter-spacing: 1.5px; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3); position: relative; overflow: hidden; transform: translateZ(0); display: inline-block; margin: 10px; text-decoration: none;" title="Click to book premium bulk order - Professional Interface" data-component-name="&lt;a /&gt;">
+                    <i class="fas fa-shopping-cart" style="margin-right: 12px; transition: transform 0.3s ease;"></i> BOOK BULK ORDER
+                </a>
+            </div>
+            <div class="corporate-image">
+                <img src="/media/products/corporate_gifting.png" alt="BlooMic Corporate Gifting" style="display: block !important; width: 120%; max-width: 120%; height: auto; border-radius: 0;">
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Order Trial Pack Section -->
+<section class="trial-pack-section" style="background: linear-gradient(135deg, #1a1612 0%, #2d241b 50%, #1a1612 100%); background-size: cover; background-position: center; background-repeat: no-repeat; min-height: 500px; display: flex; align-items: center; justify-content: center; text-align: center; position: relative; overflow: hidden;">
+    <!-- Add trail image background -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background-image: url('/media/products/trail.png'); background-size: cover; background-position: center; background-repeat: no-repeat; opacity: 0.8;"></div>
+    
+    <div class="container" style="z-index: 2; position: relative;">
+        <h2 style="font-family: 'Playfair Display', 'Georgia', serif; font-size: 3.5rem; font-weight: 400; color: #f4e4c1; margin-bottom: 15px; text-shadow: 0 2px 4px rgba(0, 0, 0, 0.8); line-height: 1.2; letter-spacing: -0.5px;">Try Luxury Before You Buy</h2>
+        <p style="font-family: 'Playfair Display', 'Georgia', serif; font-size: 1.4rem; font-weight: 300; color: #d4af37; margin-bottom: 50px; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7); line-height: 1.4;">Experience our signature fragrances first</p>
+        
+        <div class="trial-pack-content" style="display: flex; flex-direction: column; align-items: center; justify-content: center; position: relative;">
+            <!-- Trial Pack Button -->
+<a href="/trail_customer/" style="background: #000000; color: #b8860b; padding: 20px 50px; border-radius: 12px; font-family: 'Helvetica Neue', 'Arial', sans-serif; font-weight: 700; font-size: 1.1rem; text-transform: uppercase; letter-spacing: 2px; border: 2px solid #b8860b; cursor: pointer; display: inline-block; margin: 20px 0; text-decoration: none;">
+    ORDER TRIAL PACK
+</a>
+        </div>
+    </div>
+</section>
+
+<style>
+@keyframes borderGlow {
+    0%, 100% { 
+        opacity: 0.3;
+        transform: scale(1);
+        filter: brightness(1);
+    }
+    50% { 
+        opacity: 0.6;
+        transform: scale(1.02);
+        filter: brightness(1.3);
+    }
+}
+
+.trial-pack-box {
+    background: #000000 !important;
+}
+
+.trial-pack-box:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(184, 134, 11, 0.3);
+    background: #000000 !important;
+    border-color: #daa520;
+    color: #daa520;
+}
+
+.trial-pack-box:hover .button-glow {
+    opacity: 1;
+    height: 60px;
+    bottom: -30px;
+    background: radial-gradient(ellipse at center, rgba(184, 134, 11, 0.4) 0%, transparent 70%);
+}
+
+.trial-pack-box:hover .border-animation {
+    animation-duration: 1.5s;
+    opacity: 0.8;
+}
+
+.trial-pack-box:hover .inner-glow {
+    border-color: rgba(184, 134, 11, 0.5);
+    box-shadow: inset 0 0 10px rgba(184, 134, 11, 0.1);
+}
+
+.border-animation {
+    background: transparent !important;
+    border: 2px solid #b8860b !important;
+}
+
+@keyframes borderGlow {
+    0% { box-shadow: 0 0 5px rgba(184, 134, 11, 0.5); }
+    50% { box-shadow: 0 0 20px rgba(184, 134, 11, 0.8); }
+    100% { box-shadow: 0 0 5px rgba(184, 134, 11, 0.5); }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes slideInUp {
+    from {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+</style>
+
+<!-- Corporate Services Section -->
+<section class="corporate-services" style="background-image: url('/media/products/product.png'); background-size: cover; background-position: center; background-attachment: fixed; padding: 80px 0; position: relative; overflow: hidden;">
+    <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.7);z-index:1;"></div>
+    <div class="container" style="position:relative;z-index:2;">
+        <h2 style="color:#d4af37;text-align:center;margin-bottom:50px;font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:600;position:relative;">Our Corporate Gifting Solutions</h2>
+        <div class="services-grid" style="display:grid;grid-template-columns:repeat(4,1fr);gap:15px;">
+            <div class="service-card" style="background-image: url('/media/products/product.png'); background-size: cover; background-position: center; border:2px solid #d4af37;border-radius:12px;padding:15px;text-align:center;transition:all 0.3s ease;position:relative;overflow:hidden;">
+                <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1;border-radius:10px;"></div>
+                <div class="service-icon" style="width:50px;height:50px;margin:0 auto 10px;background:linear-gradient(135deg,#d4af37,#b8941f);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#0a0a0a;font-size:1.2rem;position:relative;z-index:2;">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <h3 style="color:#d4af37;margin-bottom:8px;font-size:1.1rem;font-weight:600;position:relative;z-index:2;">Executive Gifts</h3>
+                <p style="color:#fff;line-height:1.4;font-size:0.85rem;position:relative;z-index:2;" data-component-name="<p />">Premium fragrance sets designed for C-level executives and board members</p>
+            </div>
+            <div class="service-card" style="background-image: url('/media/products/product.png'); background-size: cover; background-position: center; border:2px solid #d4af37;border-radius:12px;padding:15px;text-align:center;transition:all 0.3s ease;position:relative;overflow:hidden;" data-component-name="<div />">
+                <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1;border-radius:10px;"></div>
+                <div class="service-icon" style="width:50px;height:50px;margin:0 auto 10px;background:linear-gradient(135deg,#d4af37,#b8941f);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#0a0a0a;font-size:1.2rem;position:relative;z-index:2;">
+                    <i class="fas fa-users"></i>
+                </div>
+                <h3 style="color:#d4af37;margin-bottom:8px;font-size:1.1rem;font-weight:600;position:relative;z-index:2;">Employee Recognition</h3>
+                <p style="color:#fff;line-height:1.4;font-size:0.85rem;position:relative;z-index:2;" data-component-name="<div />">Customized gifting programs to celebrate milestones and achievements</p>
+            </div>
+            <div class="service-card" style="background-image: url('/media/products/product.png'); background-size: cover; background-position: center; border:2px solid #d4af37;border-radius:12px;padding:15px;text-align:center;transition:all 0.3s ease;position:relative;overflow:hidden;" data-component-name="<div />">
+                <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1;border-radius:10px;"></div>
+                <div class="service-icon" style="width:50px;height:50px;margin:0 auto 10px;background:linear-gradient(135deg,#d4af37,#b8941f);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#0a0a0a;font-size:1.2rem;position:relative;z-index:2;">
+                    <i class="fas fa-handshake"></i>
+                </div>
+                <h3 style="color:#d4af37;margin-bottom:8px;font-size:1.1rem;font-weight:600;position:relative;z-index:2;">Client Relations</h3>
+                <p style="color:#fff;line-height:1.4;font-size:0.85rem;position:relative;z-index:2;" data-component-name="<div />">Impress clients with sophisticated fragrance gifts that leave lasting impressions</p>
+            </div>
+            <div class="service-card" style="background-image: url('/media/products/product.png'); background-size: cover; background-position: center; border:2px solid #d4af37;border-radius:12px;padding:15px;text-align:center;transition:all 0.3s ease;position:relative;overflow:hidden;">
+                <div style="position:absolute;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.8);z-index:1;border-radius:10px;"></div>
+                <div class="service-icon" style="width:50px;height:50px;margin:0 auto 10px;background:linear-gradient(135deg,#d4af37,#b8941f);border-radius:50%;display:flex;align-items:center;justify-content:center;color:#0a0a0a;font-size:1.2rem;position:relative;z-index:2;">
+                    <i class="fas fa-calendar-alt"></i>
+                </div>
+                <h3 style="color:#d4af37;margin-bottom:8px;font-size:1.1rem;font-weight:600;position:relative;z-index:2;">Event Gifting</h3>
+                <p style="color:#fff;line-height:1.4;font-size:0.85rem;position:relative;z-index:2;">Special occasion gifts for conferences, product launches, and corporate events</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+<script>
+console.log('=== STARTING CORPORATE GIFTING PAGE SCRIPT ===');
+
+// Simple inline modal function that definitely works
+function showBulkOrderModal() {
+    console.log('BULK ORDER: Button clicked - Opening modal');
+    alert('✅ Bulk Order button is working! Opening order form...');
+    
+    // Remove any existing modal
+    const existing = document.querySelector('.bulk-modal-backdrop');
+    if (existing) existing.remove();
+    
+    // Create backdrop
+    const backdrop = document.createElement('div');
+    backdrop.className = 'bulk-modal-backdrop';
+    backdrop.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:99999;display:flex;justify-content:center;align-items:center;backdrop-filter:blur(10px);animation:fadeIn 0.3s ease;';
+    
+    // Create modal content
+    backdrop.innerHTML = `
+        <div style="background:linear-gradient(135deg,rgba(0,0,0,0.95) 0%,rgba(20,20,20,0.9) 100%);padding:40px;border-radius:20px;border:2px solid #d4af37;position:relative;width:95%;max-width:600px;max-height:90vh;overflow-y:auto;box-shadow:0 20px 40px rgba(212,175,55,0.3);animation:slideUp 0.4s ease;">
+            <div style="position:absolute;top:20px;right:20px;">
+                <span onclick="this.closest('.bulk-modal-backdrop').remove()" style="color:#d4af37;font-size:32px;cursor:pointer;font-weight:bold;opacity:0.8;transition:all 0.3s;" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.8'">&times;</span>
+            </div>
+            
+            <div style="text-align:center;margin-bottom:30px;">
+                <h2 style="color:#d4af37;margin:0 0 15px 0;font-family:'Playfair Display',serif;font-size:2rem;font-weight:600;">Customer Information</h2>
+                <p style="color:#fff;margin:0;font-size:1.1rem;opacity:0.9;">Please provide your details for bulk order inquiry</p>
+            </div>
+            
+            <form style="position:relative;z-index:5;">
+                <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+                    <div>
+                        <label style="color:#e6c27a;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Full Name *</label>
+                        <input type="text" placeholder="Enter your name" required style="width:100%;padding:15px;border:2px solid rgba(212,175,55,0.3);background:rgba(0,0,0,0.7);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;">
+                    </div>
+                    <div>
+                        <label style="color:#e6c27a;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Email *</label>
+                        <input type="email" placeholder="your@email.com" required style="width:100%;padding:15px;border:2px solid rgba(212,175,55,0.3);background:rgba(0,0,0,0.7);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;">
+                    </div>
+                </div>
+                
+                <div style="text-align:center;">
+                    <button type="submit" style="background:#000000;color:#d4af37;padding:15px 40px;border:2px solid #d4af37;border-radius:50px;font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all 0.3s ease;box-shadow:0 8px 25px rgba(0,0,0,0.6);">
+                        Submit Inquiry
+                    </button>
+                </div>
+            </form>
+        </div>
+    `;
+    
+    document.body.appendChild(backdrop);
+}
+
+function showTrialPackModal() {
+    alert('showTrialPackModal function called!');
+    console.log('TRIAL PACK: Opening trail_customer form');
+    
+    // Create simple test modal first
+    const modal = document.createElement('div');
+    modal.style.position = 'fixed';
+    modal.style.top = '0';
+    modal.style.left = '0';
+    modal.style.width = '100%';
+    modal.style.height = '100%';
+    modal.style.background = 'rgba(0,0,0,0.95)';
+    modal.style.zIndex = '99999';
+    modal.style.display = 'flex';
+    modal.style.justifyContent = 'center';
+    modal.style.alignItems = 'center';
+    
+    modal.innerHTML = `
+        <div style="background:#1a1a1a;border:3px solid #d4af37;border-radius:25px;padding:40px;max-width:600px;width:95%;position:relative;">
+            <div style="position:absolute;top:15px;right:20px;">
+                <span onclick="this.parentElement.parentElement.remove()" style="color:#d4af37;font-size:32px;cursor:pointer;font-weight:bold;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,0.2);">&times;</span>
+            </div>
+            
+            <div style="text-align:center;margin-bottom:30px;">
+                <h2 style="color:#d4af37;font-size:2rem;font-weight:800;margin-bottom:10px;">Trail Customer Form</h2>
+                <p style="color:#fff;font-size:1.1rem;opacity:0.9;">Trial Pack Order - ₹999</p>
+            </div>
+            
+            <form name="trail_customer" onsubmit="handleTrailCustomerSubmit(event)">
+                <div style="margin-bottom:20px;">
+                    <label style="color:#d4af37;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Full Name *</label>
+                    <input type="text" name="name" placeholder="Enter your full name" required style="width:100%;padding:15px;border:2px solid #d4af37;background:rgba(10,46,10,0.3);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;">
+                </div>
+                
+                <div style="margin-bottom:20px;">
+                    <label style="color:#d4af37;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Email *</label>
+                    <input type="email" name="email" placeholder="Enter your email address" required style="width:100%;padding:15px;border:2px solid #d4af37;background:rgba(10,46,10,0.3);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;">
+                </div>
+                
+                <div style="margin-bottom:20px;">
+                    <label style="color:#d4af37;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Phone *</label>
+                    <input type="tel" name="phone" placeholder="Enter your phone number" required style="width:100%;padding:15px;border:2px solid #d4af37;background:rgba(10,46,10,0.3);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;">
+                </div>
+                
+                <div style="margin-bottom:20px;">
+                    <label style="color:#d4af37;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Address *</label>
+                    <textarea name="address" placeholder="Enter your complete shipping address" required style="width:100%;padding:15px;border:2px solid #d4af37;background:rgba(10,46,10,0.3);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;min-height:100px;resize:vertical;"></textarea>
+                </div>
+                
+                <div style="text-align:center;">
+                    <button type="submit" style="background:linear-gradient(135deg, #d4af37 0%, #b8941f 100%);color:#0a2e0a;padding:15px 40px;border:none;border-radius:50px;font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all 0.3s ease;box-shadow:0 8px 25px rgba(212,175,55,0.3);">
+                        Submit Order
+                    </button>
+                </div>
+            </form>
+        </div>
+    `;
+    
+    document.body.appendChild(modal);
+    console.log('Modal added to body');
+}
+
+function handleTrailCustomerSubmit(event) {
+    event.preventDefault();
+    
+    const form = event.target;
+    const formData = new FormData(form);
+    
+    // Log form data
+    console.log('Trail Customer Form Submitted:');
+    for (let [key, value] of formData.entries()) {
+        console.log(key + ':', value);
+    }
+    
+    // Show success message
+    alert('✅ Trial pack order submitted successfully!\n\nWe will contact you shortly for payment confirmation.');
+    
+    // Close modal
+    event.target.closest('div[style*="position:fixed"]').remove();
+}
+
+// Make functions globally available in multiple ways
+window.showBulkOrderModal = showBulkOrderModal;
+window.showTrialPackModal = showTrialPackModal;
+
+// Also add to global scope directly
+if (typeof globalThis !== 'undefined') {
+    globalThis.showBulkOrderModal = showBulkOrderModal;
+    globalThis.showTrialPackModal = showTrialPackModal;
+}
+
+// Simple inline modal functions as fallback
+function createInlineBulkModal() {
+    console.log('Creating inline bulk modal');
+    
+    try {
+        var modal = document.createElement('div');
+        modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.9);z-index:99999;display:flex;justify-content:center;align-items:center;';
+        modal.innerHTML = `
+            <div style="background:linear-gradient(135deg,rgba(0,0,0,0.95) 0%,rgba(20,20,20,0.9) 100%);padding:40px;border-radius:20px;border:2px solid #d4af37;max-width:600px;width:95%;position:relative;">
+                <div style="position:absolute;top:15px;right:20px;">
+                    <span onclick="this.closest('div').parentElement.remove()" style="color:#d4af37;font-size:32px;cursor:pointer;font-weight:bold;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,0.2);">&times;</span>
+                </div>
+                <div style="text-align:center;margin-bottom:30px;">
+                    <h2 style="color:#d4af37;margin:0 0 15px 0;font-family:'Playfair Display',serif;font-size:2rem;font-weight:600;">Customer Information</h2>
+                    <p style="color:#fff;margin:0;font-size:1.1rem;opacity:0.9;">Please provide your details for bulk order inquiry</p>
+                </div>
+                <form style="position:relative;z-index:5;">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+                        <div>
+                            <label style="color:#e6c27a;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Full Name *</label>
+                            <input type="text" placeholder="Enter your name" required style="width:100%;padding:15px;border:2px solid rgba(212,175,55,0.3);background:rgba(0,0,0,0.7);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;">
+                        </div>
+                        <div>
+                            <label style="color:#e6c27a;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Email *</label>
+                            <input type="email" placeholder="your@email.com" required style="width:100%;padding:15px;border:2px solid rgba(212,175,55,0.3);background:rgba(0,0,0,0.7);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;">
+                        </div>
+                    </div>
+                    <div style="text-align:center;">
+                        <button type="submit" style="background:#000000;color:#d4af37;padding:15px 40px;border:2px solid #d4af37;border-radius:50px;font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all 0.3s ease;box-shadow:0 8px 25px rgba(0,0,0,0.6);">
+                            Submit Inquiry
+                        </button>
+                    </div>
+                </form>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        console.log('Modal successfully created and added to body');
+    } catch(error) {
+        console.error('Modal creation error:', error);
+    }
+}
+
+function createInlineTrialModal() {
+    console.log('Creating inline trial modal');
+    
+    try {
+        var modal = document.createElement('div');
+        modal.style.cssText = 'position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:99999;display:flex;justify-content:center;align-items:center;';
+        modal.innerHTML = `
+            <div style="background:linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);border:3px solid #d4af37;border-radius:25px;padding:40px;max-width:600px;width:95%;position:relative;">
+                <div style="position:absolute;top:15px;right:20px;">
+                    <span onclick="this.closest('div').parentElement.remove()" style="color:#d4af37;font-size:32px;cursor:pointer;font-weight:bold;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,0.2);">&times;</span>
+                </div>
+                <div style="text-align:center;margin-bottom:30px;">
+                    <h2 style="color:#d4af37;font-size:2rem;font-weight:800;margin-bottom:10px;font-family:'Playfair Display',serif;">Trial Pack Order</h2>
+                    <p style="color:#fff;font-size:1.1rem;opacity:0.9;">Experience our premium fragrances</p>
+                    <div style="margin-top:15px;">
+                        <span style="background:rgba(212,175,55,0.2);color:#d4af37;padding:8px 16px;border-radius:20px;font-weight:600;">₹2,499 Total</span>
+                    </div>
+                </div>
+                <form style="position:relative;z-index:5;">
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+                        <div>
+                            <label style="color:#d4af37;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Full Name *</label>
+                            <input type="text" name="name" placeholder="Enter your full name" required style="width:100%;padding:15px;border:2px solid #d4af37;background:rgba(10,46,10,0.3);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;">
+                        </div>
+                        <div>
+                            <label style="color:#d4af37;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Email Address *</label>
+                            <input type="email" name="email" placeholder="Enter your email address" required style="width:100%;padding:15px;border:2px solid #d4af37;background:rgba(10,46,10,0.3);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;">
+                        </div>
+                    </div>
+                    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;">
+                        <div>
+                            <label style="color:#d4af37;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Phone Number *</label>
+                            <input type="tel" name="phone" placeholder="Enter your phone number" required style="width:100%;padding:15px;border:2px solid #d4af37;background:rgba(10,46,10,0.3);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;">
+                        </div>
+                        <div>
+                            <label style="color:#d4af37;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">City *</label>
+                            <input type="text" name="city" placeholder="Enter your city" required style="width:100%;padding:15px;border:2px solid #d4af37;background:rgba(10,46,10,0.3);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;">
+                        </div>
+                    </div>
+                    <div style="margin-bottom:25px;">
+                        <label style="color:#d4af37;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Shipping Address *</label>
+                        <textarea name="address" placeholder="Enter your complete shipping address" required style="width:100%;padding:15px;border:2px solid #d4af37;background:rgba(10,46,10,0.3);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;min-height:100px;resize:vertical;"></textarea>
+                    </div>
+                    <div style="text-align:center;">
+                        <button type="submit" style="background:linear-gradient(135deg, #d4af37 0%, #b8941f 100%);color:#0a2e0a;padding:15px 40px;border:none;border-radius:50px;font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all 0.3s ease;box-shadow:0 8px 25px rgba(212,175,55,0.3);">
+                            Proceed to Payment
+                        </button>
+                    </div>
+                </form>
+            </div>
+        `;
+        
+        document.body.appendChild(modal);
+        console.log('Trial modal successfully created and added to body');
+    } catch(error) {
+        console.error('Trial modal creation error:', error);
+    }
+}
+
+// Make inline functions globally available too
+window.createInlineBulkModal = createInlineBulkModal;
+window.createInlineTrialModal = createInlineTrialModal;
+
+console.log('=== BUTTON FUNCTIONS DEFINED ===');
+console.log('showBulkOrderModal available:', typeof showBulkOrderModal);
+console.log('showTrialPackModal available:', typeof showTrialPackModal);
+console.log('window.showBulkOrderModal available:', typeof window.showBulkOrderModal);
+console.log('window.showTrialPackModal available:', typeof window.showTrialPackModal);
+
+// Test functions to verify buttons work
+window.testBulkOrder = function() {
+    console.log('BULK ORDER: Test function called');
+    alert('✅ Bulk Order button is working! (Test Function)');
+    window.showBulkOrderModal();
+};
+
+window.testTrialPack = function() {
+    console.log('TRIAL PACK: Test function called');
+    alert('✅ Trial Pack button is working! (Test Function)');
+    window.showTrialPackModal();
+};
+
+// Simple function to open trial pack modal
+function openTrialPackModal() {
+    console.log('TRIAL PACK: Simple function called');
+    showTrialPackModal();
+}
+
+// Simple verification that buttons are working
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('DOM LOADED - Buttons should work now');
+    
+    const bulkBtn = document.getElementById('bulk-order-btn');
+    const trialBtn = document.getElementById('trial-pack-btn');
+    
+    console.log('BULK BUTTON FOUND:', !!bulkBtn);
+    console.log('TRIAL BUTTON FOUND:', !!trialBtn);
+    
+    // Add multiple event listeners for trial pack button
+    if (trialBtn) {
+        // Method 1: Direct click event
+        trialBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            console.log('TRIAL PACK: Direct click event triggered');
+            showTrialPackModal();
+        });
+        
+        // Method 2: Mouse down event
+        trialBtn.addEventListener('mousedown', function(e) {
+            console.log('TRIAL PACK: Mouse down event');
+        });
+        
+        // Method 3: Touch start for mobile
+        trialBtn.addEventListener('touchstart', function(e) {
+            console.log('TRIAL PACK: Touch start event');
+            setTimeout(() => showTrialPackModal(), 100);
+        });
+        
+        // Method 4: Global click handler
+        document.addEventListener('click', function(e) {
+            if (e.target && e.target.id === 'trial-pack-btn') {
+                console.log('TRIAL PACK: Global click handler triggered');
+                e.preventDefault();
+                e.stopPropagation();
+                showTrialPackModal();
+            }
+        });
+        
+        console.log('TRIAL PACK: All event listeners added');
+        
+        // Add hover effects for trial pack button
+        trialBtn.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px) scale(1.05)';
+            this.style.boxShadow = '0 15px 35px rgba(184, 134, 11, 0.4)';
+            this.style.background = 'linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%)';
+        });
+        
+        trialBtn.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.6)';
+            this.style.background = '#000000';
+        });
+        
+        console.log('TRIAL PACK: Event listeners added successfully');
+    }
+    
+    // Add hover effects for bulk order button
+    if (bulkBtn) {
+        bulkBtn.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-3px) scale(1.05)';
+            this.style.boxShadow = '0 15px 35px rgba(212, 175, 55, 0.4)';
+            this.style.background = 'linear-gradient(135deg, #e6c447 0%, #d4af37 100%)';
+            const icon = this.querySelector('i');
+            if (icon) icon.style.transform = 'translateX(3px) scale(1.1)';
+        });
+        
+        bulkBtn.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+            this.style.boxShadow = '0 8px 25px rgba(212, 175, 55, 0.3)';
+            this.style.background = 'linear-gradient(135deg, #d4af37 0%, #b8941f 100%)';
+            const icon = this.querySelector('i');
+            if (icon) icon.style.transform = 'translateX(0) scale(1)';
+        });
+    }
+    
+    // Add hover effects for trial pack button
+    if (trialBtn) {
+        trialBtn.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-2px)';
+            this.style.boxShadow = '0 15px 40px rgba(0, 0, 0, 0.8), 0 0 20px rgba(184, 134, 11, 0.3)';
+            this.style.background = '#000000';
+            this.style.borderColor = '#daa520';
+            this.style.color = '#daa520';
+        });
+        
+        trialBtn.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.style.boxShadow = '0 8px 25px rgba(0, 0, 0, 0.6)';
+            this.style.background = '#000000';
+            this.style.borderColor = '#b8860b';
+            this.style.color = '#b8860b';
+        });
+    }
+});
+
+</script>
+
+<!-- Trail Customer Modal -->
+<div id="trailCustomerModal" style="position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.95);z-index:99999;display:none;justify-content:center;align-items:center;">
+    <div style="background:#1a1a1a;border:3px solid #d4af37;border-radius:25px;padding:40px;max-width:600px;width:95%;position:relative;">
+        <div style="position:absolute;top:15px;right:20px;">
+            <span onclick="document.getElementById('trailCustomerModal').style.display='none';" style="color:#d4af37;font-size:32px;cursor:pointer;font-weight:bold;width:40px;height:40px;display:flex;align-items:center;justify-content:center;border-radius:50%;background:rgba(255,255,255,0.2);">&times;</span>
+        </div>
+        
+        <div style="text-align:center;margin-bottom:30px;">
+            <h2 style="color:#d4af37;font-size:2rem;font-weight:800;margin-bottom:10px;">Trail Customer Form</h2>
+            <p style="color:#fff;font-size:1.1rem;opacity:0.9;">Trial Pack Order - ₹999</p>
+        </div>
+        
+        <form name="trail_customer" onsubmit="handleTrailCustomerSubmit(event)">
+            <div style="margin-bottom:20px;">
+                <label style="color:#d4af37;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Full Name *</label>
+                <input type="text" name="name" placeholder="Enter your full name" required style="width:100%;padding:15px;border:2px solid #d4af37;background:rgba(10,46,10,0.3);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;">
+            </div>
+            
+            <div style="margin-bottom:20px;">
+                <label style="color:#d4af37;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Email *</label>
+                <input type="email" name="email" placeholder="Enter your email address" required style="width:100%;padding:15px;border:2px solid #d4af37;background:rgba(10,46,10,0.3);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;">
+            </div>
+            
+            <div style="margin-bottom:20px;">
+                <label style="color:#d4af37;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Phone *</label>
+                <input type="tel" name="phone" placeholder="Enter your phone number" required style="width:100%;padding:15px;border:2px solid #d4af37;background:rgba(10,46,10,0.3);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;">
+            </div>
+            
+            <div style="margin-bottom:20px;">
+                <label style="color:#d4af37;font-weight:600;display:block;margin-bottom:8px;font-size:0.95rem;">Address *</label>
+                <textarea name="address" placeholder="Enter your complete shipping address" required style="width:100%;padding:15px;border:2px solid #d4af37;background:rgba(10,46,10,0.3);color:#fff;border-radius:10px;font-size:15px;box-sizing:border-box;min-height:100px;resize:vertical;"></textarea>
+            </div>
+            
+            <div style="text-align:center;">
+                <button type="submit" style="background:linear-gradient(135deg, #d4af37 0%, #b8941f 100%);color:#0a2e0a;padding:15px 40px;border:none;border-radius:50px;font-weight:700;font-size:16px;text-transform:uppercase;letter-spacing:1px;cursor:pointer;transition:all 0.3s ease;box-shadow:0 8px 25px rgba(212,175,55,0.3);">
+                    Submit Order
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

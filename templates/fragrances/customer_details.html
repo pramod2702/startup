@@ -1,0 +1,568 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+{% block title %}Customer Details - VICTNOW{% endblock %}
+
+{% block content %}
+<!-- Modern Customer Details Section -->
+<section class="customer-details-section">
+    <div class="container">
+        <div class="form-container">
+            <div class="form-header">
+                <div class="logo-section">
+                    <div class="victnow-logo">VICTNOW</div>
+                    <div class="tagline">Premium Fragrance Collection</div>
+                </div>
+                <h2>Complete Your Order</h2>
+                <p>Fill in your details for a seamless checkout experience</p>
+            </div>
+            
+            <form id="customerDetailsForm" method="POST" action="/process-order/">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fullName">
+                            <i class="fas fa-user"></i>
+                            Full Name
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" id="fullName" name="fullName" required placeholder="John Doe" value="{{ request.GET.full_name|default:'' }}">
+                        <div class="input-underline"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="email">
+                            <i class="fas fa-envelope"></i>
+                            Email Address
+                            <span class="required">*</span>
+                        </label>
+                        <input type="email" id="email" name="email" required placeholder="john.doe@example.com" value="{{ request.GET.email|default:'' }}">
+                        <div class="input-underline"></div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="phone">
+                            <i class="fas fa-phone"></i>
+                            Phone Number
+                        </label>
+                        <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" value="{{ request.GET.phone|default:'' }}">
+                        <div class="input-underline"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="whatsapp">
+                            <i class="fab fa-whatsapp"></i>
+                            WhatsApp Number
+                        </label>
+                        <input type="tel" id="whatsapp" name="whatsapp" placeholder="+91 98765 43210" value="{{ request.GET.whatsapp|default:'' }}">
+                        <div class="input-underline"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="address">
+                        <i class="fas fa-home"></i>
+                        Delivery Address
+                        <span class="required">*</span>
+                    </label>
+                    <textarea id="address" name="address" required placeholder="Enter your complete delivery address" rows="3">{{ request.GET.address|default:'' }}</textarea>
+                    <div class="input-underline"></div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="city">
+                            <i class="fas fa-map-marker-alt"></i>
+                            City
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" id="city" name="city" required placeholder="Mumbai" value="{{ request.GET.city|default:'' }}">
+                        <div class="input-underline"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="state">
+                            <i class="fas fa-flag"></i>
+                            State
+                            <span class="required">*</span>
+                        </label>
+                        <select id="state" name="state" required>
+                            <option value="">Select State</option>
+                            <option value="MH">Maharashtra</option>
+                            <option value="DL">Delhi</option>
+                            <option value="KA">Karnataka</option>
+                            <option value="GJ">Gujarat</option>
+                            <option value="RJ">Rajasthan</option>
+                            <option value="WB">West Bengal</option>
+                            <option value="UP">Uttar Pradesh</option>
+                            <option value="TN">Tamil Nadu</option>
+                        </select>
+                        <div class="input-underline"></div>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="pincode">
+                            <i class="fas fa-lock"></i>
+                            PIN Code
+                            <span class="required">*</span>
+                        </label>
+                        <input type="text" id="pincode" name="pincode" required placeholder="400001" maxlength="6" value="{{ request.GET.pincode|default:'' }}">
+                        <div class="input-underline"></div>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="landmark">
+                            <i class="fas fa-map-pin"></i>
+                            Landmark (Optional)
+                        </label>
+                        <input type="text" id="landmark" name="landmark" placeholder="Near Landmark" value="{{ request.GET.landmark|default:'' }}">
+                        <div class="input-underline"></div>
+                    </div>
+                </div>
+                
+                <div class="form-group full-width">
+                    <label for="orderNotes">
+                        <i class="fas fa-sticky-note"></i>
+                        Special Instructions
+                    </label>
+                    <textarea id="orderNotes" name="orderNotes" placeholder="Any special delivery instructions or notes" rows="3">{{ request.GET.notes|default:'' }}</textarea>
+                    <div class="input-underline"></div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" class="btn btn-secondary" onclick="window.history.back()">
+                        <i class="fas fa-arrow-left"></i>
+                        Back to Cart
+                    </button>
+                    <a href="/cart_checkout/" class="btn btn-primary">
+                        <i class="fas fa-arrow-right"></i>
+                        Proceed to Payment
+                    </a>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+
+<style>
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #2d2d2d 100%);
+    color: #ffffff;
+    line-height: 1.6;
+    min-height: 100vh;
+    position: relative;
+}
+
+.customer-details-section {
+    padding: 80px 20px;
+    max-width: 900px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 1;
+}
+
+.form-container {
+    background: linear-gradient(135deg, rgba(255, 255, 255, 0.12), rgba(255, 255, 255, 0.08));
+    backdrop-filter: blur(30px);
+    border-radius: 25px;
+    padding: 50px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.4), inset 0 2px 0 rgba(255, 255, 255, 0.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="rgba(0, 0, 0, 0.3)"/><circle cx="75" cy="75" r="1" fill="rgba(0, 0, 0, 0.2)"/><circle cx="50" cy="10" r="0.5" fill="rgba(0, 0, 0, 0.1)"/><circle cx="20" cy="60" r="0.5" fill="rgba(0, 0, 0, 0.1)"/><circle cx="80" cy="40" r="0.5" fill="rgba(0, 0, 0, 0.1)"/><rect x="10" y="10" width="80" height="80" fill="none" stroke="rgba(0, 0, 0, 0.5)" stroke-width="0.5" rx="10" ry="10"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+    opacity: 0.3;
+    z-index: 0;
+    animation: subtleMove 20s ease-in-out infinite;
+}
+
+.form-header {
+    text-align: center;
+    margin-bottom: 40px;
+    position: relative;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 30px;
+    position: relative;
+}
+
+.victnow-logo {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #d4af37;
+    text-shadow: 0 4px 15px rgba(212, 175, 55, 0.4);
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    position: relative;
+}
+
+.victnow-logo::after {
+    content: '';
+    position: absolute;
+    bottom: -8px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 3px;
+    background: linear-gradient(90deg, #d4af37, #b8941f);
+    border-radius: 2px;
+}
+
+.tagline {
+    font-size: 1rem;
+    color: rgba(212, 175, 55, 0.8);
+    margin-left: 20px;
+    font-weight: 500;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.form-header h2 {
+    color: #ffffff;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin: 0 0 15px 0;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    text-shadow: 0 3px 12px rgba(212, 175, 55, 0.3);
+}
+
+.form-header p {
+    color: rgba(212, 175, 55, 0.8);
+    font-size: 1.1rem;
+    margin: 0;
+    font-weight: 400;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 25px;
+    margin-bottom: 25px;
+}
+
+.form-group {
+    margin-bottom: 25px;
+    position: relative;
+}
+
+.form-group label {
+    display: flex;
+    align-items: center;
+    color: #000000;
+    font-weight: 600;
+    margin-bottom: 12px;
+    font-size: 1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    gap: 10px;
+}
+
+.required {
+    color: #d4af37;
+    font-weight: 700;
+    margin-left: 5px;
+}
+
+.form-group input,
+.form-group select,
+.form-group textarea {
+    width: 100%;
+    padding: 18px;
+    border: 1px solid rgba(212, 175, 55, 0.3);
+    border-radius: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.form-group input:focus,
+.form-group select:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: #d4af37;
+    box-shadow: 0 0 0 20px rgba(212, 175, 55, 0.3);
+    background: rgba(255, 255, 255, 0.15);
+}
+
+.input-underline {
+    position: absolute;
+    bottom: 0;
+    left: 18px;
+    right: 18px;
+    height: 2px;
+    background: linear-gradient(90deg, rgba(212, 175, 55, 0.3), rgba(212, 175, 55, 0.3));
+}
+
+.full-width {
+    grid-column: 1 / -1;
+}
+
+.form-actions {
+    display: flex;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-sizing: border-box;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.btn {
+    padding: 18px 35px;
+    border: none;
+    border-radius: 15px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    box-sizing: border-box;
+    display: inline-block;
+    text-decoration: none;
+    position: relative;
+    z-index: 9999;
+    pointer-events: auto;
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #d4af37, #b8941f);
+    color: #0a0a0a;
+    box-shadow: 0 15px 35px rgba(212, 175, 55, 0.4);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #e5c453, #c7a520);
+    transform: translateY(-2px);
+    box-shadow: 0 20px 45px rgba(212, 175, 55, 0.5);
+}
+
+.btn-secondary {
+    background: transparent;
+    color: rgba(212, 175, 55, 0.8);
+    border: 2px solid rgba(212, 175, 55, 0.3);
+}
+
+.btn-secondary:hover {
+    background: rgba(212, 175, 55, 0.1);
+    color: #d4af37;
+    transform: translateY(-2px);
+}
+
+@media (max-width: 768px) {
+    .customer-details-section {
+        padding: 60px 15px;
+        max-width: 100%;
+    }
+    
+    .form-container {
+        padding: 40px;
+    }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    
+    .form-actions {
+        flex-direction: column;
+    gap: 15px;
+    }
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Load customer data if available
+    const urlParams = new URLSearchParams(window.location.search);
+    const fullName = urlParams.get('full_name');
+    const email = urlParams.get('email');
+    const phone = urlParams.get('phone');
+    const whatsapp = urlParams.get('whatsapp');
+    const address = urlParams.get('address');
+    const city = urlParams.get('city');
+    const state = urlParams.get('state');
+    const pincode = urlParams.get('pincode');
+    const landmark = urlParams.get('landmark');
+    const orderNotes = urlParams.get('notes');
+    
+    if (fullName) {
+        document.getElementById('fullName').value = fullName;
+    }
+    if (email) {
+        document.getElementById('email').value = email;
+    }
+    if (phone) {
+        document.getElementById('phone').value = phone;
+    }
+    if (whatsapp) {
+        document.getElementById('whatsapp').value = whatsapp;
+    }
+    if (address) {
+        document.getElementById('address').value = address;
+    }
+    if (city) {
+        document.getElementById('city').value = city;
+    }
+    if (state) {
+        document.getElementById('state').value = state;
+    }
+    if (pincode) {
+        document.getElementById('pincode').value = pincode;
+    }
+    if (landmark) {
+        document.getElementById('landmark').value = landmark;
+    }
+    if (orderNotes) {
+        document.getElementById('orderNotes').value = orderNotes;
+    }
+    
+    // Form validation and submission
+    document.getElementById('customerDetailsForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        // Store form data before redirecting
+        const formData = new FormData(document.getElementById('customerDetailsForm'));
+        const customerData = {
+            fullName: formData.get('fullName'),
+            email: formData.get('email'),
+            phone: formData.get('phone'),
+            whatsapp: formData.get('whatsapp'),
+            address: formData.get('address'),
+            city: formData.get('city'),
+            state: formData.get('state'),
+            pincode: formData.get('pincode'),
+            landmark: formData.get('landmark'),
+            orderNotes: formData.get('orderNotes'),
+            timestamp: new Date().toISOString()
+        };
+        
+        // Store in localStorage and sessionStorage
+        localStorage.setItem('customerData', JSON.stringify(customerData));
+        sessionStorage.setItem('customerData', JSON.stringify(customerData));
+        
+        console.log('Form data stored for order summary');
+    });
+    
+    function clearPageAndProceed(event) {
+    event.preventDefault(); // Prevent immediate navigation
+    
+    // Clear the page content
+    document.body.innerHTML = `
+        <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);">
+            <div style="text-align: center; color: #d4af37;">
+                <div style="width: 60px; height: 60px; border: 3px solid #d4af37; border-top: 3px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
+                <h2>Processing Payment...</h2>
+                <p>Opening Razorpay payment gateway...</p>
+            </div>
+        </div>
+        <style>
+            @keyframes spin {
+                0% { transform: rotate(0deg); }
+                100% { transform: rotate(360deg); }
+            }
+        </style>
+    `;
+    
+    // Redirect to payment page after 1 second
+    setTimeout(() => {
+        window.location.href = '/cart_checkout/';
+    }, 1000);
+}
+
+function showSuccessMessage(message) {
+    // Remove any existing success message
+    const existingMessage = document.querySelector('.success-message');
+    if (existingMessage) {
+        existingMessage.remove();
+    }
+    
+    // Create new success message
+    const successDiv = document.createElement('div');
+    successDiv.className = 'success-message';
+    successDiv.innerHTML = `
+        <i class="fas fa-check-circle"></i>
+        <span>${message}</span>
+            landmark: formData.get('landmark'),
+            orderNotes: formData.get('orderNotes'),
+            timestamp: new Date().toISOString()
+        };
+        
+        // Basic validation
+        if (!customerData.fullName || !customerData.email || !customerData.address || !customerData.city || !customerData.state || !customerData.pincode) {
+            alert('Please fill in all required fields marked with *');
+            return;
+        }
+        
+        // Validate PIN code (6 digits)
+        if (!/^\d{6}$/.test(customerData.pincode)) {
+            alert('Please enter a valid 6-digit PIN code');
+            return;
+        }
+        
+        // Validate email
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(customerData.email)) {
+            alert('Please enter a valid email address');
+            return;
+        }
+        
+        // Store customer data
+        localStorage.setItem('customerData', JSON.stringify(customerData));
+        sessionStorage.setItem('customerData', JSON.stringify(customerData));
+        
+        // Show success message
+        showSuccessMessage('Customer details saved! Proceeding to order summary...');
+        
+        // Redirect to cart checkout page after 2 seconds
+        setTimeout(() => {
+            window.location.href = '/cart_checkout/';
+        }, 2000);
+    }
+    
+    // Add CSS animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    `;
+    document.head.appendChild(style);
+});
+</script>
+{% endblock %}
+</body>
+</html>

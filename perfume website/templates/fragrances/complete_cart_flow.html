@@ -1,0 +1,493 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+
+{% block title %}Complete Cart Flow - VICTNOW{% endblock %}
+
+{% block content %}
+<!-- Include Razorpay Script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<!-- Include FIXED Razorpay JS -->
+<script src="{% static 'js/fixed-razorpay.js' %}"></script>
+
+<section class="cart-flow-section" style="padding: 80px 0; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 style="color: #d4af37; font-size: 3rem; font-weight: 700; margin-bottom: 20px;">
+                Complete Cart Flow
+            </h1>
+            <p style="color: #ccc; font-size: 1.2rem;">
+                Add products → View cart → Customer details → Payment
+            </p>
+        </div>
+        
+        <!-- Step 1: Products -->
+        <div class="step-section" id="step1-products">
+            <div class="step-header">
+                <h2 style="color: #d4af37;">Step 1: Select Products</h2>
+            </div>
+            <div class="row">
+                <div class="col-md-4 mb-4">
+                    <div class="product-card" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 20px; text-align: center; border: 2px solid #d4af37;">
+                        <h4 style="color: #fff;">VICTNOW MUSE</h4>
+                        <p style="color: #d4af37; font-size: 1.5rem; font-weight: 700;">₹53.20</p>
+                        <button onclick="addToCart(1, 'VICTNOW MUSE', 53.20)" class="btn btn-warning w-100">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="product-card" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 20px; text-align: center; border: 2px solid #28a745;">
+                        <h4 style="color: #fff;">VICTNOW NEXUS</h4>
+                        <p style="color: #28a745; font-size: 1.5rem; font-weight: 700;">₹74.97</p>
+                        <button onclick="addToCart(2, 'VICTNOW NEXUS', 74.97)" class="btn btn-success w-100">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+                <div class="col-md-4 mb-4">
+                    <div class="product-card" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 20px; text-align: center; border: 2px solid #dc3545;">
+                        <h4 style="color: #fff;">VICTNOW FORGE</h4>
+                        <p style="color: #dc3545; font-size: 1.5rem; font-weight: 700;">₹99.99</p>
+                        <button onclick="addToCart(3, 'VICTNOW FORGE', 99.99)" class="btn btn-danger w-100">
+                            Add to Cart
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-4">
+                <button onclick="showStep2()" class="btn btn-primary btn-lg" disabled id="viewCartBtn">
+                    View Cart (0 items)
+                </button>
+            </div>
+        </div>
+        
+        <!-- Step 2: Cart -->
+        <div class="step-section" id="step2-cart" style="display: none;">
+            <div class="step-header">
+                <h2 style="color: #d4af37;">Step 2: Your Cart</h2>
+            </div>
+            <div class="cart-items" id="cartItems">
+                <!-- Cart items will be added here -->
+            </div>
+            <div class="cart-summary" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 30px; margin-top: 20px; border: 2px solid #d4af37;">
+                <div class="row">
+                    <div class="col-md-6">
+                        <h4 style="color: #fff;">Cart Summary</h4>
+                        <div id="cartSummary">
+                            <!-- Summary will be added here -->
+                        </div>
+                    </div>
+                    <div class="col-md-6 text-center">
+                        <h3 style="color: #d4af37; font-size: 2rem; margin-bottom: 20px;">
+                            Total: ₹<span id="cartTotal">0.00</span>
+                        </h3>
+                        <button onclick="showStep3()" class="btn btn-success btn-lg" id="buyNowBtn" disabled>
+                            Buy Now
+                        </button>
+                        <button onclick="showStep1()" class="btn btn-secondary">
+                            Continue Shopping
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 3: Customer Form -->
+        <div class="step-section" id="step3-customer" style="display: none;">
+            <div class="step-header">
+                <h2 style="color: #d4af37;">Step 3: Customer Details</h2>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="customer-form" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 40px; border: 2px solid #d4af37;">
+                        <form id="customerForm">
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label style="color: #fff;">Full Name *</label>
+                                    <input type="text" name="name" class="form-control" required style="background: #2a2a2a; border: 1px solid #d4af37; color: #fff;">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label style="color: #fff;">Email *</label>
+                                    <input type="email" name="email" class="form-control" required style="background: #2a2a2a; border: 1px solid #d4af37; color: #fff;">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label style="color: #fff;">Phone *</label>
+                                    <input type="tel" name="phone" class="form-control" required style="background: #2a2a2a; border: 1px solid #d4af37; color: #fff;">
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label style="color: #fff;">City</label>
+                                    <input type="text" name="city" class="form-control" style="background: #2a2a2a; border: 1px solid #d4af37; color: #fff;">
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label style="color: #fff;">Address</label>
+                                <textarea name="address" class="form-control" rows="3" style="background: #2a2a2a; border: 1px solid #d4af37; color: #fff;"></textarea>
+                            </div>
+                            <div class="text-center">
+                                <button type="button" onclick="showStep4()" class="btn btn-success btn-lg" id="continuePaymentBtn">
+                                    Continue to Payment
+                                </button>
+                                <button type="button" onclick="showStep2()" class="btn btn-secondary">
+                                    Back to Cart
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 4: Payment -->
+        <div class="step-section" id="step4-payment" style="display: none;">
+            <div class="step-header">
+                <h2 style="color: #d4af37;">Step 4: Payment</h2>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="payment-summary" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 40px; border: 2px solid #d4af37; text-align: center;">
+                        <h3 style="color: #fff; margin-bottom: 30px;">Order Summary</h3>
+                        <div id="paymentSummary">
+                            <!-- Payment summary will be added here -->
+                        </div>
+                        <div class="total-amount" style="margin: 30px 0; padding: 20px; background: rgba(212, 175, 55, 0.1); border-radius: 10px;">
+                            <h3 style="color: #d4af37; font-size: 2.5rem;">
+                                Total Amount: ₹<span id="paymentTotal">0.00</span>
+                            </h3>
+                        </div>
+                        <button onclick="processPayment()" class="btn btn-warning btn-lg" style="font-size: 1.2rem; padding: 15px 40px;">
+                            <i class="fas fa-credit-card" style="margin-right: 10px;"></i>
+                            Pay Now with Razorpay
+                        </button>
+                        <div class="mt-3">
+                            <button onclick="showStep3()" class="btn btn-secondary">
+                                Back to Customer Details
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Step 5: Order Placed -->
+        <div class="step-section" id="step5-success" style="display: none;">
+            <div class="step-header">
+                <h2 style="color: #28a745;">Step 5: Order Placed Successfully!</h2>
+            </div>
+            <div class="row justify-content-center">
+                <div class="col-md-8">
+                    <div class="success-message" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 40px; border: 2px solid #28a745; text-align: center;">
+                        <div style="font-size: 4rem; color: #28a745; margin-bottom: 20px;">✅</div>
+                        <h3 style="color: #28a745; font-size: 2rem; margin-bottom: 20px;">Order Placed Successfully!</h3>
+                        <p style="color: #fff; font-size: 1.2rem; margin-bottom: 30px;">
+                            Thank you for your order. Your payment has been processed successfully.
+                        </p>
+                        <div id="orderConfirmation">
+                            <!-- Order details will be added here -->
+                        </div>
+                        <button onclick="resetFlow()" class="btn btn-primary btn-lg">
+                            Start New Order
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Cart management
+let cart = [];
+
+function addToCart(productId, productName, price) {
+    console.log(`Adding to cart: ${productName} - ₹${price}`);
+    
+    const existingItem = cart.find(item => item.id === productId);
+    if (existingItem) {
+        existingItem.quantity += 1;
+        existingItem.subtotal = existingItem.quantity * existingItem.price;
+    } else {
+        cart.push({
+            id: productId,
+            name: productName,
+            price: price,
+            quantity: 1,
+            subtotal: price
+        });
+    }
+    
+    updateCartDisplay();
+    console.log('Cart updated:', cart);
+}
+
+function updateCartDisplay() {
+    const cartItems = document.getElementById('cartItems');
+    const cartTotal = document.getElementById('cartTotal');
+    const viewCartBtn = document.getElementById('viewCartBtn');
+    
+    if (cart.length === 0) {
+        cartItems.innerHTML = '<p style="color: #ccc; text-align: center;">Your cart is empty</p>';
+        cartTotal.textContent = '0.00';
+        viewCartBtn.textContent = 'View Cart (0 items)';
+        viewCartBtn.disabled = true;
+        return;
+    }
+    
+    let html = '';
+    let total = 0;
+    
+    cart.forEach(item => {
+        html += `
+            <div class="cart-item" style="background: #2a2a2a; padding: 15px; margin-bottom: 10px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center;">
+                <div>
+                    <h5 style="color: #fff; margin: 0;">${item.name}</h5>
+                    <p style="color: #ccc; margin: 0;">₹${item.price} x ${item.quantity}</p>
+                </div>
+                <div style="text-align: right;">
+                    <p style="color: #d4af37; font-weight: bold; margin: 0;">₹${item.subtotal.toFixed(2)}</p>
+                    <button onclick="removeFromCart(${item.id})" class="btn btn-sm btn-outline-danger">Remove</button>
+                </div>
+            </div>
+        `;
+        total += item.subtotal;
+    });
+    
+    cartItems.innerHTML = html;
+    cartTotal.textContent = total.toFixed(2);
+    viewCartBtn.textContent = `View Cart (${cart.length} items)`;
+    viewCartBtn.disabled = false;
+    
+    // Enable buy now button
+    const buyNowBtn = document.getElementById('buyNowBtn');
+    buyNowBtn.disabled = false;
+}
+
+function removeFromCart(productId) {
+    cart = cart.filter(item => item.id !== productId);
+    updateCartDisplay();
+}
+
+function showStep1() {
+    hideAllSteps();
+    document.getElementById('step1-products').style.display = 'block';
+}
+
+function showStep2() {
+    hideAllSteps();
+    document.getElementById('step2-cart').style.display = 'block';
+    updateCartSummary();
+}
+
+function showStep3() {
+    hideAllSteps();
+    document.getElementById('step3-customer').style.display = 'block';
+}
+
+function showStep4() {
+    // Validate customer form
+    const form = document.getElementById('customerForm');
+    const formData = new FormData(form);
+    const name = formData.get('name');
+    const email = formData.get('email');
+    const phone = formData.get('phone');
+    
+    if (!name || !email || !phone) {
+        alert('Please fill in all required fields');
+        return;
+    }
+    
+    hideAllSteps();
+    document.getElementById('step4-payment').style.display = 'block';
+    updatePaymentSummary();
+}
+
+function showStep5() {
+    hideAllSteps();
+    document.getElementById('step5-success').style.display = 'block';
+}
+
+function hideAllSteps() {
+    document.querySelectorAll('.step-section').forEach(section => {
+        section.style.display = 'none';
+    });
+}
+
+function updateCartSummary() {
+    const cartSummary = document.getElementById('cartSummary');
+    let html = '';
+    let total = 0;
+    
+    cart.forEach(item => {
+        html += `
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; padding-bottom: 10px; border-bottom: 1px solid #444;">
+                <span style="color: #ccc;">${item.name} x ${item.quantity}</span>
+                <span style="color: #d4af37;">₹${item.subtotal.toFixed(2)}</span>
+            </div>
+        `;
+        total += item.subtotal;
+    });
+    
+    html += `
+        <div style="display: flex; justify-content: space-between; margin-top: 15px; padding-top: 15px; border-top: 2px solid #d4af37;">
+            <strong style="color: #fff;">Total:</strong>
+            <strong style="color: #d4af37;">₹${total.toFixed(2)}</strong>
+        </div>
+    `;
+    
+    cartSummary.innerHTML = html;
+}
+
+function updatePaymentSummary() {
+    const paymentSummary = document.getElementById('paymentSummary');
+    const paymentTotal = document.getElementById('paymentTotal');
+    const cartTotal = document.getElementById('cartTotal');
+    
+    let html = '';
+    let total = 0;
+    
+    cart.forEach(item => {
+        html += `
+            <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: #ccc;">
+                <span>${item.name} x ${item.quantity}</span>
+                <span>₹${item.subtotal.toFixed(2)}</span>
+            </div>
+        `;
+        total += item.subtotal;
+    });
+    
+    // Add shipping
+    const shipping = 50;
+    total += shipping;
+    
+    html += `
+        <hr style="border-color: #444; margin: 20px 0;">
+        <div style="display: flex; justify-content: space-between; margin-bottom: 10px; color: #ccc;">
+            <span>Shipping</span>
+            <span>₹${shipping.toFixed(2)}</span>
+        </div>
+        <div style="display: flex; justify-content: space-between; margin-top: 15px; padding-top: 15px; border-top: 2px solid #d4af37;">
+            <strong style="color: #fff;">Total Amount:</strong>
+            <strong style="color: #d4af37;">₹${total.toFixed(2)}</strong>
+        </div>
+    `;
+    
+    paymentSummary.innerHTML = html;
+    paymentTotal.textContent = total.toFixed(2);
+    cartTotal.textContent = total.toFixed(2);
+}
+
+function processPayment() {
+    const total = parseFloat(document.getElementById('paymentTotal').textContent);
+    const formData = new FormData(document.getElementById('customerForm'));
+    
+    console.log('=== PROCESSING PAYMENT ===');
+    console.log('Cart total:', total);
+    console.log('Cart items:', cart);
+    console.log('Customer data:', Object.fromEntries(formData));
+    
+    // Prepare product data for payment
+    const productData = {
+        cart_items: cart,
+        total_amount: total,
+        name: formData.get('name'),
+        email: formData.get('email'),
+        phone: formData.get('phone'),
+        city: formData.get('city'),
+        address: formData.get('address'),
+        payment_type: 'cart_purchase'
+    };
+    
+    console.log('Calling payNow with:');
+    console.log('Price:', total);
+    console.log('Product Name:', 'Cart Purchase');
+    console.log('Product Data:', productData);
+    
+    // Call the FIXED payNow function
+    payNow(total, 'Cart Purchase', productData);
+}
+
+function resetFlow() {
+    cart = [];
+    document.getElementById('customerForm').reset();
+    updateCartDisplay();
+    showStep1();
+}
+
+// Override the handlePaymentSuccess function from fixed-razorpay.js
+function handlePaymentSuccess(response, orderData) {
+    console.log('=== PAYMENT SUCCESS ===');
+    console.log('Response:', response);
+    
+    // Show order confirmation
+    showStep5();
+    
+    // Display order details
+    const orderConfirmation = document.getElementById('orderConfirmation');
+    const total = document.getElementById('paymentTotal').textContent;
+    
+    let html = `
+        <div style="background: rgba(40, 167, 69, 0.1); padding: 20px; border-radius: 10px; margin-bottom: 20px;">
+            <h4 style="color: #28a745; margin-bottom: 15px;">Order Details</h4>
+            <p style="color: #fff; margin: 5px 0;"><strong>Order ID:</strong> #${response.razorpay_payment_id}</p>
+            <p style="color: #fff; margin: 5px 0;"><strong>Total Amount:</strong> ₹${total}</p>
+            <p style="color: #fff; margin: 5px 0;"><strong>Payment ID:</strong> ${response.razorpay_payment_id}</p>
+        </div>
+        <div style="background: rgba(212, 175, 55, 0.1); padding: 20px; border-radius: 10px;">
+            <h4 style="color: #d4af37; margin-bottom: 15px;">Items Ordered</h4>
+    `;
+    
+    cart.forEach(item => {
+        html += `
+            <p style="color: #fff; margin: 5px 0;">${item.name} x ${item.quantity} - ₹${item.subtotal.toFixed(2)}</p>
+        `;
+    });
+    
+    orderConfirmation.innerHTML = html;
+    
+    // Clear cart
+    cart = [];
+    updateCartDisplay();
+}
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Complete Cart Flow Loaded');
+    updateCartDisplay();
+});
+</script>
+
+<style>
+.step-header {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.step-header h2 {
+    font-size: 2rem;
+    font-weight: 700;
+}
+
+.product-card {
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(212, 175, 55, 0.3);
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.form-control:focus {
+    box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25);
+    border-color: #d4af37;
+}
+
+.cart-item:hover {
+    background: #333 !important;
+}
+</style>
+{% endblock %}

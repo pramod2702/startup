@@ -1,0 +1,255 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+
+{% block title %}Track Bulk Order - VICTNOW{% endblock %}
+
+{% block content %}
+<!-- Bulk Order Tracking Section -->
+<section class="bulk-tracking-section" style="background: linear-gradient(135deg, #0a2e0a 0%, #1a4d1a 100%); padding: 80px 0; min-height: 100vh;">
+    <div class="container">
+        <div class="tracking-header" style="text-align: center; margin-bottom: 50px;">
+            <h1 style="color: #d4af37; font-size: 2.5rem; margin-bottom: 20px; font-family: 'Playfair Display', serif;">
+                <i class="fas fa-search-location" style="margin-right: 15px;"></i>
+                Track Your Bulk Order
+            </h1>
+            <p style="color: #fff; font-size: 1.2rem; opacity: 0.9;">
+                Enter your Order ID and email to track your bulk order status
+            </p>
+        </div>
+
+        <!-- Tracking Form -->
+        <div class="tracking-form-container" style="max-width: 600px; margin: 0 auto; background: rgba(255, 255, 255, 0.05); border-radius: 20px; padding: 40px; border: 2px solid rgba(212, 175, 55, 0.3); backdrop-filter: blur(10px);">
+            <form id="tracking-form">
+                <div class="form-group" style="margin-bottom: 25px;">
+                    <label style="color: #d4af37; font-weight: 600; display: block; margin-bottom: 10px; font-size: 1.1rem;">
+                        <i class="fas fa-hashtag" style="margin-right: 8px;"></i>Order ID *
+                    </label>
+                    <input type="text" id="order-id" name="order_id" required placeholder="e.g., BULK_1234567890" 
+                           style="width: 100%; padding: 15px; border: 2px solid #d4af37; background: rgba(10, 46, 10, 0.6); color: #fff; border-radius: 10px; font-size: 16px; box-sizing: border-box;">
+                </div>
+                
+                <div class="form-group" style="margin-bottom: 30px;">
+                    <label style="color: #d4af37; font-weight: 600; display: block; margin-bottom: 10px; font-size: 1.1rem;">
+                        <i class="fas fa-envelope" style="margin-right: 8px;"></i>Email Address *
+                    </label>
+                    <input type="email" id="email" name="email" required placeholder="your@email.com" 
+                           style="width: 100%; padding: 15px; border: 2px solid #d4af37; background: rgba(10, 46, 10, 0.6); color: #fff; border-radius: 10px; font-size: 16px; box-sizing: border-box;">
+                </div>
+                
+                <button type="submit" id="track-btn" style="width: 100%; background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%); color: #0a2e0a; padding: 18px; border: none; border-radius: 10px; font-weight: 700; font-size: 18px; text-transform: uppercase; letter-spacing: 1px; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 8px 25px rgba(212, 175, 55, 0.3);">
+                    <i class="fas fa-search" style="margin-right: 10px;"></i>
+                    Track Order
+                </button>
+            </form>
+        </div>
+
+        <!-- Loading State -->
+        <div id="loading-state" style="text-align: center; display: none; margin-top: 30px;">
+            <div style="font-size: 3rem; color: #d4af37; margin-bottom: 20px;">
+                <i class="fas fa-spinner fa-spin"></i>
+            </div>
+            <p style="color: #fff; font-size: 1.1rem;">Tracking your order...</p>
+        </div>
+
+        <!-- Error State -->
+        <div id="error-state" style="text-align: center; display: none; margin-top: 30px; background: rgba(220, 53, 69, 0.1); border: 2px solid #dc3545; border-radius: 15px; padding: 30px;">
+            <div style="font-size: 3rem; color: #dc3545; margin-bottom: 20px;">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <h3 style="color: #dc3545; margin-bottom: 15px;">Order Not Found</h3>
+            <p id="error-message" style="color: #fff; font-size: 1.1rem;"></p>
+        </div>
+
+        <!-- Success State -->
+        <div id="success-state" style="display: none; margin-top: 30px;">
+            <!-- Order Details -->
+            <div class="order-details" style="background: rgba(212, 175, 55, 0.1); border: 2px solid #d4af37; border-radius: 20px; padding: 30px; margin-bottom: 30px;">
+                <h3 style="color: #d4af37; margin-bottom: 25px; text-align: center; font-size: 1.5rem;">
+                    <i class="fas fa-box" style="margin-right: 10px;"></i>Order Details
+                </h3>
+                <div id="order-details-content" style="color: #fff;">
+                    <!-- Order details will be populated here -->
+                </div>
+            </div>
+
+            <!-- Tracking Information -->
+            <div id="tracking-info" style="background: rgba(255, 255, 255, 0.05); border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 20px; padding: 30px;">
+                <h3 style="color: #d4af37; margin-bottom: 25px; text-align: center; font-size: 1.5rem;">
+                    <i class="fas fa-truck" style="margin-right: 10px;"></i>Tracking Information
+                </h3>
+                <div id="tracking-details-content" style="color: #fff;">
+                    <!-- Tracking details will be populated here -->
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+    .tracking-form-container input:focus {
+        outline: none;
+        border-color: #b8941f;
+        background: rgba(10, 46, 10, 0.8);
+        box-shadow: 0 0 15px rgba(212, 175, 55, 0.3);
+    }
+    
+    #track-btn:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 35px rgba(212, 175, 55, 0.4);
+    }
+    
+    #track-btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+        transform: none;
+    }
+    
+    .status-badge {
+        display: inline-block;
+        padding: 8px 16px;
+        border-radius: 20px;
+        font-weight: 600;
+        font-size: 0.9rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+    
+    .status-pending { background: #ffc107; color: #000; }
+    .status-confirmed { background: #17a2b8; color: #fff; }
+    .status-processing { background: #6f42c1; color: #fff; }
+    .status-shipped { background: #28a745; color: #fff; }
+    .status-delivered { background: #20c997; color: #fff; }
+    .status-in_transit { background: #007bff; color: #fff; }
+    .status-out_for_delivery { background: #fd7e14; color: #fff; }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.getElementById('tracking-form');
+    const loadingState = document.getElementById('loading-state');
+    const errorState = document.getElementById('error-state');
+    const successState = document.getElementById('success-state');
+    const trackBtn = document.getElementById('track-btn');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const orderId = document.getElementById('order-id').value.trim();
+        const email = document.getElementById('email').value.trim();
+        
+        if (!orderId || !email) {
+            showError('Please fill in all required fields.');
+            return;
+        }
+        
+        // Show loading state
+        showLoading();
+        
+        // Submit tracking request
+        fetch('/track-bulk-order/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+                'X-CSRFToken': getCookie('csrftoken'),
+            },
+            body: `order_id=${encodeURIComponent(orderId)}&email=${encodeURIComponent(email)}`
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                showSuccess(data);
+            } else {
+                showError(data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Tracking error:', error);
+            showError('An error occurred while tracking your order. Please try again.');
+        });
+    });
+    
+    function showLoading() {
+        form.style.display = 'none';
+        loadingState.style.display = 'block';
+        errorState.style.display = 'none';
+        successState.style.display = 'none';
+    }
+    
+    function showError(message) {
+        form.style.display = 'block';
+        loadingState.style.display = 'none';
+        errorState.style.display = 'block';
+        successState.style.display = 'none';
+        document.getElementById('error-message').textContent = message;
+    }
+    
+    function showSuccess(data) {
+        form.style.display = 'none';
+        loadingState.style.display = 'none';
+        errorState.style.display = 'none';
+        successState.style.display = 'block';
+        
+        // Populate order details
+        const orderDetails = `
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                <div><strong>Order ID:</strong> ${data.order.order_id}</div>
+                <div><strong>Company:</strong> ${data.order.company_name}</div>
+                <div><strong>Name:</strong> ${data.order.name}</div>
+                <div><strong>Email:</strong> ${data.order.email}</div>
+                <div><strong>Fragrance:</strong> ${data.order.fragrance_type}</div>
+                <div><strong>Quantity:</strong> ${data.order.quantity} ${data.order.unit_size}</div>
+                <div><strong>Packaging:</strong> ${data.order.packaging}</div>
+                <div><strong>Total Amount:</strong> ${data.order.total_amount}</div>
+                <div><strong>Status:</strong> <span class="status-badge status-${data.order.status}">${data.order.status}</span></div>
+                <div><strong>Order Date:</strong> ${data.order.created_at}</div>
+            </div>
+            ${data.order.special_instructions ? `<div style="margin-top: 20px;"><strong>Special Instructions:</strong><br>${data.order.special_instructions}</div>` : ''}
+            <div style="margin-top: 20px;"><strong>Shipping Address:</strong><br>${data.order.shipping_address}</div>
+        `;
+        
+        document.getElementById('order-details-content').innerHTML = orderDetails;
+        
+        // Populate tracking information
+        if (data.tracking) {
+            const trackingDetails = `
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 20px;">
+                    <div><strong>Tracking Number:</strong> ${data.tracking.tracking_number || 'Not assigned'}</div>
+                    <div><strong>Carrier:</strong> ${data.tracking.carrier || 'Not assigned'}</div>
+                    <div><strong>Status:</strong> <span class="status-badge status-${data.tracking.status}">${data.tracking.status || 'Pending'}</span></div>
+                    <div><strong>Estimated Delivery:</strong> ${data.tracking.estimated_delivery || 'Not available'}</div>
+                    <div><strong>Actual Delivery:</strong> ${data.tracking.actual_delivery || 'Not delivered yet'}</div>
+                    <div><strong>Last Updated:</strong> ${data.tracking.updated_at}</div>
+                </div>
+                ${data.tracking.tracking_notes ? `<div style="margin-top: 20px;"><strong>Tracking Notes:</strong><br>${data.tracking.tracking_notes}</div>` : ''}
+            `;
+            document.getElementById('tracking-details-content').innerHTML = trackingDetails;
+        } else {
+            document.getElementById('tracking-details-content').innerHTML = `
+                <div style="text-align: center; padding: 40px;">
+                    <div style="font-size: 2rem; color: #d4af37; margin-bottom: 15px;">
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <p style="font-size: 1.1rem;">Tracking information will be available once your order is processed.</p>
+                    <p style="margin-top: 10px; opacity: 0.8;">Current Status: <span class="status-badge status-${data.order.status}">${data.order.status}</span></p>
+                </div>
+            `;
+        }
+    }
+    
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+});
+</script>
+{% endblock %}

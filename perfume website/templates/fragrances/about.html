@@ -1,0 +1,531 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+
+{% block title %}About VICTNOW - The Fragrance of Leadership{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section style="position: relative; min-height: 100vh; background: linear-gradient(135deg, #000000 0%, #0a0a0a 50%, #1a1a1a 100%); overflow: hidden; display: flex; align-items: center;">
+    
+    <!-- Animated Background Elements -->
+    <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0;">
+        <!-- Floating Perfume Bottles -->
+        <div class="parallax-element" data-speed="15" style="position: absolute; top: 10%; left: 5%; width: 80px; height: 120px; background: url('/media/products/VICTNOW_FORGE.jpeg') center/cover; border-radius: 10px; opacity: 0.3; animation: float 8s ease-in-out infinite; box-shadow: 0 20px 40px rgba(99, 102, 241, 0.3);"></div>
+        <div class="parallax-element" data-speed="20" style="position: absolute; top: 20%; right: 10%; width: 60px; height: 90px; background: url('/media/products/VICTNOW_MUSE.jpeg') center/cover; border-radius: 10px; opacity: 0.3; animation: float 6s ease-in-out infinite reverse; box-shadow: 0 20px 40px rgba(139, 92, 246, 0.3);"></div>
+        <div class="parallax-element" data-speed="10" style="position: absolute; bottom: 20%; left: 15%; width: 70px; height: 100px; background: url('/media/products/VICTNOW_NEXUS.jpeg') center/cover; border-radius: 10px; opacity: 0.3; animation: float 7s ease-in-out infinite; box-shadow: 0 20px 40px rgba(16, 185, 129, 0.3);"></div>
+        
+        <!-- Gradient Overlays -->
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 20% 50%, rgba(99, 102, 241, 0.1) 0%, transparent 50%);"></div>
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 80% 50%, rgba(139, 92, 246, 0.1) 0%, transparent 50%);"></div>
+        <div style="position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: radial-gradient(circle at 50% 100%, rgba(16, 185, 129, 0.1) 0%, transparent 50%);"></div>
+    </div>
+    
+    <!-- Main Content -->
+    <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2; text-align: center;">
+        
+        <!-- Leadership Badge -->
+        <div class="enhanced-hover" style="display: inline-block; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #ffffff; padding: 12px 30px; border-radius: 50px; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 40px; box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4); backdrop-filter: blur(10px); border: 1px solid rgba(255, 255, 255, 0.1); animation: glowPulse 3s ease-in-out infinite;">
+            <i class="fas fa-crown" style="margin-right: 8px;"></i>
+            The Fragrance of Leadership
+        </div>
+        
+        <h1 style="color: #ffffff; font-size: clamp(3rem, 8vw, 5rem); margin-bottom: 40px; font-weight: 900; letter-spacing: -0.03em; line-height: 1.1; text-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);">
+            About VICTNOW
+        </h1>
+        
+        <div style="color: #e2e8f0; font-size: clamp(1.2rem, 3vw, 1.6rem); margin-bottom: 60px; font-weight: 300; line-height: 1.8; max-width: 800px; margin-left: auto; margin-right: auto;">
+            <strong>VICTNOW</strong> is a premium fragrance brand created for individuals who lead with vision, confidence, and purpose. Designed especially for <strong>CEOs, founders, executives, entrepreneurs, innovators, and decision-makers</strong>, VICTNOW represents more than a fragrance — it represents <strong>presence, influence, ambition, and leadership</strong>.
+        </div>
+        
+        <!-- Leadership Principles -->
+        <div class="enhanced-hover" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; max-width: 900px; margin: 60px auto 0;">
+            <div class="enhanced-hover" style="text-align: center; padding: 30px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-15px) scale(1.05)'; this.style.background='rgba(255, 255, 255, 0.15)'; this.style.boxShadow='0 30px 60px rgba(99, 102, 241, 0.3)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.background='rgba(255, 255, 255, 0.05)'; this.style.boxShadow='0 15px 35px rgba(0, 0, 0, 0.2)';">
+                <div style="font-size: 2.5rem; color: #ffffff; font-weight: 900; margin-bottom: 15px; background: linear-gradient(135deg, #6366f1, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Presence</div>
+                <div style="font-size: 0.95rem; color: #94a3b8; line-height: 1.6;">A fragrance that announces confidence without words</div>
+            </div>
+            <div class="enhanced-hover" style="text-align: center; padding: 30px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-15px) scale(1.05)'; this.style.background='rgba(255, 255, 255, 0.15)'; this.style.boxShadow='0 30px 60px rgba(16, 185, 129, 0.3)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.background='rgba(255, 255, 255, 0.05)'; this.style.boxShadow='0 15px 35px rgba(0, 0, 0, 0.2)';">
+                <div style="font-size: 2.5rem; color: #ffffff; font-weight: 900; margin-bottom: 15px; background: linear-gradient(135deg, #10b981, #059669); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Influence</div>
+                <div style="font-size: 0.95rem; color: #94a3b8; line-height: 1.6;">A scent that reflects authority, sophistication, and trust</div>
+            </div>
+            <div class="enhanced-hover" style="text-align: center; padding: 30px; background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-15px) scale(1.05)'; this.style.background='rgba(255, 255, 255, 0.15)'; this.style.boxShadow='0 30px 60px rgba(245, 158, 11, 0.3)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.background='rgba(255, 255, 255, 0.05)'; this.style.boxShadow='0 15px 35px rgba(0, 0, 0, 0.2)';">
+                <div style="font-size: 2.5rem; color: #ffffff; font-weight: 900; margin-bottom: 15px; background: linear-gradient(135deg, #f59e0b, #d97706); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">Legacy</div>
+                <div style="font-size: 0.95rem; color: #94a3b8; line-height: 1.6;">A fragrance that becomes part of a leader's identity</div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Scroll Indicator -->
+    <div style="position: absolute; bottom: 30px; left: 50%; transform: translateX(-50%); z-index: 2;">
+        <div style="width: 30px; height: 50px; border: 2px solid rgba(255, 255, 255, 0.3); border-radius: 25px; position: relative;">
+            <div style="width: 4px; height: 10px; background: #ffffff; border-radius: 2px; position: absolute; top: 10px; left: 50%; transform: translateX(-50%); animation: scroll 2s ease-in-out infinite;"></div>
+        </div>
+    </div>
+</section>
+
+<!-- Philosophy Section -->
+<section style="position: relative; padding: 120px 0; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); overflow: hidden;">
+    
+    <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1;">
+        
+        <!-- Section Header -->
+        <div style="text-align: center; margin-bottom: 80px;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #ffffff; padding: 10px 25px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(99, 102, 241, 0.3);">
+                Our Philosophy
+            </div>
+            <h2 style="color: #ffffff; font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 30px; font-weight: 800; letter-spacing: -0.02em;">
+                The Philosophy Behind VICTNOW
+            </h2>
+        </div>
+        
+        <!-- Philosophy Content -->
+        <div style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); padding: 60px; border-radius: 30px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); position: relative; overflow: hidden;">
+            
+            <div style="color: #e2e8f0; font-size: 1.2rem; line-height: 1.8; margin-bottom: 40px;">
+                <p style="margin-bottom: 30px;">At the heart of VICTNOW lies a belief that <strong>true leadership leaves a lasting impression</strong>. Just as great leaders influence industries and inspire people, a well-crafted fragrance leaves a subtle yet unforgettable mark.</p>
+                
+                <p style="margin-bottom: 30px;">In the world of leadership, every detail matters. The way you speak, the way you present yourself, and the way you carry your presence creates an impression long before words are spoken. A fragrance becomes an <strong>invisible signature</strong> — something people remember even after the conversation ends. At VICTNOW, we believe that leaders deserve a fragrance that reflects the same <strong>strength, clarity, and character</strong> that defines their journey.</p>
+                
+                <p style="margin-bottom: 30px;">VICTNOW was born from a simple idea: <strong>to create fragrances that resonate with the mindset of modern leaders — individuals who build companies, inspire teams, create opportunities, and shape the future.</strong></p>
+                
+                <p>Leadership is not only about power; it is about vision, responsibility, and influence. The fragrance you wear becomes a subtle expression of that identity. Every VICTNOW fragrance is crafted to reflect <strong>confidence, sophistication, and timeless elegance</strong>, allowing leaders to express their presence in a refined and memorable way.</p>
+            </div>
+            
+            <!-- Core Principles -->
+            <div style="margin-top: 50px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                <h3 style="color: #ffffff; font-size: 1.8rem; margin-bottom: 30px; font-weight: 700; text-align: center;">Our Core Principles</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px;">
+                    <div style="text-align: center; padding: 30px 20px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-user-tie" style="color: #ffffff; font-size: 24px;"></i>
+                        </div>
+                        <h4 style="color: #ffffff; font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Presence</h4>
+                        <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">A fragrance that announces confidence without words</p>
+                    </div>
+                    
+                    <div style="text-align: center; padding: 30px 20px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-handshake" style="color: #ffffff; font-size: 24px;"></i>
+                        </div>
+                        <h4 style="color: #ffffff; font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Influence</h4>
+                        <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">A scent that reflects authority, sophistication, and trust</p>
+                    </div>
+                    
+                    <div style="text-align: center; padding: 30px 20px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-crown" style="color: #ffffff; font-size: 24px;"></i>
+                        </div>
+                        <h4 style="color: #ffffff; font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Legacy</h4>
+                        <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">A fragrance that becomes part of a leader's identity</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Signature Collection Section -->
+<section style="position: relative; padding: 120px 0; background: linear-gradient(135deg, #000000 0%, #0a0a0a 100%); overflow: hidden;">
+    
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1;">
+        
+        <!-- Section Header -->
+        <div style="text-align: center; margin-bottom: 80px;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #10b981, #059669); color: #ffffff; padding: 10px 25px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.3);">
+                Our Collection
+            </div>
+            <h2 style="color: #ffffff; font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 30px; font-weight: 800; letter-spacing: -0.02em;">
+                Our Signature Collection
+            </h2>
+            <p style="color: #94a3b8; font-size: clamp(1.1rem, 2.5vw, 1.3rem); max-width: 700px; margin: 0 auto; line-height: 1.8;">
+                Our collection is thoughtfully designed to represent different dimensions of leadership and personal expression.
+            </p>
+        </div>
+        
+        <!-- Signature Products -->
+        <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; margin-bottom: 60px;">
+            
+            <!-- VICTNOW Muse -->
+            <div style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); padding: 50px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); transition: all 0.4s ease; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-15px) scale(1.02)'; this.style.boxShadow='0 40px 80px rgba(139, 92, 246, 0.2)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 20px 40px rgba(0, 0, 0, 0.3)';">
+                
+                <div style="position: relative; margin-bottom: 30px;">
+                    <div style="width: 120px; height: 180px; margin: 0 auto; border-radius: 15px; overflow: hidden; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);">
+                        <img src="/media/products/VICTNOW_MUSE.jpeg" alt="VICTNOW MUSE" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+                
+                <h3 style="color: #ffffff; font-size: 1.8rem; margin-bottom: 20px; font-weight: 700; text-align: center;">VICTNOW Muse</h3>
+                <p style="color: #e2e8f0; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
+                    Created for women who lead with confidence, intelligence, and elegance. Muse represents inspiration, creativity, and the bold spirit of women who transform ideas into reality. It celebrates women leaders who command respect while maintaining grace and sophistication.
+                </p>
+                <div style="text-align: center;">
+                    <span style="display: inline-block; background: linear-gradient(135deg, #8b5cf6, #a855f7); color: #ffffff; padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
+                        For Women Leaders
+                    </span>
+                </div>
+            </div>
+            
+            <!-- VICTNOW Nexus -->
+            <div style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); padding: 50px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); transition: all 0.4s ease; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-15px) scale(1.02)'; this.style.boxShadow='0 40px 80px rgba(16, 185, 129, 0.2)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 20px 40px rgba(0, 0, 0, 0.3)';">
+                
+                <div style="position: relative; margin-bottom: 30px;">
+                    <div style="width: 120px; height: 180px; margin: 0 auto; border-radius: 15px; overflow: hidden; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);">
+                        <img src="/media/products/VICTNOW_NEXUS.jpeg" alt="VICTNOW NEXUS" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+                
+                <h3 style="color: #ffffff; font-size: 1.8rem; margin-bottom: 20px; font-weight: 700; text-align: center;">VICTNOW Nexus</h3>
+                <p style="color: #e2e8f0; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
+                    A refined <strong>unisex fragrance</strong> that symbolizes connection, influence, and collaboration. Nexus represents the intersection where vision meets opportunity — where leaders bring together people, ideas, and innovation to create meaningful impact.
+                </p>
+                <div style="text-align: center;">
+                    <span style="display: inline-block; background: linear-gradient(135deg, #10b981, #059669); color: #ffffff; padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
+                        Unisex
+                    </span>
+                </div>
+            </div>
+            
+            <!-- VICTNOW Forge -->
+            <div style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); padding: 50px; border-radius: 25px; border: 1px solid rgba(255, 255, 255, 0.1); box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3); transition: all 0.4s ease; position: relative; overflow: hidden;" onmouseover="this.style.transform='translateY(-15px) scale(1.02)'; this.style.boxShadow='0 40px 80px rgba(99, 102, 241, 0.2)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 20px 40px rgba(0, 0, 0, 0.3)';">
+                
+                <div style="position: relative; margin-bottom: 30px;">
+                    <div style="width: 120px; height: 180px; margin: 0 auto; border-radius: 15px; overflow: hidden; box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);">
+                        <img src="/media/products/VICTNOW_FORGE.jpeg" alt="VICTNOW FORGE" style="width: 100%; height: 100%; object-fit: cover;">
+                    </div>
+                </div>
+                
+                <h3 style="color: #ffffff; font-size: 1.8rem; margin-bottom: 20px; font-weight: 700; text-align: center;">VICTNOW Forge</h3>
+                <p style="color: #e2e8f0; font-size: 1.1rem; line-height: 1.8; margin-bottom: 20px;">
+                    A powerful fragrance crafted for men who build, lead, and shape the future. Forge represents determination, strength, and the relentless drive of leaders who create opportunities and transform industries.
+                </p>
+                <div style="text-align: center;">
+                    <span style="display: inline-block; background: linear-gradient(135deg, #6366f1, #4f46e5); color: #ffffff; padding: 8px 20px; border-radius: 20px; font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 1px;">
+                        For Men Leaders
+                    </span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Collection Summary -->
+        <div style="text-align: center; padding: 40px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1); margin-top: 40px;">
+            <p style="color: #e2e8f0; font-size: 1.2rem; line-height: 1.8; margin: 0;">
+                Each fragrance in the VICTNOW collection is designed to complement different leadership personalities while maintaining a shared identity of <strong>luxury, authority, and sophistication</strong>.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- Corporate Gifting Section -->
+<section style="position: relative; padding: 120px 0; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); overflow: hidden;">
+    
+    <div class="container" style="max-width: 1200px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1;">
+        
+        <!-- Section Header -->
+        <div style="text-align: center; margin-bottom: 80px;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #f59e0b, #d97706); color: #ffffff; padding: 10px 25px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(245, 158, 11, 0.3);">
+                Corporate Solutions
+            </div>
+            <h2 style="color: #ffffff; font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 30px; font-weight: 800; letter-spacing: -0.02em;">
+                Corporate Gifting for Modern Organizations
+            </h2>
+            <p style="color: #94a3b8; font-size: clamp(1.1rem, 2.5vw, 1.3rem); max-width: 700px; margin: 0 auto; line-height: 1.8;">
+                Beyond personal fragrances, VICTNOW also offers <strong>premium corporate gifting solutions</strong> designed for organizations that value appreciation and recognition.
+            </p>
+        </div>
+        
+        <!-- Corporate Gifting Content -->
+        <div style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); padding: 60px; border-radius: 30px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); position: relative; overflow: hidden;">
+            
+            <div style="color: #e2e8f0; font-size: 1.2rem; line-height: 1.8; margin-bottom: 40px;">
+                <p style="margin-bottom: 30px;">Our <strong>customized luxury gift boxes</strong> allow companies to present elegant, meaningful gifts to executives, partners, clients, and teams. Whether celebrating a milestone, recognizing performance, or strengthening professional relationships, VICTNOW corporate gifts create memorable moments.</p>
+            </div>
+            
+            <!-- Customization Options -->
+            <div style="margin-top: 50px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                <h3 style="color: #ffffff; font-size: 1.8rem; margin-bottom: 30px; font-weight: 700; text-align: center;">Gift Boxes Can Be Customized With:</h3>
+                
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 30px; margin-top: 40px;">
+                    <div style="text-align: center; padding: 30px 20px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #6366f1, #8b5cf6); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-building" style="color: #ffffff; font-size: 24px;"></i>
+                        </div>
+                        <h4 style="color: #ffffff; font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Company Branding</h4>
+                        <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">Custom logo and brand integration</p>
+                    </div>
+                    
+                    <div style="text-align: center; padding: 30px 20px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #10b981, #059669); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-user" style="color: #ffffff; font-size: 24px;"></i>
+                        </div>
+                        <h4 style="color: #ffffff; font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Personal Names</h4>
+                        <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">Executive or employee name personalization</p>
+                    </div>
+                    
+                    <div style="text-align: center; padding: 30px 20px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-envelope" style="color: #ffffff; font-size: 24px;"></i>
+                        </div>
+                        <h4 style="color: #ffffff; font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Personal Messages</h4>
+                        <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">Custom appreciation messages</p>
+                    </div>
+                    
+                    <div style="text-align: center; padding: 30px 20px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                        <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #ef4444, #dc2626); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                            <i class="fas fa-gift" style="color: #ffffff; font-size: 24px;"></i>
+                        </div>
+                        <h4 style="color: #ffffff; font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Special Packaging</h4>
+                        <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">Premium corporate gift packaging</p>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Use Cases -->
+            <div style="margin-top: 50px; padding-top: 40px; border-top: 1px solid rgba(255, 255, 255, 0.1);">
+                <h3 style="color: #ffffff; font-size: 1.8rem; margin-bottom: 30px; font-weight: 700; text-align: center;">Perfect For:</h3>
+                
+                <div style="text-align: center; padding: 30px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <p style="color: #e2e8f0; font-size: 1.2rem; line-height: 1.8; margin: 0;">
+                        This makes VICTNOW an ideal choice for <strong>corporate celebrations, leadership events, client appreciation, and executive gifting</strong>.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Crafted for Excellence Section -->
+<section style="position: relative; padding: 120px 0; background: linear-gradient(135deg, #000000 0%, #0a0a0a 100%); overflow: hidden;">
+    
+    <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1;">
+        
+        <!-- Section Header -->
+        <div style="text-align: center; margin-bottom: 80px;">
+            <div style="display: inline-block; background: linear-gradient(135deg, #ef4444, #dc2626); color: #ffffff; padding: 10px 25px; border-radius: 30px; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 30px; box-shadow: 0 10px 30px rgba(239, 68, 68, 0.3);">
+                Quality Promise
+            </div>
+            <h2 style="color: #ffffff; font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 30px; font-weight: 800; letter-spacing: -0.02em;">
+                Crafted for Excellence
+            </h2>
+        </div>
+        
+        <!-- Excellence Content -->
+        <div style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); padding: 60px; border-radius: 30px; box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); position: relative; overflow: hidden;">
+            
+            <div style="color: #e2e8f0; font-size: 1.2rem; line-height: 1.8; margin-bottom: 40px;">
+                <p style="margin-bottom: 30px;">Every VICTNOW product is created with careful attention to detail. From the fragrance composition to the bottle design and luxury packaging, each element reflects a commitment to <strong>quality, refinement, and excellence</strong>.</p>
+                
+                <p style="margin-bottom: 30px;">Our goal is not simply to create perfumes — it is to create <strong>an experience that reflects leadership and prestige</strong>.</p>
+                
+                <p>The sleek bottle designs, premium materials, and sophisticated presentation ensure that every VICTNOW fragrance feels as exceptional as the individuals who wear it.</p>
+            </div>
+            
+            <!-- Quality Features -->
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 30px; margin-top: 40px;">
+                <div style="text-align: center; padding: 30px 20px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #ef4444, #dc2626); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                        <i class="fas fa-gem" style="color: #ffffff; font-size: 24px;"></i>
+                    </div>
+                    <h4 style="color: #ffffff; font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Premium Materials</h4>
+                    <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">Only the finest ingredients</p>
+                </div>
+                
+                <div style="text-align: center; padding: 30px 20px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #f59e0b, #d97706); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                        <i class="fas fa-flask" style="color: #ffffff; font-size: 24px;"></i>
+                    </div>
+                    <h4 style="color: #ffffff; font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Expert Craftsmanship</h4>
+                    <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">Master perfumer creation</p>
+                </div>
+                
+                <div style="text-align: center; padding: 30px 20px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <div style="width: 60px; height: 60px; background: linear-gradient(135deg, #8b5cf6, #7c3aed); border-radius: 15px; display: flex; align-items: center; justify-content: center; margin: 0 auto 20px;">
+                        <i class="fas fa-box" style="color: #ffffff; font-size: 24px;"></i>
+                    </div>
+                    <h4 style="color: #ffffff; font-size: 1.3rem; margin-bottom: 15px; font-weight: 700;">Luxury Packaging</h4>
+                    <p style="color: #94a3b8; font-size: 0.95rem; line-height: 1.6;">Premium presentation</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Final Leadership Message Section -->
+<section style="position: relative; padding: 120px 0; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%); overflow: hidden;">
+    
+    <div class="container" style="max-width: 1000px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 1;">
+        
+        <div style="text-align: center; background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); padding: 80px 60px; border-radius: 30px; box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5); border: 1px solid rgba(255, 255, 255, 0.1); position: relative; overflow: hidden;">
+            
+            <!-- Decorative Elements -->
+            <div style="position: absolute; top: -100px; right: -100px; width: 200px; height: 200px; background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05)); border-radius: 50%;"></div>
+            <div style="position: absolute; bottom: -100px; left: -100px; width: 200px; height: 200px; background: linear-gradient(135deg, rgba(16, 185, 129, 0.1), rgba(5, 150, 105, 0.05)); border-radius: 50%;"></div>
+            
+            <div style="position: relative; z-index: 1;">
+                <div style="display: inline-block; background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #ffffff; padding: 12px 30px; border-radius: 30px; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 40px; box-shadow: 0 15px 35px rgba(99, 102, 241, 0.3);">
+                    <i class="fas fa-crown" style="margin-right: 8px;"></i>
+                    The Fragrance of Leadership
+                </div>
+                
+                <h2 style="color: #ffffff; font-size: clamp(2.5rem, 5vw, 3.5rem); margin-bottom: 40px; font-weight: 800; letter-spacing: -0.02em;">
+                    A Fragrance That Represents Leadership
+                </h2>
+                
+                <div style="color: #e2e8f0; font-size: 1.3rem; line-height: 1.8; margin-bottom: 50px; max-width: 800px; margin-left: auto; margin-right: auto;">
+                    <p style="margin-bottom: 30px;">Leaders are remembered not only for their achievements, but for the <strong>presence they bring into every room</strong>. The confidence they carry, the vision they communicate, and the influence they leave behind become part of their identity.</p>
+                    
+                    <p style="margin-bottom: 30px;">VICTNOW celebrates that identity.</p>
+                    
+                    <p style="margin-bottom: 30px;">Our mission is to provide fragrances that empower leaders to express their presence with confidence and elegance — whether they are leading a company, inspiring a team, building a startup, or shaping the future of industries.</p>
+                    
+                    <p style="margin-bottom: 30px;">Because leadership is more than a position.<br>
+                    It is a mindset, a presence, and a legacy.</p>
+                    
+                    <p>At VICTNOW, fragrance becomes a reflection of that legacy.</p>
+                </div>
+                
+                <!-- Final Tagline -->
+                <div style="margin-top: 50px; padding: 40px; background: rgba(255, 255, 255, 0.03); border-radius: 20px; border: 1px solid rgba(255, 255, 255, 0.1);">
+                    <h3 style="color: #ffffff; font-size: 2rem; margin-bottom: 20px; font-weight: 900; background: linear-gradient(135deg, #6366f1, #8b5cf6); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                        VICTNOW — The Fragrance of Leadership.
+                    </h3>
+                </div>
+                
+                <!-- Call to Action -->
+                <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap; margin-top: 50px;">
+                    <button onclick="window.location.href='/collection/'" style="background: linear-gradient(135deg, #6366f1, #8b5cf6); color: #ffffff; border: none; padding: 18px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.3s ease; box-shadow: 0 15px 35px rgba(99, 102, 241, 0.3); text-transform: uppercase; letter-spacing: 1px;" onmouseover="this.style.transform='translateY(-3px) scale(1.05)'; this.style.boxShadow='0 20px 45px rgba(99, 102, 241, 0.4)';" onmouseout="this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 15px 35px rgba(99, 102, 241, 0.3)';">
+                        <i class="fas fa-crown" style="margin-right: 10px;"></i>
+                        Explore Collection
+                    </button>
+                    
+                    <button class="magnetic-button enhanced-hover" onclick="window.location.href='/contact/'" style="background: transparent; color: #6366f1; border: 2px solid #6366f1; padding: 18px 40px; border-radius: 50px; font-size: 1.1rem; font-weight: 700; cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); text-transform: uppercase; letter-spacing: 1px; position: relative; overflow: hidden;" onmouseover="this.style.background='#6366f1'; this.style.color='#ffffff'; this.style.transform='translateY(-3px) scale(1.05)'; this.style.boxShadow='0 15px 35px rgba(99, 102, 241, 0.4)';" onmouseout="this.style.background='transparent'; this.style.color='#6366f1'; this.style.transform='translateY(0) scale(1)'; this.style.boxShadow='0 8px 25px rgba(0, 0, 0, 0.2)';">
+                        <i class="fas fa-envelope" style="margin-right: 10px;"></i>
+                        Contact Us
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Scroll-triggered animations
+document.addEventListener('DOMContentLoaded', function() {
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver(function(entries) {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('visible');
+            }
+        });
+    }, observerOptions);
+
+    // Add animation classes to elements
+    const animateElements = document.querySelectorAll('section > div > div, .enhanced-hover');
+    animateElements.forEach((el, index) => {
+        el.classList.add('animate-on-scroll');
+        observer.observe(el);
+    });
+
+    // Parallax effect on mouse move
+    document.addEventListener('mousemove', function(e) {
+        const parallaxElements = document.querySelectorAll('.parallax-element');
+        const mouseX = e.clientX / window.innerWidth - 0.5;
+        const mouseY = e.clientY / window.innerHeight - 0.5;
+
+        parallaxElements.forEach(el => {
+            const speed = el.dataset.speed || 10;
+            const x = mouseX * speed;
+            const y = mouseY * speed;
+            el.style.transform = `translate(${x}px, ${y}px)`;
+        });
+    });
+
+    // Magnetic button effect
+    const magneticButtons = document.querySelectorAll('.magnetic-button');
+    magneticButtons.forEach(button => {
+        button.addEventListener('mousemove', function(e) {
+            const rect = button.getBoundingClientRect();
+            const x = e.clientX - rect.left - rect.width / 2;
+            const y = e.clientY - rect.top - rect.height / 2;
+            
+            button.style.setProperty('--mouse-x', `${x * 0.3}px`);
+            button.style.setProperty('--mouse-y', `${y * 0.3}px`);
+        });
+
+        button.addEventListener('mouseleave', function() {
+            button.style.setProperty('--mouse-x', '0px');
+            button.style.setProperty('--mouse-y', '0px');
+        });
+    });
+
+    // Smooth scroll for navigation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function(e) {
+            e.preventDefault();
+            const target = document.querySelector(this.getAttribute('href'));
+            if (target) {
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            }
+        });
+    });
+});
+</script>
+
+<!-- Footer -->
+<footer class="footer" style="padding: 40px 20px 20px;">
+    <div class="footer-container">
+        <div class="container">
+            <div class="footer-grid" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <h3 style="color: #d4af37; font-size: 24px; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">VICTNOW</h3>
+                    </div>
+                    <p class="footer-address" style="color: white; line-height: 1.6; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+                        Venue Plaza<br>
+                        Yewalewadi
+                    </p>
+                    <p class="copyright" style="color: #ccc; font-size: 14px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"> 2026 VICTNOW. All rights reserved.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Quick Links</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 10px;"><a href="/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Home</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/collection/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Collection</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/about/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">About</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/contact/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Contact</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/privacy/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Privacy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Contact</h4>
+                    <p style="color: white; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fas fa-phone" style="margin-right: 10px;"></i> 7038511559</p>
+                    <p style="color: white; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fas fa-envelope" style="margin-right: 10px;"></i> victnowperfume@gmail.com</p>
+                    <div class="social-icons">
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Newsletter</h4>
+                    <p style="color: white; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Subscribe to get exclusive offers</p>
+                    <form class="newsletter-form" action="/newsletter/" method="POST" style="display: flex; gap: 10px;">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="PFsLWXeb2F2Dn1ZggICrfY4gRZC1HCGRtxSCMyFbiVuZozLoEDKzqDYI8XKelKtz">
+                        <input type="email" name="email" placeholder="Your email" required="" style="flex: 1; padding: 12px; border: 1px solid #d4af37; background: rgba(255,255,255,0.2); color: white; border-radius: 5px;">
+                        <button type="submit" style="background: #d4af37; color: #000; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background 0.3s;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+{% endblock %}

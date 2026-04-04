@@ -1,0 +1,380 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Dashboard - VICTNOW</title>
+    
+    <!-- Cache Control Headers -->
+    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+    <meta http-equiv="Pragma" content="no-cache">
+    <meta http-equiv="Expires" content="0">
+    
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-gold: #d4af37;
+            --dark-bg: #0a0a0a;
+            --card-bg: #1a1a1a;
+            --text-light: #ffffff;
+            --text-muted: #b0b0b0;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: var(--text-light);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            min-height: 100vh;
+        }
+        
+        .dashboard-header {
+            background: var(--card-bg);
+            border-bottom: 2px solid var(--primary-gold);
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+        }
+        
+        .stat-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            border-radius: 15px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            transition: all 0.3s ease;
+        }
+        
+        .stat-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(212, 175, 55, 0.2);
+            border-color: var(--primary-gold);
+        }
+        
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: var(--primary-gold);
+        }
+        
+        .stat-label {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .activity-item {
+            background: rgba(212, 175, 55, 0.1);
+            border-left: 4px solid var(--primary-gold);
+            padding: 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0 8px 8px 0;
+        }
+        
+        .activity-time {
+            color: var(--text-muted);
+            font-size: 0.8rem;
+        }
+        
+        .order-card {
+            background: var(--card-bg);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+        
+        .order-status {
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+        
+        .status-pending { background: #ffc107; color: #000; }
+        .status-processing { background: #17a2b8; color: #fff; }
+        .status-shipped { background: #007bff; color: #fff; }
+        .status-delivered { background: #28a745; color: #fff; }
+        .status-cancelled { background: #dc3545; color: #fff; }
+        
+        .nav-pills .nav-link {
+            color: var(--text-muted);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            margin-right: 0.5rem;
+        }
+        
+        .nav-pills .nav-link.active {
+            background: var(--primary-gold);
+            color: var(--dark-bg);
+            border-color: var(--primary-gold);
+        }
+        
+        .section-title {
+            color: var(--primary-gold);
+            font-size: 1.5rem;
+            font-weight: bold;
+            margin-bottom: 1.5rem;
+            border-bottom: 2px solid var(--primary-gold);
+            padding-bottom: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark" style="background: var(--dark-bg); border-bottom: 1px solid var(--primary-gold);">
+        <div class="container">
+            <a class="navbar-brand" href="{% url 'home' %}" style="color: var(--primary-gold); font-weight: bold;">
+                <i class="fas fa-crown"></i> VICTNOW
+            </a>
+            <div class="navbar-nav ms-auto">
+                <a class="nav-link" href="{% url 'home' %}">Home</a>
+                <a class="nav-link" href="{% url 'user_dashboard' %}" class="active">Dashboard</a>
+                <a class="nav-link" href="{% url 'orders' %}">Orders</a>
+                <a class="nav-link" href="#" onclick="logout()">Logout</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-md-6">
+                    <h1 style="color: var(--primary-gold); margin-bottom: 0;">
+                        <i class="fas fa-user-circle"></i> Welcome, {{ user.username|title }}
+                    </h1>
+                    <p class="mb-0" style="color: var(--text-muted);">Here's your activity summary</p>
+                    <!-- Debug Information -->
+                    <div class="mt-2" style="background: rgba(212, 175, 55, 0.1); padding: 0.5rem; border-radius: 5px; font-size: 0.8rem;">
+                        <small style="color: var(--primary-gold);">
+                            DEBUG: Logged in as {{ debug_username }} (ID: {{ debug_user_id }})
+                        </small>
+                    </div>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="text-muted">
+                        <small>Last Login: {{ last_login|date:"F d, Y H:i" }}</small><br>
+                        <small>Total Logins: {{ successful_logins }}</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <!-- Statistics Row -->
+        <div class="row mb-4">
+            <div class="col-md-3">
+                <div class="stat-card text-center">
+                    <div class="stat-number">{{ total_orders }}</div>
+                    <div class="stat-label">Regular Orders</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card text-center">
+                    <div class="stat-number">{{ total_trial_packs }}</div>
+                    <div class="stat-label">Trial Packs</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card text-center">
+                    <div class="stat-number">{{ total_corporate_orders }}</div>
+                    <div class="stat-label">Corporate Orders</div>
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="stat-card text-center">
+                    <div class="stat-number">₹{{ total_spent|floatformat:0 }}</div>
+                    <div class="stat-label">Total Spent</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Content Tabs -->
+        <div class="row">
+            <div class="col-md-8">
+                <!-- Navigation Pills -->
+                <ul class="nav nav-pills mb-4" id="myTab" role="tablist">
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link active" id="recent-tab" data-bs-toggle="tab" data-bs-target="#recent" type="button" role="tab">
+                            Recent Orders
+                        </button>
+                    </li>
+                    <li class="nav-item" role="presentation">
+                        <button class="nav-link" id="activity-tab" data-bs-toggle="tab" data-bs-target="#activity" type="button" role="tab">
+                            Activity Log
+                        </button>
+                    </li>
+                </ul>
+
+                <!-- Tab Content -->
+                <div class="tab-content" id="myTabContent">
+                    <!-- Recent Orders Tab -->
+                    <div class="tab-pane fade show active" id="recent" role="tabpanel">
+                        <h5 class="section-title">Recent Orders</h5>
+                        
+                        {% if regular_orders %}
+                            {% for order in regular_orders %}
+                            <div class="order-card">
+                                <div class="row align-items-center">
+                                    <div class="col-md-8">
+                                        <h6 style="color: var(--primary-gold);">Order #{{ order.id }}</h6>
+                                        <p class="mb-1">{{ order.product.name }} × {{ order.quantity }}</p>
+                                        <small class="text-muted">{{ order.created_at|date:"F d, Y H:i" }}</small>
+                                    </div>
+                                    <div class="col-md-4 text-end">
+                                        <div class="order-status status-{{ order.order_status }}">
+                                            {{ order.get_order_status_display }}
+                                        </div>
+                                        <div class="mt-2">
+                                            <strong>₹{{ order.total_amount }}</strong>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="text-center text-muted py-5">
+                                <i class="fas fa-shopping-bag fa-3x mb-3"></i>
+                                <p>No orders yet. Start shopping to see your orders here!</p>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                    <!-- Activity Log Tab -->
+                    <div class="tab-pane fade" id="activity" role="tabpanel">
+                        <h5 class="section-title">Recent Activity</h5>
+                        
+                        {% if recent_activities %}
+                            {% for activity in recent_activities %}
+                            <div class="activity-item">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <strong>{{ activity.get_activity_type_display }}</strong>
+                                        <p class="mb-0">{{ activity.description }}</p>
+                                    </div>
+                                    <small class="activity-time">{{ activity.created_at|date:"M d, H:i" }}</small>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        {% else %}
+                            <div class="text-center text-muted py-5">
+                                <i class="fas fa-history fa-3x mb-3"></i>
+                                <p>No recent activity to show.</p>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Sidebar -->
+            <div class="col-md-4">
+                <div class="card" style="background: var(--card-bg); border: 1px solid rgba(212, 175, 55, 0.3);">
+                    <div class="card-body">
+                        <h5 class="card-title" style="color: var(--primary-gold);">
+                            <i class="fas fa-user"></i> Profile Info
+                        </h5>
+                        <div class="mb-3">
+                            <small class="text-muted">Username</small>
+                            <p class="mb-2">{{ user.username }}</p>
+                        </div>
+                        <div class="mb-3">
+                            <small class="text-muted">Email</small>
+                            <p class="mb-2">{{ user.email }}</p>
+                        </div>
+                        {% if profile.phone_number %}
+                        <div class="mb-3">
+                            <small class="text-muted">Phone</small>
+                            <p class="mb-2">{{ profile.country_code }} {{ profile.phone_number }}</p>
+                        </div>
+                        {% endif %}
+                        <div class="mb-3">
+                            <small class="text-muted">Member Since</small>
+                            <p class="mb-2">{{ user.date_joined|date:"F d, Y" }}</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="card mt-3" style="background: var(--card-bg); border: 1px solid rgba(212, 175, 55, 0.3);">
+                    <div class="card-body">
+                        <h5 class="card-title" style="color: var(--primary-gold);">
+                            <i class="fas fa-bolt"></i> Quick Actions
+                        </h5>
+                        <div class="d-grid gap-2">
+                            <a href="{% url 'collection' %}" class="btn btn-outline-warning btn-sm">
+                                <i class="fas fa-shopping-cart"></i> Shop Now
+                            </a>
+                            <a href="{% url 'orders' %}" class="btn btn-outline-warning btn-sm">
+                                <i class="fas fa-list"></i> View All Orders
+                            </a>
+                            <a href="{% url 'contact' %}" class="btn btn-outline-warning btn-sm">
+                                <i class="fas fa-envelope"></i> Contact Support
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Force page refresh if coming from login/logout to ensure latest data
+        window.addEventListener('load', function() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const hasTimestamp = urlParams.has('t') || urlParams.has('logout');
+            
+            if (hasTimestamp) {
+                console.log('Page loaded with timestamp, ensuring fresh data...');
+                // Remove timestamp from URL without page reload
+                const cleanUrl = window.location.pathname;
+                window.history.replaceState({}, '', cleanUrl);
+            }
+        });
+        
+        function logout() {
+            fetch('{% url "logout" %}', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCookie('csrftoken')
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    // Clear all local storage and session data
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    
+                    // Force redirect with cache busting
+                    if (data.force_refresh) {
+                        window.location.href = data.redirect_url + '?logout=' + Date.now();
+                    } else {
+                        window.location.href = data.redirect_url;
+                    }
+                }
+            });
+        }
+        
+        function getCookie(name) {
+            let cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                const cookies = document.cookie.split(';');
+                for (let i = 0; i < cookies.length; i++) {
+                    const cookie = cookies[i].trim();
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+    </script>
+</body>
+</html>

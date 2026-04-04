@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Signature Collections - VICTNOW</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0b0b0b;
+            color: white;
+            overflow-x: hidden;
+        }
+
+        .signature-section {
+            padding: 80px 20px;
+            background: linear-gradient(135deg, #0b0b0b 0%, #1a1a1a 100%);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 80px;
+            position: relative;
+        }
+
+        .section-title {
+            font-size: 48px;
+            font-weight: 300;
+            letter-spacing: 3px;
+            color: #d4af37;
+            text-transform: uppercase;
+            position: relative;
+            display: inline-block;
+            margin: 0 auto;
+        }
+
+        .section-title::before,
+        .section-title::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            width: 100px;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+        }
+
+        .section-title::before {
+            right: 120px;
+        }
+
+        .section-title::after {
+            left: 120px;
+        }
+
+        .collections-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 60px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .collection-card {
+            position: relative;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .collection-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+            border-color: #d4af37;
+        }
+
+        .collection-image {
+            position: relative;
+            height: 400px;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .timeless-classic {
+            background: radial-gradient(circle at center, rgba(255, 215, 0, 0.3), rgba(0, 0, 0, 0.8));
+        }
+
+        .modern-seduction {
+            background: radial-gradient(circle at center, rgba(220, 20, 60, 0.3), rgba(0, 0, 0, 0.8));
+        }
+
+        .night-mystery {
+            background: radial-gradient(circle at center, rgba(75, 0, 130, 0.3), rgba(0, 0, 0, 0.8));
+        }
+
+        .perfume-bottle {
+            width: 180px;
+            height: 280px;
+            position: relative;
+            filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.5));
+            transition: transform 0.3s ease;
+        }
+
+        .collection-card:hover .perfume-bottle {
+            transform: scale(1.05);
+        }
+
+        .bottle-timeless {
+            background: linear-gradient(135deg, #1a1a1a, #333);
+            border-radius: 10px;
+            position: relative;
+        }
+
+        .bottle-timeless::before {
+            content: '';
+            position: absolute;
+            top: -20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 20px;
+            background: #d4af37;
+            border-radius: 5px 5px 0 0;
+        }
+
+        .bottle-modern {
+            background: linear-gradient(135deg, rgba(139, 69, 19, 0.8), rgba(255, 215, 0, 0.3));
+            border-radius: 50px 50px 10px 10px;
+            position: relative;
+        }
+
+        .bottle-modern::before {
+            content: '🌹';
+            position: absolute;
+            top: -30px;
+            right: -20px;
+            font-size: 30px;
+        }
+
+        .bottle-mystery {
+            background: linear-gradient(135deg, #1a0033, #4a0080);
+            clip-path: polygon(20% 0%, 80% 0%, 100% 100%, 0% 100%);
+            position: relative;
+        }
+
+        .collection-info {
+            padding: 30px;
+            text-align: center;
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        .collection-name {
+            font-size: 24px;
+            font-weight: 600;
+            color: #d4af37;
+            margin-bottom: 15px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        .collection-description {
+            font-size: 14px;
+            color: #cfcfcf;
+            line-height: 1.6;
+            margin-bottom: 20px;
+        }
+
+        .explore-btn {
+            background: transparent;
+            border: 1px solid #d4af37;
+            color: #d4af37;
+            padding: 12px 30px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .explore-btn:hover {
+            background: #d4af37;
+            color: #0b0b0b;
+            transform: translateY(-2px);
+        }
+
+        .golden-divider {
+            width: 100%;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            margin: 80px 0 40px;
+        }
+
+        @media (max-width: 768px) {
+            .section-title {
+                font-size: 32px;
+            }
+
+            .section-title::before,
+            .section-title::after {
+                width: 50px;
+            }
+
+            .section-title::before {
+                right: 70px;
+            }
+
+            .section-title::after {
+                left: 70px;
+            }
+
+            .collections-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+                padding: 0 20px;
+            }
+
+            .collection-image {
+                height: 300px;
+            }
+
+            .perfume-bottle {
+                width: 140px;
+                height: 220px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <section class="signature-section">
+        <div class="section-header">
+            <h1 class="section-title">Our Signature Collections</h1>
+        </div>
+
+        <div class="collections-grid">
+            <div class="collection-card">
+                <div class="collection-image timeless-classic">
+                    <div class="perfume-bottle bottle-timeless"></div>
+                </div>
+                <div class="collection-info">
+                    <h3 class="collection-name">Timeless Classic</h3>
+                    <p class="collection-description">
+                        Experience the essence of eternal elegance with our signature blend of sophisticated notes that transcend time and trends.
+                    </p>
+                    <a href="#" class="explore-btn">Explore</a>
+                </div>
+            </div>
+
+            <div class="collection-card">
+                <div class="collection-image modern-seduction">
+                    <div class="perfume-bottle bottle-modern"></div>
+                </div>
+                <div class="collection-info">
+                    <h3 class="collection-name">Modern Seduction</h3>
+                    <p class="collection-description">
+                        Unleash your allure with this captivating fragrance that combines passion and contemporary sophistication in perfect harmony.
+                    </p>
+                    <a href="#" class="explore-btn">Explore</a>
+                </div>
+            </div>
+
+            <div class="collection-card">
+                <div class="collection-image night-mystery">
+                    <div class="perfume-bottle bottle-mystery"></div>
+                </div>
+                <div class="collection-info">
+                    <h3 class="collection-name">Night Mystery</h3>
+                    <p class="collection-description">
+                        Embrace the enigmatic allure of the night with this mysterious and intoxicating fragrance that leaves a lasting impression.
+                    </p>
+                    <a href="#" class="explore-btn">Explore</a>
+                </div>
+            </div>
+        </div>
+
+        <div class="golden-divider"></div>
+    </section>
+
+    <script>
+        console.log('Signature Fragrances page loaded successfully');
+        
+        // Add smooth scrolling for explore buttons
+        document.querySelectorAll('.explore-btn').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.preventDefault();
+                console.log('Exploring collection:', this.parentElement.querySelector('.collection-name').textContent);
+            });
+        });
+
+        // Add parallax effect on scroll
+        window.addEventListener('scroll', () => {
+            const scrolled = window.pageYOffset;
+            const parallax = document.querySelector('.signature-section');
+            if (parallax) {
+                parallax.style.transform = `translateY(${scrolled * 0.5}px)`;
+            }
+        });
+    </script>
+</body>
+</html>

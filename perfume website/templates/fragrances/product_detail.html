@@ -1,0 +1,416 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+
+{% block title %}{{ product.name }} - VICTNOW{% endblock %}
+
+{% block content %}
+<!-- Product Detail Section -->
+<section class="product-section">
+    <div class="product-container">
+        <!-- Product Image -->
+        <div class="product-image">
+            <img src="/static/images/product.png" alt="{{ product.name }}">
+        </div>
+        
+        <!-- Product Details -->
+        <div class="product-details">
+            <h1>{{ product.name }}</h1>
+            <p class="subtitle">{{ product.category|upper }} • {{ product.size|upper }}</p>
+            <p class="price">₹{{ product.price }}</p>
+            
+            <div class="quantity">
+                <label>Quantity</label>
+                <select id="quantity" name="quantity">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                </select>
+            </div>
+            
+            <div class="buttons">
+                <button class="buy" onclick="goToCustomerDetails()">BUY NOW</button>
+                <button class="cart" onclick="addToCart()">ADD TO CART</button>
+            </div>
+            
+            <div class="features">
+                <h3>Product Features</h3>
+                <ul>
+                    <li>✓ Long lasting fragrance</li>
+                    <li>✓ Premium ingredients</li>
+                    <li>✓ Elegant packaging</li>
+                    <li>✓ Perfect for gifting</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+
+<style>
+/* Product Section Styles */
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #0b0b0b;
+    color: white;
+}
+
+.product-section {
+    padding: 80px;
+    background-image: url('/static/images/product.png');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.product-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 80px;
+}
+
+.product-image {
+    background: rgba(255,255,255,0.05);
+    padding: 40px;
+    border-radius: 20px;
+    box-shadow: 0 0 40px rgba(212,175,55,0.2);
+}
+
+.product-image img {
+    width: 320px;
+}
+
+.product-details h1 {
+    font-size: 48px;
+    color: #E6C27A;
+    margin-bottom: 10px;
+}
+
+.subtitle {
+    color: #ccc;
+    font-size: 18px;
+}
+
+.price {
+    color: #D4AF37;
+    font-size: 26px;
+    margin: 20px 0;
+}
+
+.quantity {
+    margin-bottom: 20px;
+}
+
+.quantity select {
+    padding: 8px;
+    background: #111;
+    color: white;
+    border: 1px solid #D4AF37;
+}
+
+.buttons {
+    display: flex;
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.buy {
+    background: #D4AF37;
+    color: black;
+    padding: 12px 28px;
+    border: none;
+    border-radius: 30px;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.cart {
+    border: 2px solid #D4AF37;
+    background: transparent;
+    color: #D4AF37;
+    padding: 12px 28px;
+    border-radius: 30px;
+    cursor: pointer;
+}
+
+.features {
+    background: rgba(255,255,255,0.04);
+    padding: 25px;
+    border-radius: 15px;
+    border: 1px solid rgba(212,175,55,0.2);
+}
+
+.features h3 {
+    color: #E6C27A;
+    margin-bottom: 10px;
+}
+
+.features ul {
+    list-style: none;
+    padding: 0;
+}
+
+.features li {
+    margin: 10px 0;
+    color: #ddd;
+}
+</style>
+
+<script>
+function updateQuantity() {
+    const quantitySelect = document.getElementById('quantity');
+    const hiddenQuantity = document.getElementById('hidden_quantity');
+    if (quantitySelect && hiddenQuantity) {
+        hiddenQuantity.value = quantitySelect.value;
+    }
+}
+
+function addToCart() {
+    const quantity = parseInt(document.getElementById('quantity').value);
+    const productId = '{{ product.id }}';
+    const productName = '{{ product.name|escapejs }}';
+    const productPrice = '{{ product.price }}';
+    const productImage = '{% if product.image %}{{ product.image.url }}{% else %}/static/images/default-perfume.jpg{% endif %}';
+    
+    // Get existing cart from localStorage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // Check if product already exists in cart
+    const existingItem = cart.find(item => item.id === productId);
+    
+    if (existingItem) {
+        // Update quantity if already exists
+        existingItem.quantity += quantity;
+        showNotification(`${productName} quantity updated in cart!`, 'success');
+    } else {
+        // Add new item to cart
+        cart.push({
+            id: productId,
+            name: productName,
+            price: parseFloat(productPrice),
+            quantity: quantity,
+            image: productImage
+        });
+        showNotification(`${productName} added to cart!`, 'success');
+    }
+    
+    // Save cart to localStorage
+    localStorage.setItem('cart', JSON.stringify(cart));
+    
+    // Update cart count
+    updateCartCount();
+    
+    // Redirect to cart page with half-screen effect
+    window.location.href = '/cart/';
+}
+
+function deleteFromCart(productId) {
+    // Get existing cart from localStorage
+    let cart = JSON.parse(localStorage.getItem('cart')) || [];
+    
+    // Find and remove the item
+    const itemIndex = cart.findIndex(item => item.id === productId);
+    
+    if (itemIndex > -1) {
+        const removedItem = cart[itemIndex];
+        cart.splice(itemIndex, 1);
+        
+        // Save updated cart to localStorage
+        localStorage.setItem('cart', JSON.stringify(cart));
+        
+        // Update cart count
+        updateCartCount();
+        
+        showNotification(`${removedItem.name} removed from cart!`, 'info');
+    }
+}
+
+function clearCart() {
+    // Clear entire cart
+    localStorage.removeItem('cart');
+    updateCartCount();
+    showNotification('Cart cleared!', 'info');
+}
+
+function showNotification(message, type = 'info') {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = `notification notification-${type}`;
+    notification.textContent = message;
+    
+    // Style the notification
+    notification.style.cssText = `
+        position: fixed;
+        top: 20px;
+        right: 20px;
+        background: ${type === 'success' ? '#28a745' : '#007bff'};
+        color: white;
+        padding: 15px 20px;
+        border-radius: 5px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+        font-family: 'Montserrat', sans-serif;
+        font-size: 14px;
+        max-width: 300px;
+        transform: translateX(100%);
+        transition: transform 0.3s ease-in-out;
+    `;
+    
+    // Add to page
+    document.body.appendChild(notification);
+    
+    // Animate in
+    setTimeout(() => {
+        notification.style.transform = 'translateX(0)';
+    }, 100);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.style.transform = 'translateX(100%)';
+        setTimeout(() => {
+            if (notification.parentNode) {
+                notification.parentNode.removeChild(notification);
+            }
+        }, 300);
+    }, 3000);
+}
+
+function updateCartCount() {
+    const cart = JSON.parse(localStorage.getItem('cart')) || [];
+    const totalItems = cart.reduce((total, item) => total + item.quantity, 0);
+    
+    // Update cart count display if element exists
+    const cartCountElement = document.getElementById('cart-count');
+    if (cartCountElement) {
+        cartCountElement.textContent = totalItems;
+        // Show/hide cart count based on items
+        cartCountElement.style.display = totalItems > 0 ? 'flex' : 'none';
+    }
+}
+
+function goToCustomerDetails() {
+    console.log('goToCustomerDetails called');
+    
+    // Get current quantity
+    const quantity = document.getElementById('quantity').value;
+    const productId = '{{ product.id }}';
+    
+    // Validate inputs
+    if (!quantity || !productId) {
+        console.error('Missing quantity or product ID');
+        return;
+    }
+    
+    // Store data in sessionStorage
+    try {
+        sessionStorage.setItem('productId', productId);
+        sessionStorage.setItem('quantity', quantity);
+        console.log('Stored data:', { productId, quantity });
+    } catch (error) {
+        console.error('SessionStorage error:', error);
+    }
+    
+    // Redirect to customer details page (fixed URL)
+    const url = `/customer_details/${productId}/?quantity=${quantity}`;
+    console.log('Redirecting to:', url);
+    
+    window.location.href = url;
+}
+
+// Initialize cart count on page load
+document.addEventListener('DOMContentLoaded', function() {
+    updateCartCount();
+});
+</script>
+                
+                <div class="product-features">
+                    <h3>Product Features</h3>
+                    <ul>
+                        <li>Premium quality ingredients</li>
+                        <li>Long-lasting fragrance</li>
+                        <li>Elegant packaging</li>
+                        <li>Perfect for gifting</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Related Products -->
+<section class="related-products">
+    <div class="container">
+        <h2>You May Also Like</h2>
+        <div class="products-grid">
+            {% for related_product in related_products %}
+            <div class="product-card">
+                <div class="product-image">
+                    {% if related_product.image %}
+                        <img src="{{ related_product.image.url }}" alt="{{ related_product.name }}">
+                    {% else %}
+                        <img src="{% static 'images/default-perfume.jpg' %}" alt="{{ related_product.name }}">
+                    {% endif %}
+                </div>
+                <div class="product-info">
+                    <h3>{{ related_product.name }}</h3>
+                    <p class="price">${{ related_product.price }}</p>
+                    <a href="{% url 'product_detail' related_product.id %}" class="btn btn-primary">View Details</a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<script>
+// Sync quantity selector with hidden input
+document.addEventListener('DOMContentLoaded', function() {
+    const quantitySelect = document.getElementById('quantity');
+    const hiddenQuantity = document.getElementById('hidden_quantity');
+    
+    if (quantitySelect && hiddenQuantity) {
+        quantitySelect.addEventListener('change', function() {
+            hiddenQuantity.value = this.value;
+        });
+    }
+});
+
+// Cart Sidebar Functions
+function openCartSidebar() {
+    const sidebar = document.getElementById('cart-sidebar');
+    const overlay = document.getElementById('cart-overlay');
+    
+    if (sidebar && overlay) {
+        sidebar.classList.add('open');
+        overlay.classList.add('open');
+    }
+}
+
+function closeCartSidebar() {
+    const sidebar = document.getElementById('cart-sidebar');
+    const overlay = document.getElementById('cart-overlay');
+    
+    if (sidebar && overlay) {
+        sidebar.classList.remove('open');
+        overlay.classList.remove('open');
+    }
+}
+</script>
+
+<!-- Cart Sidebar -->
+<div id="cart-sidebar" class="cart-sidebar">
+    <div class="cart-sidebar-header">
+        <h3><i class="fas fa-shopping-cart"></i> Shopping Cart</h3>
+        <button class="close-cart" onclick="closeCartSidebar()" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.2) 0%, rgba(212, 175, 55, 0.1) 100%); border: 3px solid #d4af37; color: #d4af37; font-size: 2rem; width: 50px; height: 50px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.3s ease; position: relative; padding: 0; margin: 0; box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3); z-index: 1000;">
+            <i class="fas fa-times" style="font-size: 2rem; color: inherit; transition: all 0.3s ease;"></i>
+        </button>
+    </div>
+    <div class="cart-sidebar-content">
+    </div>
+</div>
+
+<!-- Cart Sidebar Overlay -->
+<div id="cart-overlay" class="cart-overlay" onclick="closeCartSidebar()"></div>
+{% endblock %}

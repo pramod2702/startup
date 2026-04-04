@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manual Selection Fix</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #0a2e0a;
+            color: white;
+            padding: 40px;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        
+        h2 {
+            color: #d4af37;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        
+        .message {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: center;
+            border: 1px solid rgba(212, 175, 55, 0.3);
+        }
+        
+        .proceed-section {
+            text-align: center;
+            margin-top: 30px;
+        }
+        
+        .proceed-btn {
+            background: #666;
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 8px;
+            font-size: 1.1rem;
+            font-weight: bold;
+            cursor: not-allowed;
+            transition: all 0.3s ease;
+        }
+        
+        .proceed-btn.enabled {
+            background: #d4af37;
+            color: #0a2e0a;
+            cursor: pointer;
+        }
+        
+        .proceed-btn.enabled:hover {
+            background: #b8941f;
+            transform: translateY(-2px);
+        }
+    </style>
+</head>
+<body>
+    <h2>Select Payment Method</h2>
+    
+    <div class="message" id="message">
+        Please select a payment method to continue (no default selection)
+    </div>
+    
+    <!-- Your exact DOM structure - FIXED for manual selection only -->
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:30px;">
+        <div class="payment-option" onclick="selectPayment('card', this)" style="background:rgba(212,175,55,0.1);border:2px solid #d4af37;border-radius:15px;padding:20px;text-align:center;cursor:pointer;transition:all 0.3s ease;">
+            <i class="fas fa-credit-card" style="font-size:2rem;color:#d4af37;margin-bottom:10px;"></i>
+            <h4 style="color:#fff;margin-bottom:5px;">Credit/Debit Card</h4>
+            <p style="color:#ccc;font-size:0.9rem;">Pay securely with your card</p>
+        </div>
+        <div class="payment-option" onclick="selectPayment('upi', this)" style="background:rgba(212,175,55,0.1);border:2px solid #d4af37;border-radius:15px;padding:20px;text-align:center;cursor:pointer;transition:all 0.3s ease;">
+            <i class="fas fa-mobile-alt" style="font-size:2rem;color:#d4af37;margin-bottom:10px;"></i>
+            <h4 style="color:#fff;margin-bottom:5px;">UPI Payment</h4>
+            <p style="color:#ccc;font-size:0.9rem;">Pay using UPI apps</p>
+        </div>
+    </div>
+    
+    <div class="proceed-section">
+        <button class="proceed-btn" id="proceedBtn" onclick="proceedToPayment()" disabled>
+            Select Payment Method First
+        </button>
+    </div>
+    
+    <script>
+        let selectedPayment = null;
+        
+        function selectPayment(method, element) {
+            console.log('Payment selected:', method);
+            console.log('Element clicked:', element);
+            
+            // CRITICAL: Remove selection from ALL payment options first
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.style.background = 'rgba(212,175,55,0.1)';
+                option.style.border = '2px solid #d4af37';
+                option.style.boxShadow = 'none';
+            });
+            
+            // Add selection ONLY to clicked element
+            element.style.background = 'rgba(212,175,55,0.3)';
+            element.style.border = '2px solid #b8941f';
+            element.style.boxShadow = '0 0 15px rgba(212, 175, 55, 0.5)';
+            
+            selectedPayment = method;
+            
+            // Update button
+            const btn = document.getElementById('proceedBtn');
+            btn.classList.add('enabled');
+            btn.textContent = 'Proceed to Payment - ' + method.toUpperCase();
+            btn.style.cursor = 'pointer';
+            btn.disabled = false;
+            
+            // Update message
+            document.getElementById('message').innerHTML = 
+                '✅ <strong>Selected:</strong> ' + method.toUpperCase() + ' payment method';
+        }
+        
+        function proceedToPayment() {
+            if (!selectedPayment) {
+                alert('Please select a payment method first!');
+                return;
+            }
+            
+            console.log('Proceeding with:', selectedPayment);
+            
+            // Show loading
+            const btn = document.getElementById('proceedBtn');
+            const originalText = btn.textContent;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+            btn.disabled = true;
+            
+            // Simulate payment processing
+            setTimeout(() => {
+                alert('Redirecting to ' + selectedPayment + ' payment gateway...');
+                // In real app: window.location.href = '/payment/' + selectedPayment + '/';
+                
+                // Reset for demo
+                btn.textContent = originalText;
+                btn.disabled = false;
+            }, 2000);
+        }
+        
+        // Initialize - ensure NO payment is selected by default
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Payment page loaded - NO default selection');
+            
+            // Ensure all payment options are unselected
+            document.querySelectorAll('.payment-option').forEach(option => {
+                option.style.background = 'rgba(212,175,55,0.1)';
+                option.style.border = '2px solid #d4af37';
+                option.style.boxShadow = 'none';
+            });
+            
+            // Ensure proceed button is disabled
+            const btn = document.getElementById('proceedBtn');
+            btn.disabled = true;
+            btn.classList.remove('enabled');
+            btn.textContent = 'Select Payment Method First';
+        });
+    </script>
+</body>
+</html>

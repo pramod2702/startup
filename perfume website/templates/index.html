@@ -1,0 +1,646 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+
+{% block title %}VICTNOW - Luxury Reimagined for the Modern Professional{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section" style="background-image: url('/static/images/perfume.png') !important; background-size: cover !important; background-position: center !important; background-attachment: scroll !important; background-repeat: no-repeat !important; min-height: 100vh; display: flex; align-items: center; justify-content: flex-start; position: relative;">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-lg-6 col-md-8 col-sm-10 col-12 mx-auto">
+                <div class="hero-content">
+                    <h1 class="hero-main-title">Signature Scents</h1>
+                    <h2 class="hero-subtitle script-text">Crafted for Excellence</h2>
+                    <p class="hero-description">Discover our exclusive collection of premium fragrances designed for discerning individuals who appreciate quality and sophistication.</p>
+                    <div class="hero-buttons mt-4">
+                        <a href="{% url 'collection' %}" class="btn btn-explore btn-lg">SHOP COLLECTION</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About VICTNOW Section -->
+<section class="about-victnow-banner py-5">
+    <div class="silver-dots d-none d-md-block">
+        <div class="silver-dot"></div>
+        <div class="silver-dot"></div>
+        <div class="silver-dot"></div>
+        <div class="silver-dot"></div>
+        <div class="silver-dot"></div>
+        <div class="silver-dot"></div>
+        <div class="silver-dot"></div>
+        <div class="silver-dot"></div>
+    </div>
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-12 text-center">
+                <div class="about-victnow-content">
+                    <p class="section-subtitle text-warning mb-2">ABOUT VICTNOW</p>
+                    <h2 class="section-title display-5 fw-bold text-white mb-3">THE ART OF PERFUME</h2>
+                    <p class="section-description text-white-50 mb-4">Crafted with passion, perfected by elegance.<br class="d-none d-md-block">Discover the essence of true luxury.</p>
+                    <a href="{% url 'about' %}" class="btn btn-outline-warning btn-lg">LEARN MORE</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Signature Fragrances Section -->
+<section class="signature-fragrances py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="display-4 fw-bold text-warning">Signature Fragrances</h2>
+            </div>
+        </div>
+        <div class="products-grid d-flex flex-row overflow-auto" style="gap: 20px; padding: 0 15px 15px;">
+            {% if products %}
+                {% for product in products %}
+                <div class="product-card flex-shrink-0" style="min-width: 280px; max-width: 280px;">
+                    <div class="product-image mb-3">
+                        {% if product.image %}
+                            <img src="{{ product.image.url }}" class="img-fluid rounded" alt="{{ product.name }}">
+                        {% else %}
+                            <img src="{% static 'images/perfume.png' %}" class="img-fluid rounded" alt="{{ product.name }}">
+                        {% endif %}
+                    </div>
+                    <div class="product-info text-center">
+                        <h3 class="h5 text-white fw-bold mb-2">{{ product.name }}</h3>
+                        <p class="price h4 text-warning mb-3">₹{{ product.price }}</p>
+                        <button class="shop-now-btn add-to-cart-btn w-100 btn btn-warning" 
+                                data-product-id="{{ product.id }}" 
+                                data-product-name="{{ product.name|escapejs }}" 
+                                data-product-price="{{ product.price }}" 
+                                data-product-image="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/perfume.png' %}{% endif %}">
+                            <i class="fas fa-shopping-cart me-2"></i> Add to Cart
+                        </button>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="col-12 text-center">
+                    <p class="text-light">No products available at the moment. Check back soon!</p>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</section>
+
+<!-- Premium Gifting Section -->
+<section class="premium-gifting py-5" style="background: linear-gradient(135deg, #0a2e0a 0%, #1a4d1a 100%);">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6 col-md-12 mb-4 mb-lg-0">
+                <div class="gifting-image">
+                    <img src="/media/products/corporate_gifting.png" class="img-fluid rounded" alt="Gifting Image">
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-12">
+                <div class="gifting-text">
+                    <h2 class="display-5 fw-bold text-white mb-4">The Art of Premium Gifting</h2>
+                    <p class="text-white-50 mb-4">Create memorable gifting experiences with our curated selection of luxury fragrances. Perfect for corporate events, special occasions, and celebrating success.</p>
+                    <ul class="gifting-features list-unstyled mb-4">
+                        <li class="mb-2"><i class="fas fa-check text-warning me-2"></i>Custom packaging options</li>
+                        <li class="mb-2"><i class="fas fa-check text-warning me-2"></i>Bulk ordering discounts</li>
+                        <li class="mb-2"><i class="fas fa-check text-warning me-2"></i>Personalized fragrance consultations</li>
+                        <li class="mb-2"><i class="fas fa-check text-warning me-2"></i>Express delivery worldwide</li>
+                    </ul>
+                    <a href="{% url 'corporate_gifting' %}" class="btn btn-warning btn-lg">EXPLORE GIFTING OPTIONS</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Get in Touch Section -->
+<section class="contact-section py-5" style="background-image: url('/media/products/aboutpage.png'); background-size: cover; background-position: center; background-attachment: fixed; min-height: 100vh; position: relative;">
+    <div class="container" style="position: relative; z-index: 2;">
+        <div class="row">
+            <div class="col-12 text-center mb-5">
+                <h2 class="display-4 fw-bold text-warning mb-3">Get in Touch</h2>
+                <p class="text-white fs-5">Have questions about our fragrances or need assistance with your order? We're here to help.</p>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-lg-8 col-md-10">
+                <div class="contact-option bg-dark bg-opacity-85 p-4 rounded" style="backdrop-filter: blur(15px); border: 2px solid rgba(212, 175, 55, 0.4);">
+                    <h3 class="h3 text-warning text-center mb-4">Online Enquiry</h3>
+                    <form class="contact-form" action="{% url 'contact' %}" method="POST">
+                        {% csrf_token %}
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label for="name" class="form-label text-warning">Your Name</label>
+                                <input type="text" name="name" id="name" class="form-control bg-dark bg-opacity-50 text-white border-warning" placeholder="Your Name" required>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label for="email" class="form-label text-warning">Your Email</label>
+                                <input type="email" name="email" id="email" class="form-control bg-dark bg-opacity-50 text-white border-warning" placeholder="Your Email" required>
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="subject" class="form-label text-warning">Subject</label>
+                            <input type="text" name="subject" id="subject" class="form-control bg-dark bg-opacity-50 text-white border-warning" placeholder="Subject" required>
+                        </div>
+                        <div class="mb-4">
+                            <label for="message" class="form-label text-warning">Your Message</label>
+                            <textarea name="message" id="message" class="form-control bg-dark bg-opacity-50 text-white border-warning" rows="4" placeholder="Your Message" required></textarea>
+                        </div>
+                        <div class="text-center">
+                            <button type="submit" class="btn btn-warning btn-lg px-5">SEND MESSAGE</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer" style="padding: 40px 20px 20px;">
+    <div class="footer-container">
+        <div class="container">
+            <div class="footer-grid" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <h3 style="color: #d4af37; font-size: 24px; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">VICTNOW</h3>
+                    </div>
+                    <p class="footer-address" style="color: white; line-height: 1.6; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+                        Venue Plaza<br>
+                        Yewalewadi
+                    </p>
+                    <p class="copyright" style="color: #ccc; font-size: 14px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"> 2026 VICTNOW. All rights reserved.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Quick Links</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 10px;"><a href="/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Home</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/collection/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Collection</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/about/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">About</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/contact/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Contact</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/privacy/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Privacy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Contact</h4>
+                    <p style="color: white; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fas fa-phone" style="margin-right: 10px;"></i> 7038511559</p>
+                    <p style="color: white; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fas fa-envelope" style="margin-right: 10px;"></i> victnowperfume@gmail.com</p>
+                    <div class="social-icons">
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Newsletter</h4>
+                    <p style="color: white; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Subscribe to get exclusive offers</p>
+                    <form class="newsletter-form" action="/newsletter/" method="POST" style="display: flex; gap: 10px;">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="PFsLWXeb2F2Dn1ZggICrfY4gRZC1HCGRtxSCMyFbiVuZozLoEDKzqDYI8XKelKtz">
+                        <input type="email" name="email" placeholder="Your email" required="" style="flex: 1; padding: 12px; border: 1px solid #d4af37; background: rgba(255,255,255,0.2); color: white; border-radius: 5px;">
+                        <button type="submit" style="background: #d4af37; color: #000; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background 0.3s;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<style>
+/* Bootstrap Compatible Hero Section */
+.hero-section {
+    background-image: url('/static/images/perfume.png') !important;
+    background-size: cover !important;
+    background-position: center !important;
+    background-attachment: scroll !important;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    position: relative;
+}
+
+.hero-content {
+    text-align: left;
+    z-index: 2;
+    padding: 20px;
+    margin-left: -30px;
+}
+
+/* Main Title */
+.hero-main-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 15px;
+    color: #ffffff;
+    font-family: 'Playfair Display', serif;
+    line-height: 1.2;
+    text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+}
+
+/* Subtitle */
+.hero-subtitle {
+    font-size: 2rem;
+    font-weight: 400;
+    margin-bottom: 20px;
+    color: #d4af37;
+    font-family: 'Playfair Display', serif;
+    line-height: 1.3;
+    text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+}
+
+/* Description */
+.hero-description {
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+    color: #ffffff;
+    line-height: 1.6;
+    font-family: 'Montserrat', sans-serif;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.8);
+}
+
+/* Button */
+.btn-explore {
+    background: linear-gradient(135deg, #d4af37, #b8941f);
+    color: #0a0a0a;
+    padding: 15px 30px;
+    border-radius: 25px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.3s ease;
+    border: none;
+    font-family: 'Montserrat', sans-serif;
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+.btn-explore:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);
+    background: linear-gradient(135deg, #e5c453, #c7a520);
+    color: #0a0a0a;
+}
+
+/* Product Cards */
+.product-card {
+    background: linear-gradient(135deg, rgba(26, 26, 26, 0.9), rgba(45, 27, 27, 0.8));
+    backdrop-filter: blur(20px);
+    border-radius: 20px;
+    padding: 25px;
+    border: 1px solid rgba(212, 175, 55, 0.1);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.4);
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    min-height: 400px;
+    transition: all 0.3s ease;
+}
+
+.product-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 20px 45px rgba(0, 0, 0, 0.5), 0 0 30px rgba(212, 175, 55, 0.1);
+    border-color: rgba(212, 175, 55, 0.2);
+}
+
+/* Mobile Responsive */
+@media (max-width: 768px) {
+    .hero-section {
+        min-height: 100vh;
+        background-attachment: scroll !important;
+        background-size: cover !important;
+        background-position: center !important;
+        background-repeat: no-repeat !important;
+        justify-content: center;
+        position: relative;
+    }
+    
+    .hero-section::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.5));
+        z-index: 1;
+    }
+    
+    .hero-content {
+        text-align: center;
+        padding: 20px;
+        max-width: 100%;
+        position: relative;
+        z-index: 2;
+    }
+    
+    .hero-main-title {
+        font-size: 2.5rem;
+        margin-bottom: 15px;
+        line-height: 1.2;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.5rem;
+        margin-bottom: 15px;
+        line-height: 1.3;
+    }
+    
+    .hero-description {
+        font-size: 1rem;
+        margin-bottom: 25px;
+        line-height: 1.5;
+    }
+    
+    .btn-explore {
+        padding: 12px 25px;
+        font-size: 0.9rem;
+    }
+    
+    /* Products horizontal scroll */
+    .products-gri {
+        display: flex !important;
+        flex-direction: row !important;
+        overflow-x: auto !important;
+        gap: 20px !important;
+        padding: 0 15px 15px !important;
+        scroll-snap-type: x mandatory !important;
+        -webkit-overflow-scrolling: touch !important;
+    }
+    
+    .products-gri::-webkit-scrollbar {
+        height: 8px;
+    }
+    
+    .products-gri::-webkit-scrollbar-track {
+        background: rgba(212, 175, 55, 0.1);
+        border-radius: 10px;
+    }
+    
+    .products-gri::-webkit-scrollbar-thumb {
+        background: linear-gradient(135deg, #d4af37, #b8941f);
+        border-radius: 10px;
+    }
+    
+    .product-card {
+        flex: 0 0 280px !important;
+        scroll-snap-align: start !important;
+        min-width: 280px !important;
+        max-width: 280px !important;
+    }
+}
+
+@media (max-width: 576px) {
+    .hero-main-title {
+        font-size: 2rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.2rem;
+    }
+    
+    .hero-description {
+        font-size: 0.95rem;
+    }
+    
+    .btn-explore {
+        padding: 10px 20px;
+        font-size: 0.85rem;
+    }
+}
+
+/* Tablet Responsive */
+@media (min-width: 769px) and (max-width: 1024px) {
+    .hero-main-title {
+        font-size: 2.8rem;
+    }
+    
+    .hero-subtitle {
+        font-size: 1.7rem;
+    }
+    
+    .hero-description {
+        font-size: 1.05rem;
+    }
+}
+
+@keyframes shimmer {
+    0% { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+}
+
+/* Form focus styles */
+.form-control:focus {
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 10px rgba(212, 175, 55, 0.3) !important;
+    outline: none !important;
+    background-color: rgba(0,0,0,0.7) !important;
+    color: white !important;
+}
+
+.btn-warning:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4) !important;
+}
+
+/* Enhanced Product Card Styles */
+.product-card {
+    background: linear-gradient(135deg, rgba(15, 15, 15, 0.95), rgba(40, 25, 25, 0.9)) !important;
+    backdrop-filter: blur(25px) !important;
+    border-radius: 25px !important;
+    padding: 30px !important;
+    border: 2px solid rgba(212, 175, 55, 0.3) !important;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 40px rgba(212, 175, 55, 0.1) !important;
+    text-align: center !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    min-height: 480px !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    position: relative !important;
+    overflow: hidden !important;
+}
+
+.product-card::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    bottom: 0 !important;
+    background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), transparent) !important;
+    border-radius: 25px !important;
+    opacity: 0 !important;
+    transition: opacity 0.4s ease !important;
+    pointer-events: none !important;
+}
+
+.product-card:hover {
+    transform: translateY(-8px) scale(1.02) !important;
+    box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7), 0 0 50px rgba(212, 175, 55, 0.2) !important;
+    border-color: rgba(212, 175, 55, 0.5) !important;
+}
+
+.product-card:hover::before {
+    opacity: 1 !important;
+}
+
+.product-image {
+    position: relative !important;
+    border-radius: 20px !important;
+    overflow: hidden !important;
+    margin-bottom: 20px !important;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4) !important;
+    border: 2px solid rgba(212, 175, 55, 0.2) !important;
+    transition: all 0.4s ease !important;
+}
+
+.product-image img {
+    transition: transform 0.4s ease !important;
+    filter: brightness(1.1) contrast(1.05) !important;
+}
+
+.product-card:hover .product-image {
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.6), 0 0 30px rgba(212, 175, 55, 0.15) !important;
+    border-color: rgba(212, 175, 55, 0.4) !important;
+}
+
+.product-card:hover .product-image img {
+    transform: scale(1.05) !important;
+}
+
+.product-info h3 {
+    color: #ffffff !important;
+    font-size: 1.5rem !important;
+    font-weight: 900 !important;
+    margin: 20px 0 10px 0 !important;
+    text-align: center !important;
+    letter-spacing: -0.5px !important;
+    line-height: 1.2 !important;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3) !important;
+    position: relative !important;
+    z-index: 2 !important;
+}
+
+.product-info .price {
+    color: #d4af37 !important;
+    font-size: 1.6rem !important;
+    font-weight: 900 !important;
+    margin: 15px 0 25px 0 !important;
+    text-align: center !important;
+    text-shadow: 0 3px 15px rgba(212, 175, 55, 0.3) !important;
+    position: relative !important;
+    z-index: 2 !important;
+    background: linear-gradient(135deg, #d4af37, #f4e4a1) !important;
+    -webkit-background-clip: text !important;
+    -webkit-text-fill-color: transparent !important;
+    background-clip: text !important;
+    filter: drop-shadow(0 2px 8px rgba(212, 175, 55, 0.4)) !important;
+}
+
+.shop-now-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    cursor: pointer !important;
+    border: 2px solid rgba(212, 175, 55, 0.3) !important;
+    background: linear-gradient(135deg, #d4af37, #b8941f) !important;
+    color: #0a0a0a !important;
+    padding: 20px 40px !important;
+    border-radius: 30px !important;
+    font-weight: 800 !important;
+    font-size: 1rem !important;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1) !important;
+    text-transform: uppercase !important;
+    letter-spacing: 0.5px !important;
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4), 0 0 20px rgba(212, 175, 55, 0.1) !important;
+    text-decoration: none !important;
+    text-align: center !important;
+    width: 100% !important;
+    max-width: 300px !important;
+    margin: 0 auto !important;
+    min-height: 60px !important;
+    white-space: nowrap !important;
+    gap: 10px !important;
+    box-sizing: border-box !important;
+    line-height: 1.2 !important;
+    position: relative !important;
+    z-index: 3 !important;
+    overflow: hidden !important;
+}
+
+.shop-now-btn::before {
+    content: '' !important;
+    position: absolute !important;
+    top: 0 !important;
+    left: -100% !important;
+    width: 100% !important;
+    height: 100% !important;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent) !important;
+    transition: left 0.6s ease !important;
+}
+
+.shop-now-btn:hover {
+    transform: translateY(-4px) scale(1.08) !important;
+    box-shadow: 0 12px 35px rgba(212, 175, 55, 0.5), 0 0 30px rgba(212, 175, 55, 0.2) !important;
+    background: linear-gradient(135deg, #e5c453, #c7a520) !important;
+    border-color: rgba(212, 175, 55, 0.6) !important;
+}
+
+.shop-now-btn:hover::before {
+    left: 100% !important;
+}
+
+.shop-now-btn:active {
+    transform: translateY(-2px) scale(1.02) !important;
+    box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4) !important;
+}
+
+@keyframes cardGlow {
+    0%, 100% {
+        box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6), 0 0 40px rgba(212, 175, 55, 0.1);
+    }
+    50% {
+        box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7), 0 0 60px rgba(212, 175, 55, 0.15);
+    }
+}
+
+@keyframes buttonPulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.02);
+    }
+}
+
+.product-card {
+    animation: cardGlow 4s ease-in-out infinite !important;
+}
+
+.shop-now-btn {
+    animation: buttonPulse 3s ease-in-out infinite !important;
+}
+
+.product-card:focus-within {
+    outline: 3px solid rgba(212, 175, 55, 0.5) !important;
+    outline-offset: 3px !important;
+}
+
+.shop-now-btn:focus {
+    outline: 3px solid rgba(212, 175, 55, 0.7) !important;
+    outline-offset: 2px !important;
+}
+</style>
+
+{% endblock %}

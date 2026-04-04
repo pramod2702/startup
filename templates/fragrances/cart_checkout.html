@@ -1,0 +1,158 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+
+{% block title %}Payment - VICTNOW{% endblock %}
+
+{% block content %}
+<!-- Razorpay Script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+
+<!-- Payment Processing Page -->
+<section class="payment-section" style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);">
+    <div class="container">
+        <div class="payment-container" style="text-align: center; color: #d4af37;">
+            <div style="width: 80px; height: 80px; border: 3px solid #d4af37; border-top: 3px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 30px;"></div>
+            <h1 style="font-size: 2.5rem; margin-bottom: 20px;">Payment Processing</h1>
+            <p style="font-size: 1.2rem; margin-bottom: 30px;">Preparing your payment gateway...</p>
+            <button onclick="initiateRazorpayPayment()" class="btn btn-primary" style="background: linear-gradient(135deg, #d4af37, #b8941f); color: #0a0a0a; border: none; padding: 15px 30px; font-size: 1.1rem; border-radius: 8px; cursor: pointer; font-weight: 600; margin-top: 20px;">
+                <i class="fas fa-credit-card" style="margin-right: 10px;"></i>
+                Pay with Razorpay
+            </button>
+        </div>
+    </div>
+</section>
+
+<style>
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+.payment-section {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.payment-container h1 {
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(212, 175, 55, 0.3);
+}
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Payment page loaded - Razorpay ready');
+    
+    // Auto-initiate payment after 1 second
+    setTimeout(() => {
+        initiateRazorpayPayment();
+    }, 1000);
+});
+
+function initiateRazorpayPayment() {
+    console.log('Initiating Razorpay payment...');
+    
+    // Get cart data from localStorage
+    const cartData = localStorage.getItem('cartData');
+    let cartItems = [];
+    let totalAmount = 0;
+    
+    console.log('Raw cart data:', cartData);
+    
+    // Calculate actual cart total
+    if (cartData) {
+        cartItems = JSON.parse(cartData);
+        console.log('Parsed cart items:', cartItems);
+        totalAmount = cartItems.reduce((sum, item) => sum + item.subtotal, 0);
+        console.log('Calculated cart total:', totalAmount);
+    }
+    
+    // If no cart data, use default amount
+    if (totalAmount === 0) {
+        totalAmount = 2499; // Default trial pack amount in rupees
+        console.log('Using default amount:', totalAmount);
+    }
+    
+    // Force exact amount calculation - no rounding issues
+    const amountInPaise = Math.round(totalAmount * 100);
+    
+    console.log('=== RAZORPAY PAYMENT ===');
+    console.log('Cart total (₹):', totalAmount);
+    console.log('Amount sending to Razorpay (paise):', amountInPaise);
+    console.log('Amount sending to Razorpay (₹):', totalAmount);
+    console.log('Razorpay API Key:', 'rzp_live_SWbTlXM1BhD6RZ');
+    console.log('========================');
+    
+    // Force exact cart total - no minimum, no fees, no modifications
+    const options = {
+        key: 'rzp_live_SWbTlXM1BhD6RZ', // Your live API key
+        amount: amountInPaise, // Exact cart total in paise
+        currency: 'INR',
+        name: 'VICTNOW Luxury Fragrances',
+        description: `CART TOTAL: ₹${totalAmount.toFixed(2)} - EXACT AMOUNT`,
+        image: '/static/images/perfume.png',
+        handler: function (response) {
+            console.log('Payment successful:', response);
+            alert(`SUCCESS! Cart total was ₹${totalAmount.toFixed(2)}, Razorpay charged: ₹${totalAmount.toFixed(2)}`);
+            
+            // Store payment details
+            const paymentData = {
+                payment_id: response.razorpay_payment_id,
+                order_id: response.razorpay_order_id,
+                amount: totalAmount,
+                currency: 'INR',
+                status: 'success',
+                timestamp: new Date().toISOString()
+            };
+            
+            localStorage.setItem('paymentData', JSON.stringify(paymentData));
+            
+            // Redirect to success page
+            window.location.href = '/order-success/?payment_id=' + response.razorpay_payment_id;
+        },
+        prefill: {
+            name: 'VICTNOW Customer',
+            email: 'customer@victnow.com',
+            contact: '9999999999'
+        },
+        notes: {
+            address: 'VICTNOW Headquarters',
+            order_type: 'fragrance_purchase'
+        },
+        theme: {
+            color: '#d4af37',
+            backdrop_color: '#0a0a0a'
+        },
+        modal: {
+            ondismiss: function() {
+                console.log('Payment modal dismissed');
+                alert('Payment cancelled. Redirecting to cart...');
+                window.location.href = '/cart/';
+            },
+            escape: true,
+            handleback: true
+        }
+    };
+    
+    const rzp = new Razorpay(options);
+    
+    // Handle payment errors
+    rzp.on('payment.failed', function (response){
+        console.error('Payment failed:', response.error);
+        alert('Payment failed: ' + response.error.description);
+    });
+    
+    // Open Razorpay payment modal
+    rzp.open();
+}
+
+// Handle payment from other pages
+window.handleRazorpayPayment = function() {
+    initiateRazorpayPayment();
+};
+</script>
+{% endblock %}

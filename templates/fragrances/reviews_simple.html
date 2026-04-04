@@ -1,0 +1,435 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+
+{% block title %}Customer Reviews - VICTNOW{% endblock %}
+
+{% block content %}
+<!-- Premium Reviews Section -->
+<section class="premium-reviews-section" style="min-height: 100vh; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%); position: relative; overflow: hidden;">
+    
+    <!-- Animated Background -->
+    <div class="reviews-bg-animation" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;">
+        <div style="position: absolute; top: 10%; left: 5%; width: 300px; height: 300px; background: radial-gradient(circle, rgba(212, 175, 55, 0.1) 0%, transparent 70%); border-radius: 50%; animation: float 8s ease-in-out infinite;"></div>
+        <div style="position: absolute; top: 60%; right: 10%; width: 250px; height: 250px; background: radial-gradient(circle, rgba(212, 175, 55, 0.08) 0%, transparent 70%); border-radius: 50%; animation: float 6s ease-in-out infinite reverse;"></div>
+        <div style="position: absolute; bottom: 20%; left: 15%; width: 200px; height: 200px; background: radial-gradient(circle, rgba(212, 175, 55, 0.06) 0%, transparent 70%); border-radius: 50%; animation: float 10s ease-in-out infinite;"></div>
+    </div>
+
+    <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 20px; position: relative; z-index: 2;">
+        
+        <!-- Premium Header -->
+        <div class="reviews-header" style="text-align: center; margin-bottom: 80px; padding: 100px 0 50px;">
+            <div style="display: inline-block; margin-bottom: 20px;">
+                <span style="background: linear-gradient(135deg, #d4af37, #b8941f); color: #0a0a0a; padding: 8px 20px; border-radius: 25px; font-weight: 700; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 2px;">TESTIMONIALS</span>
+            </div>
+            <h1 style="color: #d4af37; font-size: 4rem; margin-bottom: 25px; font-family: 'Playfair Display', serif; font-weight: 800; text-shadow: 0 4px 8px rgba(0,0,0,0.3); background: linear-gradient(135deg, #d4af37, #f4e4c1); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">What Our Customers Say</h1>
+            <p style="color: #ccc; font-size: 1.4rem; margin-bottom: 40px; font-weight: 300; max-width: 700px; margin-left: auto; margin-right: auto; line-height: 1.6;">Discover why VICTNOW fragrances are the choice of discerning individuals who appreciate excellence</p>
+            
+            <!-- Stats -->
+            <div style="display: flex; justify-content: center; gap: 60px; margin-top: 50px; flex-wrap: wrap;">
+                <div style="text-align: center;">
+                    <div style="color: #d4af37; font-size: 3rem; font-weight: 800; margin-bottom: 10px; font-family: 'Playfair Display', serif;">4.9</div>
+                    <div style="color: #999; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Average Rating</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="color: #d4af37; font-size: 3rem; font-weight: 800; margin-bottom: 10px; font-family: 'Playfair Display', serif;">10K+</div>
+                    <div style="color: #999; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Happy Customers</div>
+                </div>
+                <div style="text-align: center;">
+                    <div style="color: #d4af37; font-size: 3rem; font-weight: 800; margin-bottom: 10px; font-family: 'Playfair Display', serif;">98%</div>
+                    <div style="color: #999; font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Would Recommend</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Filter Tabs -->
+        <div style="text-align: center; margin-bottom: 60px;">
+            <div style="display: inline-flex; background: rgba(212, 175, 55, 0.1); border-radius: 50px; padding: 5px; gap: 5px;">
+                <button onclick="filterReviews('all')" class="filter-btn active" style="padding: 12px 25px; background: linear-gradient(135deg, #d4af37, #b8941f); color: #0a0a0a; border: none; border-radius: 45px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem;">All Reviews</button>
+                <button onclick="filterReviews('5star')" class="filter-btn" style="padding: 12px 25px; background: transparent; color: #d4af37; border: none; border-radius: 45px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem;">5 Stars</button>
+                <button onclick="filterReviews('recent')" class="filter-btn" style="padding: 12px 25px; background: transparent; color: #d4af37; border: none; border-radius: 45px; font-weight: 600; cursor: pointer; transition: all 0.3s ease; font-size: 0.9rem;">Most Recent</button>
+            </div>
+        </div>
+
+        <!-- Reviews Grid -->
+        <div class="reviews-grid" style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 40px; margin-bottom: 80px;">
+            
+            <!-- Review 1 - Featured -->
+            <div class="review-card featured" data-rating="5" data-date="2024-01-15" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.05), rgba(212, 175, 55, 0.02)); border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 20px; padding: 40px; position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 10px 40px rgba(0,0,0,0.3);">
+                <div style="position: absolute; top: 20px; right: 20px; background: linear-gradient(135deg, #d4af37, #b8941f); color: #0a0a0a; padding: 5px 15px; border-radius: 20px; font-size: 0.8rem; font-weight: 700; text-transform: uppercase;">Featured</div>
+                
+                <div style="display: flex; align-items: center; margin-bottom: 25px;">
+                    <div style="width: 70px; height: 70px; background: linear-gradient(135deg, #d4af37, #b8941f); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px; position: relative; box-shadow: 0 8px 25px rgba(212, 175, 55, 0.4);">
+                        <i class="fas fa-user" style="color: #0a0a0a; font-size: 28px;"></i>
+                    </div>
+                    <div>
+                        <h3 style="color: #d4af37; margin: 0; font-size: 1.4rem; font-weight: 700; font-family: 'Playfair Display', serif;">Sarah Johnson</h3>
+                        <p style="color: #999; margin: 5px 0; font-size: 0.95rem;">CEO, Tech Company</p>
+                        <div style="color: #d4af37; margin-top: 8px;">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <p style="color: #fff; line-height: 1.7; font-size: 1.05rem; font-style: italic; position: relative; padding-left: 20px;">
+                        <span style="position: absolute; left: -10px; top: -10px; color: #d4af37; font-size: 3rem; font-family: 'Playfair Display', serif; opacity: 0.3;">"</span>
+                        VICTNOW fragrances are absolutely exceptional! The quality and longevity are unmatched. I've been using their signature scent for months and still get compliments wherever I go. This is luxury in a bottle.
+                        <span style="position: absolute; right: -10px; bottom: -30px; color: #d4af37; font-size: 3rem; font-family: 'Playfair Display', serif; opacity: 0.3;">"</span>
+                    </p>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; color: #666; font-size: 0.85rem;">
+                    <span>January 15, 2024</span>
+                    <button onclick="markHelpful(this)" style="background: transparent; border: 1px solid #d4af37; color: #d4af37; padding: 5px 15px; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; font-size: 0.8rem;">Helpful</button>
+                </div>
+            </div>
+
+            <!-- Review 2 -->
+            <div class="review-card" data-rating="5" data-date="2024-01-20" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 20px; padding: 35px; position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 8px 30px rgba(0,0,0,0.2);">
+                <div style="display: flex; align-items: center; margin-bottom: 25px;">
+                    <div style="width: 60px; height: 60px; background: rgba(212, 175, 55, 0.2); border: 2px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                        <i class="fas fa-user" style="color: #d4af37; font-size: 24px;"></i>
+                    </div>
+                    <div>
+                        <h3 style="color: #d4af37; margin: 0; font-size: 1.3rem; font-weight: 700; font-family: 'Playfair Display', serif;">Michael Chen</h3>
+                        <p style="color: #999; margin: 5px 0; font-size: 0.9rem;">Marketing Director</p>
+                        <div style="color: #d4af37; margin-top: 8px;">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <p style="color: #fff; line-height: 1.6; font-size: 1rem; font-style: italic;">
+                        I have tried many luxury fragrances, but VICTNOW stands out. The unique blend of notes creates a memorable scent that lasts all day. Perfect for business meetings and evening events.
+                    </p>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; color: #666; font-size: 0.85rem;">
+                    <span>January 20, 2024</span>
+                    <button onclick="markHelpful(this)" style="background: transparent; border: 1px solid #d4af37; color: #d4af37; padding: 5px 15px; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; font-size: 0.8rem;">Helpful</button>
+                </div>
+            </div>
+
+            <!-- Review 3 -->
+            <div class="review-card" data-rating="4" data-date="2024-02-01" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 20px; padding: 35px; position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 8px 30px rgba(0,0,0,0.2);">
+                <div style="display: flex; align-items: center; margin-bottom: 25px;">
+                    <div style="width: 60px; height: 60px; background: rgba(212, 175, 55, 0.2); border: 2px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                        <i class="fas fa-user" style="color: #d4af37; font-size: 24px;"></i>
+                    </div>
+                    <div>
+                        <h3 style="color: #d4af37; margin: 0; font-size: 1.3rem; font-weight: 700; font-family: 'Playfair Display', serif;">Emily Rodriguez</h3>
+                        <p style="color: #999; margin: 5px 0; font-size: 0.9rem;">Fashion Designer</p>
+                        <div style="color: #d4af37; margin-top: 8px;">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <p style="color: #fff; line-height: 1.6; font-size: 1rem; font-style: italic;">
+                        The sophistication of VICTNOW fragrances is remarkable. Perfect for both professional and casual occasions. The packaging is as elegant as the scent itself. Highly recommend!
+                    </p>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; color: #666; font-size: 0.85rem;">
+                    <span>February 1, 2024</span>
+                    <button onclick="markHelpful(this)" style="background: transparent; border: 1px solid #d4af37; color: #d4af37; padding: 5px 15px; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; font-size: 0.8rem;">Helpful</button>
+                </div>
+            </div>
+
+            <!-- Review 4 -->
+            <div class="review-card" data-rating="5" data-date="2024-02-10" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 20px; padding: 35px; position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 8px 30px rgba(0,0,0,0.2);">
+                <div style="display: flex; align-items: center; margin-bottom: 25px;">
+                    <div style="width: 60px; height: 60px; background: rgba(212, 175, 55, 0.2); border: 2px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                        <i class="fas fa-user" style="color: #d4af37; font-size: 24px;"></i>
+                    </div>
+                    <div>
+                        <h3 style="color: #d4af37; margin: 0; font-size: 1.3rem; font-weight: 700; font-family: 'Playfair Display', serif;">David Williams</h3>
+                        <p style="color: #999; margin: 5px 0; font-size: 0.9rem;">Investment Banker</p>
+                        <div style="color: #d4af37; margin-top: 8px;">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <p style="color: #fff; line-height: 1.6; font-size: 1rem; font-style: italic;">
+                        Exceptional quality and attention to detail. VICTNOW has become my signature fragrance. The compliments I receive are endless. Worth every penny!
+                    </p>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; color: #666; font-size: 0.85rem;">
+                    <span>February 10, 2024</span>
+                    <button onclick="markHelpful(this)" style="background: transparent; border: 1px solid #d4af37; color: #d4af37; padding: 5px 15px; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; font-size: 0.8rem;">Helpful</button>
+                </div>
+            </div>
+
+            <!-- Review 5 -->
+            <div class="review-card" data-rating="5" data-date="2024-02-15" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 20px; padding: 35px; position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 8px 30px rgba(0,0,0,0.2);">
+                <div style="display: flex; align-items: center; margin-bottom: 25px;">
+                    <div style="width: 60px; height: 60px; background: rgba(212, 175, 55, 0.2); border: 2px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                        <i class="fas fa-user" style="color: #d4af37; font-size: 24px;"></i>
+                    </div>
+                    <div>
+                        <h3 style="color: #d4af37; margin: 0; font-size: 1.3rem; font-weight: 700; font-family: 'Playfair Display', serif;">Jessica Martinez</h3>
+                        <p style="color: #999; margin: 5px 0; font-size: 0.9rem;">Art Gallery Curator</p>
+                        <div style="color: #d4af37; margin-top: 8px;">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <p style="color: #fff; line-height: 1.6; font-size: 1rem; font-style: italic;">
+                        As someone who appreciates art and beauty, VICTNOW fragrances speak to my soul. Each scent tells a story and evokes emotion. Truly masterful creations.
+                    </p>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; color: #666; font-size: 0.85rem;">
+                    <span>February 15, 2024</span>
+                    <button onclick="markHelpful(this)" style="background: transparent; border: 1px solid #d4af37; color: #d4af37; padding: 5px 15px; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; font-size: 0.8rem;">Helpful</button>
+                </div>
+            </div>
+
+            <!-- Review 6 -->
+            <div class="review-card" data-rating="5" data-date="2024-02-20" style="background: rgba(255, 255, 255, 0.03); border: 1px solid rgba(212, 175, 55, 0.2); border-radius: 20px; padding: 35px; position: relative; overflow: hidden; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 8px 30px rgba(0,0,0,0.2);">
+                <div style="display: flex; align-items: center; margin-bottom: 25px;">
+                    <div style="width: 60px; height: 60px; background: rgba(212, 175, 55, 0.2); border: 2px solid #d4af37; border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-right: 20px;">
+                        <i class="fas fa-user" style="color: #d4af37; font-size: 24px;"></i>
+                    </div>
+                    <div>
+                        <h3 style="color: #d4af37; margin: 0; font-size: 1.3rem; font-weight: 700; font-family: 'Playfair Display', serif;">Robert Thompson</h3>
+                        <p style="color: #999; margin: 5px 0; font-size: 0.9rem;">Restaurant Owner</p>
+                        <div style="color: #d4af37; margin-top: 8px;">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                        </div>
+                    </div>
+                </div>
+                
+                <div style="margin-bottom: 25px;">
+                    <p style="color: #fff; line-height: 1.6; font-size: 1rem; font-style: italic;">
+                        The consistency and quality of VICTNOW fragrances are unmatched. My customers always ask what I'm wearing. It's become part of my personal brand.
+                    </p>
+                </div>
+                
+                <div style="display: flex; justify-content: space-between; align-items: center; color: #666; font-size: 0.85rem;">
+                    <span>February 20, 2024</span>
+                    <button onclick="markHelpful(this)" style="background: transparent; border: 1px solid #d4af37; color: #d4af37; padding: 5px 15px; border-radius: 20px; cursor: pointer; transition: all 0.3s ease; font-size: 0.8rem;">Helpful</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Load More Button -->
+        <div style="text-align: center; margin-bottom: 80px;">
+            <button onclick="loadMoreReviews()" style="background: linear-gradient(135deg, #d4af37, #b8941f); color: #0a0a0a; padding: 18px 45px; border: none; border-radius: 50px; font-weight: 700; font-size: 1rem; cursor: pointer; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); box-shadow: 0 10px 30px rgba(212, 175, 55, 0.3); text-transform: uppercase; letter-spacing: 1px;">
+                Load More Reviews
+            </button>
+        </div>
+
+        <!-- CTA Section -->
+        <div style="text-align: center; padding: 60px 0; background: linear-gradient(135deg, rgba(212, 175, 55, 0.1), rgba(212, 175, 55, 0.05)); border-radius: 30px; margin-bottom: 60px;">
+            <h2 style="color: #d4af37; font-size: 2.5rem; margin-bottom: 20px; font-family: 'Playfair Display', serif;">Ready to Experience VICTNOW?</h2>
+            <p style="color: #ccc; font-size: 1.2rem; margin-bottom: 40px; max-width: 600px; margin-left: auto; margin-right: auto;">Join thousands of satisfied customers who have discovered their signature scent</p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="/" style="display: inline-block; background: transparent; color: #d4af37; padding: 18px 40px; text-decoration: none; border: 2px solid #d4af37; border-radius: 50px; font-weight: 700; transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94); text-transform: uppercase; letter-spacing: 1px;">
+                    Back to Home
+                </a>
+            </div>
+        </div>
+
+    </div>
+</section>
+
+<style>
+@keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(5deg); }
+}
+
+.review-card:hover {
+    transform: translateY(-10px) scale(1.02);
+    box-shadow: 0 20px 60px rgba(212, 175, 55, 0.2);
+    border-color: rgba(212, 175, 55, 0.5);
+}
+
+.review-card.featured:hover {
+    transform: translateY(-15px) scale(1.03);
+    box-shadow: 0 25px 70px rgba(212, 175, 55, 0.3);
+}
+
+.filter-btn:hover {
+    background: linear-gradient(135deg, #d4af37, #b8941f);
+    color: #0a0a0a;
+}
+
+.filter-btn.active {
+    background: linear-gradient(135deg, #d4af37, #b8941f);
+    color: #0a0a0a;
+}
+
+.reviews-grid {
+    animation: fadeInUp 0.8s ease-out;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.review-card {
+    animation: fadeInUp 0.8s ease-out backwards;
+}
+
+.review-card:nth-child(1) { animation-delay: 0.1s; }
+.review-card:nth-child(2) { animation-delay: 0.2s; }
+.review-card:nth-child(3) { animation-delay: 0.3s; }
+.review-card:nth-child(4) { animation-delay: 0.4s; }
+.review-card:nth-child(5) { animation-delay: 0.5s; }
+.review-card:nth-child(6) { animation-delay: 0.6s; }
+</style>
+
+<script>
+// Filter functionality
+function filterReviews(filter) {
+    const buttons = document.querySelectorAll('.filter-btn');
+    const cards = document.querySelectorAll('.review-card');
+    
+    // Update button states
+    buttons.forEach(btn => {
+        btn.classList.remove('active');
+        btn.style.background = 'transparent';
+        btn.style.color = '#d4af37';
+    });
+    
+    event.target.classList.add('active');
+    event.target.style.background = 'linear-gradient(135deg, #d4af37, #b8941f)';
+    event.target.style.color = '#0a0a0a';
+    
+    // Filter cards
+    cards.forEach(card => {
+        card.style.display = 'block';
+        card.style.animation = 'fadeInUp 0.5s ease-out';
+        
+        if (filter === '5star' && card.dataset.rating !== '5') {
+            card.style.display = 'none';
+        } else if (filter === 'recent') {
+            // Sort by date (newest first)
+            const date = new Date(card.dataset.date);
+            const now = new Date();
+            const daysDiff = (now - date) / (1000 * 60 * 60 * 24);
+            if (daysDiff > 30) {
+                card.style.display = 'none';
+            }
+        }
+    });
+}
+
+// Load more functionality
+function loadMoreReviews() {
+    const button = event.target;
+    button.textContent = 'Loading...';
+    button.disabled = true;
+    
+    // Simulate loading
+    setTimeout(() => {
+        button.textContent = 'All Reviews Loaded';
+        button.style.background = 'rgba(212, 175, 55, 0.3)';
+        button.style.color = '#999';
+    }, 1500);
+}
+
+// Mark helpful functionality
+function markHelpful(button) {
+    button.textContent = '✓ Thanks!';
+    button.style.background = '#d4af37';
+    button.style.color = '#0a0a0a';
+    button.disabled = true;
+}
+</script>
+
+<!-- Footer -->
+<footer class="footer" style="padding: 40px 20px 20px;">
+    <div class="footer-container">
+        <div class="container">
+            <div class="footer-grid" style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 40px;">
+                <div class="footer-section">
+                    <div class="footer-logo">
+                        <h3 style="color: #d4af37; font-size: 24px; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">VICTNOW</h3>
+                    </div>
+                    <p class="footer-address" style="color: white; line-height: 1.6; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+                        Venue Plaza<br>
+                        Yewalewadi
+                    </p>
+                    <p class="copyright" style="color: #ccc; font-size: 14px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"> 2026 VICTNOW. All rights reserved.</p>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Quick Links</h4>
+                    <ul style="list-style: none; padding: 0; margin: 0;">
+                        <li style="margin-bottom: 10px;"><a href="/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Home</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/collection/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Collection</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/about/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">About</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/contact/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Contact</a></li>
+                        <li style="margin-bottom: 10px;"><a href="/privacy/" style="color: white; text-decoration: none; transition: color 0.3s; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Privacy</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Contact</h4>
+                    <p style="color: white; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fas fa-phone" style="margin-right: 10px;"></i> 7038511559</p>
+                    <p style="color: white; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fas fa-envelope" style="margin-right: 10px;"></i> victnowperfume@gmail.com</p>
+                    <div class="social-icons">
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-instagram"></i></a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-facebook"></i></a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-twitter"></i></a>
+                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-pinterest"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-section">
+                    <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Newsletter</h4>
+                    <p style="color: white; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Subscribe to get exclusive offers</p>
+                    <form class="newsletter-form" action="/newsletter/" method="POST" style="display: flex; gap: 10px;">
+                        <input type="hidden" name="csrfmiddlewaretoken" value="PFsLWXeb2F2Dn1ZggICrfY4gRZC1HCGRtxSCMyFbiVuZozLoEDKzqDYI8XKelKtz">
+                        <input type="email" name="email" placeholder="Your email" required="" style="flex: 1; padding: 12px; border: 1px solid #d4af37; background: rgba(255,255,255,0.2); color: white; border-radius: 5px;">
+                        <button type="submit" style="background: #d4af37; color: #000; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background 0.3s;">Subscribe</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+
+{% endblock %}

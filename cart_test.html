@@ -1,0 +1,528 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cart Test - VICTNOW</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 25%, #2d1b1b 50%, #1a1a1a 75%, #0a0a0a 100%);
+            min-height: 100vh;
+            color: white;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .cart-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .cart-header h1 {
+            color: #d4af37;
+            font-size: 2.5rem;
+            margin-bottom: 10px;
+        }
+
+        .cart-container {
+            display: grid;
+            grid-template-columns: 1fr 400px;
+            gap: 40px;
+        }
+
+        .cart-items {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(45, 27, 27, 0.9));
+            backdrop-filter: blur(30px);
+            border-radius: 35px;
+            padding: 50px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 35px 70px rgba(0, 0, 0, 0.7);
+        }
+
+        .cart-summary {
+            background: linear-gradient(135deg, rgba(26, 26, 26, 0.95), rgba(45, 27, 27, 0.9));
+            backdrop-filter: blur(30px);
+            border-radius: 30px;
+            padding: 45px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.7);
+        }
+
+        .cart-empty {
+            text-align: center;
+            padding: 100px 20px;
+        }
+
+        .empty-cart-icon {
+            width: 140px;
+            height: 140px;
+            background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.08));
+            backdrop-filter: blur(25px);
+            border: 3px solid rgba(212, 175, 55, 0.3);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 40px;
+            box-shadow: 0 25px 50px rgba(212, 175, 55, 0.3);
+        }
+
+        .empty-cart-icon i {
+            color: #d4af37;
+            font-size: 56px;
+        }
+
+        .cart-empty h3 {
+            color: #ffffff;
+            font-size: 2.2rem;
+            margin-bottom: 25px;
+            font-weight: 900;
+        }
+
+        .cart-item {
+            background: linear-gradient(135deg, rgba(32, 32, 32, 0.95), rgba(48, 38, 38, 0.9));
+            backdrop-filter: blur(25px);
+            border-radius: 30px;
+            padding: 35px;
+            margin-bottom: 30px;
+            border: 1px solid rgba(212, 175, 55, 0.15);
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            display: grid;
+            grid-template-columns: 150px 1fr auto auto;
+            gap: 30px;
+            align-items: center;
+        }
+
+        .item-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 25px;
+            overflow: hidden;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+            border: 3px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .item-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .item-details h4 {
+            color: #ffffff;
+            font-size: 1.6rem;
+            margin-bottom: 15px;
+            font-weight: 900;
+        }
+
+        .item-price {
+            color: #d4af37;
+            font-size: 1.7rem;
+            font-weight: 900;
+            margin-bottom: 15px;
+        }
+
+        .quantity-controls {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(20px);
+            padding: 12px;
+            border-radius: 20px;
+            border: 1px solid rgba(212, 175, 55, 0.2);
+        }
+
+        .quantity-btn {
+            width: 40px;
+            height: 40px;
+            border: none;
+            border-radius: 12px;
+            color: #ffffff;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .quantity-btn.decrease {
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.8), rgba(220, 38, 38, 0.8));
+        }
+
+        .quantity-btn.increase {
+            background: linear-gradient(135deg, rgba(16, 185, 129, 0.8), rgba(5, 150, 105, 0.8));
+        }
+
+        .quantity-value {
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 800;
+            min-width: 40px;
+            text-align: center;
+        }
+
+        .btn-remove {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(239, 68, 68, 0.9), rgba(220, 38, 38, 0.9));
+            border: none;
+            border-radius: 18px;
+            color: #ffffff;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 18px;
+            padding: 12px 0;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.1);
+        }
+
+        .summary-row span:first-child {
+            color: rgba(212, 175, 55, 0.8);
+            font-size: 1rem;
+            font-weight: 600;
+        }
+
+        .summary-row span:last-child {
+            color: #ffffff;
+            font-size: 1.2rem;
+            font-weight: 700;
+        }
+
+        .checkout-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #d4af37, #b8941f);
+            color: #0a0a0a;
+            border: none;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.4s ease;
+            margin-top: 30px;
+        }
+
+        .checkout-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 25px 50px rgba(212, 175, 55, 0.5);
+        }
+
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: 600;
+            z-index: 10000;
+            animation: slideIn 0.3s ease;
+        }
+
+        .notification.success {
+            background: linear-gradient(135deg, #28a745, #20c997);
+        }
+
+        .notification.info {
+            background: linear-gradient(135deg, #17a2b8, #138496);
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(100%);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="cart-header">
+            <h1><i class="fas fa-shopping-bag" style="margin-right: 15px;"></i>VICTNOW Shopping Cart</h1>
+            <p style="color: rgba(212, 175, 55, 0.8); font-size: 1.2rem;">Your Selected Luxury Fragrances</p>
+        </div>
+
+        <div class="cart-container">
+            <!-- Cart Items Section -->
+            <div class="cart-items">
+                <div id="cart-empty" class="cart-empty">
+                    <div class="empty-cart-icon">
+                        <i class="fas fa-shopping-cart"></i>
+                    </div>
+                    <h3>Your cart is empty</h3>
+                    <p style="color: rgba(212, 175, 55, 0.8); font-size: 1.3rem; margin-bottom: 30px;">Discover our exquisite collection of luxury fragrances</p>
+                    <button onclick="addSampleItems()" style="background: linear-gradient(135deg, #d4af37, #b8941f); color: #0a0a0a; padding: 15px 30px; border: none; border-radius: 50px; font-weight: 800; cursor: pointer;">
+                        <i class="fas fa-plus" style="margin-right: 10px;"></i>Add Sample Items
+                    </button>
+                </div>
+                
+                <div id="cart-content" style="display: none;">
+                    <!-- Cart items will be dynamically inserted here -->
+                </div>
+            </div>
+
+            <!-- Cart Summary -->
+            <div class="cart-summary">
+                <h3 style="color: #ffffff; font-size: 1.6rem; margin-bottom: 35px; font-weight: 800;">
+                    <i class="fas fa-receipt" style="margin-right: 12px; color: #d4af37;"></i> Order Summary
+                </h3>
+                
+                <div class="summary-details">
+                    <div class="summary-row">
+                        <span>Subtotal</span>
+                        <span id="subtotal">₹0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Shipping</span>
+                        <span id="shipping">₹0.00</span>
+                    </div>
+                    <div class="summary-row">
+                        <span>Tax</span>
+                        <span id="tax">₹0.00</span>
+                    </div>
+                    <div class="summary-row" style="border-top: 2px solid rgba(212, 175, 55, 0.3); padding-top: 20px; margin-top: 20px;">
+                        <span style="font-size: 1.3rem; color: #d4af37;">Total</span>
+                        <span id="total" style="font-size: 1.5rem; color: #d4af37; font-weight: 900;">₹0.00</span>
+                    </div>
+                </div>
+                
+                <button class="checkout-btn" onclick="handleCartPayment()">
+                    <i class="fas fa-lock" style="margin-right: 10px;"></i> Proceed to Checkout
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+    <script src="{% static 'js/razorpay.js' %}"></script>
+    <script>
+        // Razorpay configuration - UPDATE THIS WITH YOUR ACTUAL KEY
+        const RAZORPAY_KEY = 'rzp_live_SWbTlXM1BhD6RZ'; // Replace with your live Razorpay key when needed
+        
+        function handleCartPayment() {
+            // Calculate total amount
+            const cartItems = document.querySelectorAll('.cart-item');
+            let totalAmount = 0;
+            let cartItemsList = [];
+            
+            cartItems.forEach(item => {
+                const priceText = item.querySelector('.item-price').textContent.replace('₹', '');
+                const price = parseFloat(priceText);
+                const quantity = parseInt(item.querySelector('.quantity-value').textContent);
+                const itemTotal = price * quantity;
+                totalAmount += itemTotal;
+                
+                cartItemsList.push({
+                    name: item.querySelector('.item-name').textContent,
+                    price: price,
+                    quantity: quantity,
+                    total: itemTotal
+                });
+            });
+            
+            const orderData = {
+                items: cartItemsList,
+                total: totalAmount,
+                currency: 'INR',
+                description: 'Cart Purchase'
+            };
+            
+            // Show Razorpay payment modal
+            RazorpayIntegration.showPaymentModal(orderData);
+        }
+        
+        // Legacy function for compatibility
+        function proceedToPayment() {
+            handleCartPayment();
+        }
+        
+        function proceedToCheckout() {
+            handleCartPayment();
+        }
+    </script>
+    <script>
+        let cartData = [];
+
+        function loadCart() {
+            console.log('Loading cart...');
+            cartData = JSON.parse(localStorage.getItem('cart')) || [];
+            console.log('Cart data loaded:', cartData);
+            renderCart();
+        }
+
+        function addSampleItems() {
+            console.log('Adding sample items...');
+            cartData = [
+                {
+                    name: 'VICTNOW FORGE',
+                    price: 2999,
+                    quantity: 1,
+                    image: '/media/products/VICTNOW_FORGE.jpeg'
+                },
+                {
+                    name: 'VICTNOW NEXUS',
+                    price: 3499,
+                    quantity: 2,
+                    image: '/media/products/VICTNOW_NEXUS.jpeg'
+                }
+            ];
+            localStorage.setItem('cart', JSON.stringify(cartData));
+            renderCart();
+            showNotification('Sample items added to cart!', 'success');
+        }
+
+        function renderCart() {
+            console.log('Rendering cart...');
+            const cartContent = document.getElementById('cart-content');
+            const cartEmpty = document.getElementById('cart-empty');
+            
+            if (cartData.length === 0) {
+                cartContent.style.display = 'none';
+                cartEmpty.style.display = 'block';
+                updateSummary(0, 0);
+                console.log('Cart is empty');
+                return;
+            }
+            
+            cartContent.style.display = 'block';
+            cartEmpty.style.display = 'none';
+            
+            let cartHTML = '';
+            let subtotal = 0;
+            
+            cartData.forEach((item, index) => {
+                const itemTotal = item.price * item.quantity;
+                subtotal += itemTotal;
+                
+                cartHTML += `
+                    <div class="cart-item" data-index="${index}">
+                        <div class="item-image">
+                            <img src="${item.image}" alt="${item.name}" onerror="this.src='https://via.placeholder.com/150x150?text=Perfume'">
+                        </div>
+                        <div class="item-details">
+                            <h4>${item.name}</h4>
+                            <p style="color: rgba(212, 175, 55, 0.8); margin-bottom: 10px;">
+                                <i class="fas fa-gem" style="margin-right: 8px;"></i> Luxury Fragrance
+                            </p>
+                            <div class="item-price">₹${item.price.toFixed(2)}</div>
+                        </div>
+                        <div class="item-quantity">
+                            <div class="quantity-controls">
+                                <button class="quantity-btn decrease" onclick="updateQuantity(${index}, -1)">
+                                    <i class="fas fa-minus"></i>
+                                </button>
+                                <span class="quantity-value">${item.quantity}</span>
+                                <button class="quantity-btn increase" onclick="updateQuantity(${index}, 1)">
+                                    <i class="fas fa-plus"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="item-total">
+                            <button class="btn-remove" onclick="removeItem(${index})">
+                                <i class="fas fa-times"></i>
+                            </button>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            cartContent.innerHTML = cartHTML;
+            updateSummary(subtotal, cartData.length);
+            console.log('Cart rendered with', cartData.length, 'items');
+        }
+
+        function updateQuantity(index, change) {
+            const item = cartData[index];
+            const newQuantity = item.quantity + change;
+            
+            if (newQuantity < 1) {
+                removeItem(index);
+                return;
+            }
+            
+            if (newQuantity > 10) {
+                showNotification('Maximum quantity is 10 items per product.', 'info');
+                return;
+            }
+            
+            item.quantity = newQuantity;
+            localStorage.setItem('cart', JSON.stringify(cartData));
+            renderCart();
+        }
+
+        function removeItem(index) {
+            if (confirm('Are you sure you want to remove this item from your cart?')) {
+                cartData.splice(index, 1);
+                localStorage.setItem('cart', JSON.stringify(cartData));
+                renderCart();
+                showNotification('Item removed from cart', 'success');
+            }
+        }
+
+        function updateSummary(subtotal, itemCount) {
+            const shipping = subtotal > 0 ? (subtotal > 100 ? 0 : 10) : 0;
+            const tax = subtotal * 0.08; // 8% tax
+            const total = subtotal + shipping + tax;
+            
+            document.getElementById('subtotal').textContent = `₹${subtotal.toFixed(2)}`;
+            document.getElementById('shipping').textContent = shipping === 0 && subtotal > 0 ? 'FREE' : `₹${shipping.toFixed(2)}`;
+            document.getElementById('tax').textContent = `₹${tax.toFixed(2)}`;
+            document.getElementById('total').textContent = `₹${total.toFixed(2)}`;
+        }
+
+        function proceedToCheckout() {
+            if (cartData.length === 0) {
+                showNotification('Your cart is empty!', 'info');
+                return;
+            }
+            showNotification('Proceeding to checkout...', 'success');
+        }
+
+        function showNotification(message, type = 'success') {
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.textContent = message;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.remove();
+            }, 3000);
+        }
+
+        // Initialize cart when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            console.log('Page loaded, initializing cart...');
+            loadCart();
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,1419 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VICTNOW Login</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 50%, #0a0a0a 100%);
+            color: white;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%),
+                radial-gradient(circle at 80% 50%, rgba(212, 175, 55, 0.1) 0%, transparent 50%);
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .login-wrapper {
+            position: relative;
+            z-index: 1;
+            width: 100%;
+            max-width: 420px;
+            padding: 20px;
+        }
+        
+        .login-container {
+            background: linear-gradient(135deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.03));
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 175, 55, 0.2);
+            border-radius: 20px;
+            padding: 50px 40px;
+            box-shadow: 
+                0 25px 50px rgba(0, 0, 0, 0.3),
+                0 0 0 1px rgba(212, 175, 55, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1);
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #d4af37, transparent);
+            animation: shimmer 3s ease-in-out infinite;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { transform: translateX(-100%); }
+            50% { transform: translateX(100%); }
+        }
+        
+        .logo-section {
+            margin-bottom: 35px;
+        }
+        
+        .logo {
+            width: 70px;
+            height: 70px;
+            background: linear-gradient(135deg, #d4af37, #f4e4bc, #d4af37);
+            background-size: 200% 200%;
+            animation: gradientShift 4s ease-in-out infinite;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            box-shadow: 
+                0 15px 35px rgba(212, 175, 55, 0.4),
+                0 0 0 3px rgba(212, 175, 55, 0.2),
+                inset 0 2px 0 rgba(255, 255, 255, 0.3);
+            position: relative;
+        }
+        
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+        
+        .logo::after {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, #d4af37, #f4e4bc, #d4af37);
+            border-radius: 50%;
+            z-index: -1;
+            opacity: 0.6;
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 0.6; }
+            50% { transform: scale(1.05); opacity: 0.8; }
+        }
+        
+        .logo i {
+            color: #0a2e0a;
+            font-size: 1.8rem;
+            font-weight: bold;
+            animation: iconFloat 3s ease-in-out infinite;
+        }
+        
+        @keyframes iconFloat {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-3px); }
+        }
+        
+        h1 {
+            color: #d4af37;
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            background: linear-gradient(135deg, #d4af37, #f4e4bc);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        
+        .tagline {
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+            margin-bottom: 40px;
+            font-weight: 300;
+            letter-spacing: 1px;
+        }
+        
+        .form-group {
+            margin-bottom: 25px;
+            text-align: left;
+            position: relative;
+        }
+        
+        .form-group label {
+            display: block;
+            color: #d4af37;
+            font-weight: 600;
+            margin-bottom: 10px;
+            font-size: 0.95rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .input-wrapper {
+            position: relative;
+        }
+        
+        .input-wrapper i {
+            position: absolute;
+            left: 15px;
+            top: 50%;
+            transform: translateY(-50%);
+            color: #d4af37;
+            font-size: 1.1rem;
+            z-index: 2;
+            transition: all 0.3s ease;
+        }
+        
+        .form-group input {
+            width: 100%;
+            padding: 18px 15px 18px 45px;
+            border: 2px solid rgba(212, 175, 55, 0.2);
+            background: rgba(10, 46, 10, 0.15);
+            color: white;
+            border-radius: 12px;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .form-group input:focus {
+            outline: none;
+            border-color: #d4af37;
+            background: rgba(10, 46, 10, 0.25);
+            box-shadow: 
+                0 0 20px rgba(212, 175, 55, 0.3),
+                0 0 0 3px rgba(212, 175, 55, 0.1);
+            transform: translateY(-2px);
+        }
+        
+        .form-group input:focus + i {
+            color: #f4e4bc;
+            transform: translateY(-50%) scale(1.1);
+        }
+        
+        .form-group input::placeholder {
+            color: rgba(255, 255, 255, 0.4);
+            font-style: italic;
+        }
+        
+        .login-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #d4af37, #b8941f);
+            color: #0a2e0a;
+            border: none;
+            padding: 20px;
+            border-radius: 12px;
+            font-size: 1.1rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 
+                0 10px 30px rgba(212, 175, 55, 0.4),
+                0 0 0 2px rgba(212, 175, 55, 0.2);
+            margin-top: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .login-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+        
+        .login-btn:hover::before {
+            left: 100%;
+        }
+        
+        .login-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 
+                0 15px 40px rgba(212, 175, 55, 0.5),
+                0 0 0 3px rgba(212, 175, 55, 0.3);
+            background: linear-gradient(135deg, #e6b826, #c9a520);
+        }
+        
+        .login-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .forgot-password {
+            display: inline-block;
+            color: #d4af37;
+            text-decoration: none;
+            font-size: 0.9rem;
+            margin-top: 20px;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+        
+        .forgot-password::after {
+            content: '';
+            position: absolute;
+            bottom: -2px;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background: #d4af37;
+            transition: width 0.3s ease;
+        }
+        
+        .forgot-password:hover::after {
+            width: 100%;
+        }
+        
+        .forgot-password:hover {
+            color: #f4e4bc;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5);
+        }
+        
+        .message {
+            background: rgba(212, 175, 55, 0.1);
+            border: 1px solid rgba(212, 175, 55, 0.3);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            text-align: center;
+            display: none;
+            font-size: 0.9rem;
+        }
+        
+        .message.error {
+            background: rgba(220, 53, 69, 0.1);
+            border-color: rgba(220, 53, 69, 0.3);
+            color: #ff6b6b;
+        }
+        
+        .message.success {
+            background: rgba(40, 167, 69, 0.1);
+            border-color: rgba(40, 167, 69, 0.3);
+            color: #51cf66;
+        }
+        
+        .message.show {
+            display: block;
+            animation: slideDown 0.3s ease;
+        }
+        
+        @keyframes slideDown {
+            from { 
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-wrapper">
+        <div class="login-container">
+            <div class="logo-section">
+                <div class="logo">
+                    <i class="fas fa-crown"></i>
+                </div>
+                <h1>VICTNOW</h1>
+                <p class="tagline">The Fragrance of Leadership</p>
+            </div>
+            
+            <div class="message" id="message"></div>
+            
+            <form id="loginForm" onsubmit="handleLogin(event)">
+                <div class="form-group">
+                    <label for="username">Username</label>
+                    <div class="input-wrapper">
+                        <input type="text" id="username" name="username" placeholder="Enter your username" required>
+                        <i class="fas fa-user"></i>
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <div class="input-wrapper">
+                        <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                        <i class="fas fa-lock"></i>
+                    </div>
+                </div>
+                
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-sign-in-alt" style="margin-right: 10px;"></i>
+                    Login
+                </button>
+                
+                <a href="#" class="forgot-password" onclick="handleForgotPassword(event)">Forgot Password?</a>
+            </form>
+        </div>
+    </div>
+    
+    <script>
+        function handleLogin(event) {
+            event.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            // Simple validation
+            if (username === 'admin' && password === 'admin123') {
+                showMessage('Login successful! Redirecting to dashboard...', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = '/admin/';
+                }, 2000);
+            } else if (username === 'user' && password === 'user123') {
+                showMessage('Login successful! Redirecting to home...', 'success');
+                
+                setTimeout(() => {
+                    window.location.href = '/';
+                }, 2000);
+            } else {
+                showMessage('Invalid username or password. Please try again.', 'error');
+                document.getElementById('password').value = '';
+                
+                setTimeout(() => {
+                    hideMessage();
+                }, 3000);
+            }
+        }
+        
+        function handleForgotPassword(event) {
+            event.preventDefault();
+            showMessage('Password reset link has been sent to your email address.', 'success');
+            
+            setTimeout(() => {
+                hideMessage();
+            }, 3000);
+        }
+        
+        function showMessage(text, type) {
+            const message = document.getElementById('message');
+            message.textContent = text;
+            message.className = 'message ' + type + ' show';
+        }
+        
+        function hideMessage() {
+            const message = document.getElementById('message');
+            message.classList.remove('show');
+        }
+        
+        // Add input focus effects
+        document.addEventListener('DOMContentLoaded', function() {
+            const inputs = document.querySelectorAll('input');
+            
+            inputs.forEach(input => {
+                input.addEventListener('focus', function() {
+                    this.parentElement.parentElement.style.transform = 'scale(1.02)';
+                });
+                
+                input.addEventListener('blur', function() {
+                    this.parentElement.parentElement.style.transform = 'scale(1)';
+                });
+            });
+        });
+    </script>
+</body>
+</html>
+                            </label>
+                            <input type="email" id="email" name="email" placeholder="john.doe@example.com" required autocomplete="email">
+                            <small class="form-text">We'll use this for order confirmations and exclusive offers</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="birth_date">
+                                <i class="fas fa-birthday-cake"></i>
+                                Date of Birth (Optional)
+                            </label>
+                            <input type="date" id="birth_date" name="birth_date" max="">
+                            <small class="form-text">Get special birthday surprises from VICTNOW</small>
+                        </div>
+                        
+                        <div class="form-group">
+                            <label for="gender">
+                                <i class="fas fa-venus-mars"></i>
+                                Gender (Optional)
+                            </label>
+                            <select id="gender" name="gender" class="form-control">
+                                <option value="">Prefer not to say</option>
+                                <option value="male">Male</option>
+                                <option value="female">Female</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                        
+                        <div class="form-actions">
+                            <button type="submit" class="btn btn-primary btn-large" id="profileBtn">
+                                <i class="fas fa-check"></i>
+                                <span id="profileBtnText">Complete Profile</span>
+                            </button>
+                            <button type="button" class="btn btn-outline" onclick="skipProfile()">
+                                <i class="fas fa-forward"></i>
+                                Skip for Now
+                            </button>
+                        </div>
+                    </form>
+                </div>
+                
+                <div class="login-footer">
+                    <div class="footer-links">
+                        <a href="/collection/" class="footer-link">
+                            <i class="fas fa-shopping-bag"></i>
+                            New to VICTNOW? Start Shopping
+                        </a>
+                        <a href="/contact/" class="footer-link">
+                            <i class="fas fa-headset"></i>
+                            Need Help? Contact Support
+                        </a>
+                    </div>
+                    <div class="security-notice">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Your information is secure and encrypted</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+// Working OTP function
+window.sendOTPNow = function() {
+    console.log('sendOTPNow called');
+    
+    const mobileInput = document.getElementById('mobile_number');
+    const mobileNumber = mobileInput ? mobileInput.value : '';
+    
+    console.log('Mobile number:', mobileNumber);
+    
+    if (mobileNumber.length === 10) {
+        // Generate OTP
+        const otp = Math.floor(1000 + Math.random() * 9000).toString();
+        console.log('Generated OTP:', otp);
+        
+        // Show OTP to user
+        alert(`OTP sent! Your OTP is: ${otp}`);
+        
+        // Show OTP section
+        const otpSection = document.getElementById('otpSection');
+        if (otpSection) {
+            otpSection.style.display = 'block';
+        }
+        
+        // Change button text
+        const btnText = document.getElementById('btnText');
+        if (btnText) {
+            btnText.innerHTML = 'Verify OTP';
+        }
+        
+        // Store OTP for verification
+        sessionStorage.setItem('otpGenerated', otp);
+        sessionStorage.setItem('userMobile', '+91' + mobileNumber);
+        
+        console.log('OTP sent successfully');
+        
+    } else {
+        alert('Please enter a valid 10-digit mobile number');
+        console.log('Invalid mobile number:', mobileNumber);
+    }
+};
+
+// Fast2SMS API Configuration
+const fast2SMSConfig = {
+    apiKey: "buN1BkI57lcxVrSmjvKHYozaiwCsgZ6nGXfQAT3O8UE4Ly2dhMEHxfPwJSm3byt6M2gdl0TIpDQaGk5U",
+    apiUrl: "/send-otp-via-fast2sms/",
+    sender: "FSTSMS",
+    templateId: "otp_template",
+    route: "3",
+    language: "english"
+};
+
+let loginStep = 'mobile'; // 'mobile' or 'otp'
+
+// Show mobile number display in input field
+function showMobileNumber() {
+    const mobileInput = document.getElementById('mobile_number');
+    const countryCode = document.getElementById('country_code');
+    
+    if (mobileInput && countryCode) {
+        const mobileNumber = mobileInput.value;
+        const fullNumber = countryCode.value + mobileNumber;
+        
+        if (mobileNumber.length > 0) {
+            // Format the number for display
+            let displayValue = fullNumber;
+            
+            if (mobileNumber.length === 10) {
+                // Format: +91 XXXXX-XXXXX
+                displayValue = countryCode.value + ' ' + 
+                    mobileNumber.substring(0, 5) + '-' + 
+                    mobileNumber.substring(5, 10);
+                
+                // Update input field with formatted number
+                mobileInput.value = mobileNumber; // Keep raw value for form submission
+                mobileInput.style.color = '#28a745'; // Green color for complete number
+                mobileInput.style.fontWeight = '600';
+                mobileInput.style.borderColor = 'rgba(40, 167, 69, 0.5)';
+                mobileInput.style.boxShadow = '0 0 15px rgba(40, 167, 69, 0.2)';
+                
+                // Update placeholder to show formatted number
+                mobileInput.setAttribute('data-formatted', displayValue);
+            } else {
+                // Show partial number
+                mobileInput.style.color = '#0a2e0a';
+                mobileInput.style.fontWeight = '500';
+                mobileInput.style.borderColor = 'rgba(212, 175, 55, 0.3)';
+                mobileInput.style.boxShadow = '0 0 10px rgba(212, 175, 55, 0.1)';
+                
+                // Update placeholder
+                mobileInput.setAttribute('data-formatted', fullNumber);
+            }
+        } else {
+            // Reset styling when empty
+            mobileInput.style.color = '#0a2e0a';
+            mobileInput.style.fontWeight = '500';
+            mobileInput.style.borderColor = 'rgba(212, 175, 55, 0.2)';
+            mobileInput.style.boxShadow = 'none';
+            mobileInput.removeAttribute('data-formatted');
+        }
+    }
+}
+
+function sendOTPNow() {
+    console.log('sendOTPNow called');
+    
+    const mobileInput = document.getElementById('mobile_number');
+    const mobileNumber = mobileInput ? mobileInput.value : '';
+    
+    console.log('Mobile number:', mobileNumber);
+    
+    if (mobileNumber.length === 10) {
+        // Generate OTP
+        const otp = Math.floor(1000 + Math.random() * 9000).toString();
+        console.log('Generated OTP:', otp);
+        
+        // Show OTP to user
+        alert(`OTP sent! Your OTP is: ${otp}`);
+        
+        // Show OTP section
+        const otpSection = document.getElementById('otpSection');
+        if (otpSection) {
+            otpSection.style.display = 'block';
+        }
+        
+        // Change button text
+        const btnText = document.getElementById('btnText');
+        if (btnText) {
+            btnText.innerHTML = 'Verify OTP';
+        }
+        
+        // Store OTP
+        sessionStorage.setItem('otpGenerated', otp);
+        sessionStorage.setItem('userMobile', '+91' + mobileNumber);
+        
+    } else {
+        alert('Please enter a valid 10-digit mobile number');
+    }
+}
+
+function handleLoginButtonClick() {
+    console.log('=== LOGIN BUTTON CLICKED ===');
+    
+    const mobileInput = document.getElementById('mobile_number');
+    const mobileNumber = mobileInput ? mobileInput.value : '';
+    
+    console.log('Mobile number:', mobileNumber);
+    console.log('Mobile number length:', mobileNumber.length);
+    
+    if (mobileNumber.length === 10) {
+        console.log('Valid mobile number, sending OTP...');
+        sendOTP();
+        startOTPTimer();
+    } else {
+        console.log('Invalid mobile number');
+        alert('Please enter a valid 10-digit mobile number');
+    }
+}
+
+// Direct Mobile Login with SMS Integration
+function handleLogin(event) {
+    event.preventDefault();
+    console.log('handleLogin called');
+    
+    const mobileNumber = document.getElementById('mobile_number').value;
+    const countryCode = document.getElementById('country_code').value;
+    const fullNumber = countryCode + mobileNumber;
+    
+    console.log('Mobile number:', mobileNumber);
+    console.log('Country code:', countryCode);
+    console.log('Full number:', fullNumber);
+    
+    // Validate mobile number
+    if (!mobileNumber || mobileNumber.length < 10) {
+        alert('Please enter a valid 10-digit mobile number');
+        return;
+    }
+    
+    // Show loading state
+    const loginBtn = window.loginBtnRef || document.getElementById('loginBtn');
+    const btnText = document.getElementById('btnText');
+    
+    if (loginBtn && btnText) {
+        btnText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending OTP...';
+        loginBtn.disabled = true;
+    }
+    
+    // Send OTP via SMS API
+    sendOTP();
+}
+
+// Send OTP via Fast2SMS API
+async function sendOTP() {
+    try {
+        const mobileNumber = document.getElementById('mobile_number').value;
+        const countryCode = document.getElementById('country_code').value;
+        const fullNumber = countryCode + mobileNumber;
+        
+        console.log('Sending OTP to:', fullNumber);
+        
+        // Generate 4-digit OTP
+        const otp = Math.floor(1000 + Math.random() * 9000).toString();
+        console.log('Generated OTP:', otp);
+        
+        // Show OTP to user for testing (remove this in production)
+        alert(`OTP for testing: ${otp}`);
+        
+        // Store OTP in session
+        sessionStorage.setItem('userMobile', fullNumber);
+        sessionStorage.setItem('otpGenerated', otp);
+        sessionStorage.setItem('otpTimestamp', Date.now().toString());
+        
+        // Show OTP section immediately for testing
+        const otpSection = document.getElementById('otpSection');
+        if (otpSection) {
+            otpSection.style.display = 'block';
+            loginStep = 'otp';
+            
+            // Update button
+            const loginBtn = window.loginBtnRef || document.getElementById('loginBtn');
+            const btnText = document.getElementById('btnText');
+            if (loginBtn && btnText) {
+                btnText.innerHTML = '<i class="fas fa-check"></i> Verify OTP';
+                loginBtn.disabled = false;
+            }
+        }
+        
+        // Call Fast2SMS API via backend (commented out for testing)
+        /*
+        const response = await fetch(fast2SMSConfig.apiUrl, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                phone_number: mobileNumber,
+                country_code: countryCode,
+                otp: otp
+            })
+        });
+        
+        const result = await response.json();
+        console.log('Fast2SMS Response:', result);
+        
+        if (result.success) {
+            // Store SMS delivery status
+            sessionStorage.setItem('smsStatus', 'sent');
+            sessionStorage.setItem('smsId', result.sms_id || 'unknown');
+            
+            // Show OTP section
+            const otpSection = document.getElementById('otpSection');
+            if (otpSection) {
+                otpSection.style.display = 'block';
+                loginStep = 'otp';
+                
+                // Update button
+                const loginBtn = window.loginBtnRef || document.getElementById('loginBtn');
+                const btnText = document.getElementById('btnText');
+                if (loginBtn && btnText) {
+                    btnText.innerHTML = '<i class="fas fa-check"></i> Verify OTP';
+                    loginBtn.disabled = false;
+                }
+            }
+            
+            // Handle development mode
+            if (result.development_mode && result.otp_for_testing) {
+                showNotification(`OTP sent successfully! Development Mode - OTP: ${result.otp_for_testing}`, 'success');
+                console.log('Development Mode - OTP for testing:', result.otp_for_testing);
+            } else {
+                showNotification(`OTP sent successfully to ${mobileNumber}!`, 'success');
+            }
+            
+            console.log('SMS sent with ID:', result.sms_id);
+            if (result.note) {
+                console.log('Note:', result.note);
+            }
+        } else {
+            throw new Error(result.error || 'Failed to send OTP');
+            throw new Error(result.error || 'Failed to send SMS');
+        }
+        
+    } catch (error) {
+        console.error('SMS sending error:', error);
+        showNotification('Failed to send OTP. Please try again.', 'error');
+        
+        // Reset button
+        const loginBtn = window.loginBtnRef || document.getElementById('loginBtn');
+        const btnText = document.getElementById('btnText');
+        if (loginBtn && btnText) {
+            btnText.innerHTML = '<i class="fas fa-paper-plane"></i> Send OTP';
+            loginBtn.disabled = false;
+        }
+    }
+}
+
+// Verify OTP with backend validation
+async function verifyOTP() {
+    console.log('verifyOTP function called');
+    
+    const enteredOTP = document.getElementById('otp_code').value;
+    const generatedOTP = sessionStorage.getItem('otpGenerated');
+    const mobileNumber = sessionStorage.getItem('userMobile');
+    
+    console.log('Entered OTP:', enteredOTP);
+    console.log('Generated OTP:', generatedOTP);
+    console.log('Mobile number:', mobileNumber);
+    
+    // Check if OTP exists in session
+    if (!generatedOTP) {
+        console.log('No OTP found in session - please send OTP first');
+        showNotification('Please send OTP first', 'error');
+        return;
+    }
+    
+    if (!enteredOTP || enteredOTP.length !== 4) {
+        showNotification('Please enter a valid 4-digit OTP', 'error');
+        return;
+    }
+    
+    // Show loading state
+    const loginBtn = window.loginBtnRef || document.getElementById('loginBtn');
+    const btnText = document.getElementById('btnText');
+    if (loginBtn && btnText) {
+        btnText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verifying...';
+        loginBtn.disabled = true;
+    }
+    
+    try {
+        // Call backend verification endpoint
+        const response = await fetch('/api/verify-otp/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({
+                otp: enteredOTP,
+                mobile_number: mobileNumber
+            })
+        });
+        
+        const result = await response.json();
+        console.log('OTP verification response:', result);
+        
+        if (result.success) {
+            console.log('OTP verification successful');
+            showNotification('Login successful! Welcome to VICTNOW', 'success');
+            
+            // Store user data from backend response
+            if (result.user) {
+                localStorage.setItem('userLoggedIn', 'true');
+                localStorage.setItem('userName', result.user.full_name || result.user.username || 'User');
+                localStorage.setItem('userFirstName', result.user.first_name || 'User');
+                localStorage.setItem('userLastName', result.user.last_name || '');
+                localStorage.setItem('userEmail', result.user.email || '');
+                localStorage.setItem('userMobile', result.user.phone_number || mobileNumber);
+                localStorage.setItem('loginMethod', result.user.login_method || 'mobile');
+                localStorage.setItem('userId', result.user.id || 'user_' + Date.now());
+            } else {
+                // Fallback if no user data returned
+                localStorage.setItem('userLoggedIn', 'true');
+                localStorage.setItem('userName', 'User');
+                localStorage.setItem('userMobile', mobileNumber);
+                localStorage.setItem('loginMethod', 'mobile');
+            }
+            
+            // Clear session storage
+            sessionStorage.removeItem('otpGenerated');
+            sessionStorage.removeItem('userMobile');
+            sessionStorage.removeItem('smsStatus');
+            sessionStorage.removeItem('smsId');
+            
+            // Hide login form and show success
+            document.getElementById('loginForm').style.display = 'none';
+            
+            // Reset button
+            if (loginBtn && btnText) {
+                btnText.innerHTML = '<i class="fas fa-check"></i> Login Successful';
+                loginBtn.disabled = false;
+            }
+            
+            // Redirect to home after successful login
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1500);
+        } else {
+            console.log('OTP verification failed:', result.error);
+            showNotification(result.error || 'Invalid OTP. Please try again.', 'error');
+            document.getElementById('otp_code').value = '';
+            
+            // Reset button
+            if (loginBtn && btnText) {
+                btnText.innerHTML = '<i class="fas fa-check"></i> Verify OTP';
+                loginBtn.disabled = false;
+            }
+        }
+    } catch (error) {
+        console.error('OTP verification error:', error);
+        showNotification('Verification failed. Please try again.', 'error');
+        
+        // Reset button
+        if (loginBtn && btnText) {
+            btnText.innerHTML = '<i class="fas fa-check"></i> Verify OTP';
+            loginBtn.disabled = false;
+        }
+    }
+}
+
+// Helper function to get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+// Handle profile form submission
+function handleProfileSubmit(event) {
+    event.preventDefault();
+    console.log('handleProfileSubmit called');
+    
+    // Get form data
+    const firstName = document.getElementById('first_name').value.trim();
+    const lastName = document.getElementById('last_name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const birthDate = document.getElementById('birth_date').value;
+    const gender = document.getElementById('gender').value;
+    
+    // Get stored mobile info
+    const mobileNumber = sessionStorage.getItem('tempMobile');
+    const countryCode = sessionStorage.getItem('tempCountryCode');
+    
+    console.log('Profile data:', {
+        firstName,
+        lastName,
+        email,
+        birthDate,
+        gender,
+        mobileNumber,
+        countryCode
+    });
+    
+    // Validate required fields
+    if (!firstName || !lastName || !email) {
+        showNotification('Please fill in all required fields', 'error');
+        return;
+    }
+    
+    // Validate email format
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        showNotification('Please enter a valid email address', 'error');
+        return;
+    }
+    
+    // Show loading state
+    const profileBtn = document.getElementById('profileBtn');
+    const profileBtnText = document.getElementById('profileBtnText');
+    profileBtn.disabled = true;
+    profileBtnText.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+    
+    // Send profile data to backend
+    fetch('/api/complete-user-profile/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            first_name: firstName,
+            last_name: lastName,
+            email: email,
+            birth_date: birthDate,
+            gender: gender,
+            mobile_number: mobileNumber,
+            country_code: countryCode
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        console.log('Profile submission response:', data);
+        
+        if (data.success) {
+            // Store user data in localStorage
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('userName', data.user.full_name || `${firstName} ${lastName}`);
+            localStorage.setItem('userFirstName', firstName);
+            localStorage.setItem('userLastName', lastName);
+            localStorage.setItem('userEmail', email);
+            localStorage.setItem('userMobile', data.user.phone_number || mobileNumber);
+            localStorage.setItem('loginMethod', data.user.login_method || 'mobile');
+            localStorage.setItem('userId', data.user.id || 'user_' + Date.now());
+            
+            showNotification('Profile completed successfully! Welcome to VICTNOW', 'success');
+            
+            // Clear session storage
+            sessionStorage.removeItem('otpGenerated');
+            sessionStorage.removeItem('userMobile');
+            sessionStorage.removeItem('tempMobile');
+            sessionStorage.removeItem('tempCountryCode');
+            
+            // Redirect to home page
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1500);
+        } else {
+            showNotification('Profile update failed: ' + data.error, 'error');
+            // Reset button
+            profileBtn.disabled = false;
+            profileBtnText.innerHTML = '<i class="fas fa-check"></i> Complete Profile';
+        }
+    })
+    .catch(error => {
+        console.error('Profile submission error:', error);
+        showNotification('Profile update failed. Please try again.', 'error');
+        // Reset button
+        profileBtn.disabled = false;
+        profileBtnText.innerHTML = '<i class="fas fa-check"></i> Complete Profile';
+    });
+}
+
+// Skip profile completion
+function skipProfile() {
+    console.log('Skipping profile completion');
+    
+    // Get stored mobile info
+    const mobileNumber = sessionStorage.getItem('tempMobile');
+    const countryCode = sessionStorage.getItem('tempCountryCode');
+    
+    // Show loading state
+    showNotification('Logging you in...', 'info');
+    
+    // Send basic login data to backend
+    fetch('/api/direct-mobile-login/', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+            'X-CSRFToken': getCookie('csrftoken')
+        },
+        body: JSON.stringify({
+            mobile_number: mobileNumber,
+            country_code: countryCode
+        })
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            // Store basic user data
+            localStorage.setItem('userLoggedIn', 'true');
+            localStorage.setItem('userName', data.user.full_name || 'User');
+            localStorage.setItem('userFirstName', data.user.first_name || 'User');
+            localStorage.setItem('userLastName', data.user.last_name || '');
+            localStorage.setItem('userEmail', data.user.email || '');
+            localStorage.setItem('userMobile', data.user.phone_number || mobileNumber);
+            localStorage.setItem('loginMethod', data.user.login_method || 'mobile');
+            localStorage.setItem('userId', data.user.id || 'user_' + Date.now());
+            
+            showNotification('Login successful! Welcome to VICTNOW', 'success');
+            
+            // Clear session storage
+            sessionStorage.removeItem('otpGenerated');
+            sessionStorage.removeItem('userMobile');
+            sessionStorage.removeItem('tempMobile');
+            sessionStorage.removeItem('tempCountryCode');
+            
+            // Redirect to home page
+            setTimeout(() => {
+                window.location.href = '/';
+            }, 1500);
+        } else {
+            showNotification('Login failed: ' + data.error, 'error');
+        }
+    })
+    .catch(error => {
+        console.error('Skip login error:', error);
+        showNotification('Login failed. Please try again.', 'error');
+    });
+}
+
+function resendOTP() {
+    const mobileNumber = sessionStorage.getItem('userMobile');
+    if (!mobileNumber) {
+        showNotification('Please enter your mobile number first', 'error');
+        return;
+    }
+    
+    const newOTP = Math.floor(1000 + Math.random() * 9000).toString();
+    sessionStorage.setItem('otpGenerated', newOTP);
+    
+    showNotification('New OTP sent to ' + mobileNumber, 'success');
+}
+
+// Helper function to get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+
+
+function showNotification(message, type) {
+    // Create notification element
+    const notification = document.createElement('div');
+    notification.className = 'notification ' + type;
+    notification.innerHTML = `
+        <i class="fas fa-${type === 'success' ? 'check-circle' : type === 'error' ? 'exclamation-circle' : 'info-circle'}"></i>
+        <span>${message}</span>
+    `;
+    
+    // Add to page
+    document.body.appendChild(notification);
+    
+    // Remove after 3 seconds
+    setTimeout(() => {
+        notification.style.animation = 'slideOut 0.5s ease';
+        setTimeout(() => {
+            document.body.removeChild(notification);
+        }, 500);
+    }, 3000);
+}
+
+function updateMobileValidation() {
+    const mobileInput = document.getElementById('mobile_number');
+    const mobileWrapper = mobileInput.closest('.mobile-input-wrapper');
+    const mobileDisplay = document.getElementById('mobileDisplay');
+    const countryCode = document.getElementById('country_code').value;
+    const mobileNumber = mobileInput.value;
+    
+    if (mobileNumber.length === 0) {
+        mobileWrapper.classList.remove('valid', 'invalid');
+        mobileDisplay.style.display = 'none';
+        return false;
+    }
+    
+    if (mobileNumber.length === 10) {
+        if (validateMobileNumber(mobileNumber)) {
+            mobileWrapper.classList.add('valid');
+            mobileWrapper.classList.remove('invalid');
+            mobileDisplay.textContent = `OTP will be sent to ${countryCode} ${mobileNumber}`;
+            mobileDisplay.style.display = 'flex';
+            return true;
+        } else {
+            mobileWrapper.classList.add('invalid');
+            mobileWrapper.classList.remove('valid');
+            mobileDisplay.textContent = 'Please enter a valid mobile number';
+            mobileDisplay.style.display = 'flex';
+            mobileDisplay.style.color = '#f44336';
+            return false;
+        }
+    } else {
+        mobileWrapper.classList.remove('valid', 'invalid');
+        mobileDisplay.style.display = 'none';
+        return false;
+    }
+}
+
+// Enhanced OTP Digit Management
+function setupOTPDigits() {
+    const otpInput = document.getElementById('otp_code');
+    
+    otpInput.addEventListener('input', function(e) {
+        const value = e.target.value;
+        const maxLength = parseInt(e.target.maxLength);
+        
+        // Only allow numbers and limit to 4 digits
+        if (!/^\d*$/.test(value)) {
+            e.target.value = value.replace(/\D/g, '');
+            return;
+        }
+        
+        if (value.length > maxLength) {
+            e.target.value = value.slice(0, maxLength);
+            return;
+        }
+        
+        updateOTPStatus();
+    });
+    
+    otpInput.addEventListener('paste', function(e) {
+        e.preventDefault();
+        const pastedData = e.clipboardData.getData('text').replace(/\D/g, '').slice(0, 4);
+        e.target.value = pastedData;
+        updateOTPStatus();
+    });
+    
+    otpInput.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter') {
+            e.preventDefault();
+            if (loginStep === 'otp') {
+                verifyOTP();
+            }
+        }
+    });
+}
+
+function updateOTPValue() {
+    // No longer needed since we're using single input
+    const otpInput = document.getElementById('otp_code');
+    return otpInput ? otpInput.value : '';
+}
+
+function updateOTPStatus() {
+    const otpInput = document.getElementById('otp_code');
+    const statusText = document.querySelector('.otp-status-text');
+    const otpLength = otpInput ? otpInput.value.length : 0;
+    
+    if (otpLength === 0) {
+        statusText.textContent = 'Enter 4-digit code';
+        statusText.style.color = '#666';
+        otpInput.classList.remove('filled');
+    } else if (otpLength < 4) {
+        statusText.textContent = `${4 - otpLength} digits remaining`;
+        statusText.style.color = '#666';
+        otpInput.classList.remove('filled');
+    } else {
+        statusText.textContent = 'Code complete!';
+        statusText.style.color = '#28a745';
+        otpInput.classList.add('filled');
+    }
+}
+
+function clearOTP() {
+    const otpInput = document.getElementById('otp_code');
+    const statusText = document.querySelector('.otp-status-text');
+    
+    otpInput.value = '';
+    otpInput.classList.remove('filled');
+    statusText.textContent = 'Enter 4-digit code';
+    statusText.style.color = '#666';
+    
+    // Focus on input
+    otpInput.focus();
+}
+
+// Enhanced OTP Timer
+let otpTimerInterval;
+function startOTPTimer() {
+    let timeLeft = 30;
+    const otpTimer = document.getElementById('otpTimer');
+    const timerCount = document.getElementById('timerCount');
+    const resendBtn = document.querySelector('.btn-resend-otp');
+    
+    otpTimer.style.display = 'flex';
+    resendBtn.disabled = true;
+    resendBtn.style.opacity = '0.5';
+    resendBtn.style.cursor = 'not-allowed';
+    
+    clearInterval(otpTimerInterval);
+    
+    otpTimerInterval = setInterval(() => {
+        timeLeft--;
+        timerCount.textContent = timeLeft;
+        
+        if (timeLeft <= 0) {
+            clearInterval(otpTimerInterval);
+            otpTimer.style.display = 'none';
+            resendBtn.disabled = false;
+            resendBtn.style.opacity = '1';
+            resendBtn.style.cursor = 'pointer';
+        }
+    }, 1000);
+}
+
+// Enhanced resend OTP function
+function resendOTP() {
+    const mobileNumber = sessionStorage.getItem('userMobile');
+    if (!mobileNumber) {
+        showNotification('Please enter your mobile number first', 'error');
+        return;
+    }
+    
+    const newOTP = Math.floor(1000 + Math.random() * 9000).toString();
+    sessionStorage.setItem('otpGenerated', newOTP);
+    
+    // Start timer
+    startOTPTimer();
+    
+    // Clear existing OTP
+    clearOTP();
+    
+    showNotification('New OTP sent to ' + mobileNumber, 'success');
+}
+
+// Auto-fill mobile number if returning user
+document.addEventListener('DOMContentLoaded', function() {
+    const savedMobile = localStorage.getItem('userMobile');
+    if (savedMobile) {
+        document.getElementById('mobile_number').value = savedMobile.slice(-10);
+        updateMobileValidation();
+    }
+    
+    // Setup mobile number validation
+    const mobileInput = document.getElementById('mobile_number');
+    if (mobileInput) {
+        // Remove any readonly or disabled attributes
+        mobileInput.removeAttribute('readonly');
+        mobileInput.removeAttribute('disabled');
+        mobileInput.style.pointerEvents = 'auto';
+        mobileInput.style.userSelect = 'text';
+        
+        // Add validation listeners
+        mobileInput.addEventListener('input', updateMobileValidation);
+        mobileInput.addEventListener('blur', updateMobileValidation);
+        mobileInput.addEventListener('input', showMobileNumber);
+        
+        // Show mobile number display on initial load if value exists
+        if (mobileInput.value) {
+            showMobileNumber();
+        }
+        
+        // Force enable input
+        setTimeout(() => {
+            mobileInput.focus();
+            mobileInput.click();
+        }, 100);
+        
+        // Add multiple event listeners
+        mobileInput.addEventListener('input', function(e) {
+            console.log('Mobile input:', e.target.value);
+        });
+        
+        mobileInput.addEventListener('keydown', function(e) {
+            console.log('Mobile keydown:', e.key);
+        });
+        
+        mobileInput.addEventListener('focus', function(e) {
+            console.log('Mobile focused');
+        });
+        
+        mobileInput.addEventListener('click', function(e) {
+            console.log('Mobile clicked');
+            e.target.focus();
+        });
+    }
+    
+    // Setup OTP digits interface
+    setupOTPDigits();
+    
+    // Ensure country code select is working
+    const countryCodeSelect = document.getElementById('country_code');
+    if (countryCodeSelect) {
+        countryCodeSelect.addEventListener('change', function(e) {
+            console.log('Country code changed:', e.target.value);
+            updateMobileValidation();
+        });
+    }
+    
+    // Add simple click listener to login button
+    const loginBtn = document.getElementById('loginBtn');
+    if (loginBtn) {
+        console.log('Login button found, adding click listener');
+        
+        loginBtn.addEventListener('click', function(e) {
+            console.log('Login button clicked!');
+            e.preventDefault();
+            
+            const mobileInput = document.getElementById('mobile_number');
+            const mobileNumber = mobileInput ? mobileInput.value : '';
+            
+            console.log('Mobile number:', mobileNumber);
+            console.log('Mobile number length:', mobileNumber.length);
+            
+            if (loginStep === 'mobile') {
+                if (mobileNumber.length === 10) {
+                    console.log('Valid mobile number, sending OTP...');
+                    sendOTP();
+                    startOTPTimer();
+                } else {
+                    console.log('Invalid mobile number');
+                    showNotification('Please enter a valid 10-digit mobile number', 'error');
+                }
+            } else if (loginStep === 'otp') {
+                console.log('Verifying OTP...');
+                verifyOTP();
+            }
+        });
+        
+        // Store reference
+        window.loginBtnRef = loginBtn;
+    }
+    
+    // Test input functionality
+    console.log('Mobile input element:', mobileInput);
+    console.log('Mobile input disabled:', mobileInput.disabled);
+    console.log('Mobile input readonly:', mobileInput.readOnly);
+    console.log('Login button element:', loginBtn);
+});
+</script>
+{% endblock %}

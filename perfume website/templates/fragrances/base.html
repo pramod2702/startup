@@ -1,0 +1,490 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <title>{% block title %}VICTNOW - Luxury Fragrances{% endblock %}</title>
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=9.1">
+    
+    <!-- Custom Navbar Styles -->
+    <style>
+    .navbar {
+        background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%) !important;
+        border-bottom: 2px solid #d4af37 !important;
+        backdrop-filter: blur(10px);
+        box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+    }
+    
+    .navbar-brand {
+        font-family: 'Playfair Display', serif !important;
+        font-size: 1.8rem !important;
+        letter-spacing: 2px !important;
+        text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+    }
+    
+    .navbar-nav .nav-link {
+        font-family: 'Montserrat', sans-serif !important;
+        font-weight: 500 !important;
+        letter-spacing: 1px !important;
+        text-transform: uppercase !important;
+        transition: all 0.3s ease !important;
+        padding: 0.5rem 1rem !important;
+    }
+    
+    .navbar-nav .nav-link:hover {
+        color: #d4af37 !important;
+        transform: translateY(-1px);
+    }
+    
+    .navbar-toggler {
+        border-color: #d4af37 !important;
+        padding: 0.25rem 0.5rem !important;
+    }
+    
+    .navbar-toggler:focus {
+        box-shadow: 0 0 0 0.2rem rgba(212, 175, 55, 0.25) !important;
+    }
+    
+    .navbar-toggler-icon {
+        background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='%23d4af37' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    }
+    
+    @media (max-width: 991.98px) {
+        .navbar-nav.mx-auto {
+            margin: 0 !important;
+            text-align: left !important;
+        }
+        
+        .navbar-nav .nav-link {
+            padding: 12px 20px !important;
+            text-align: left !important;
+            font-size: 1rem !important;
+        }
+        
+        .navbar-nav.d-flex {
+            justify-content: flex-start !important;
+            margin-top: 1rem !important;
+            gap: 1rem !important;
+        }
+        
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body style="padding-top: 76px;">
+    <!-- Bootstrap Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+        <div class="container-fluid px-3 px-lg-4">
+            <!-- Brand -->
+            <a class="navbar-brand fw-bold text-warning" href="{% url 'home' %}">
+                VICTNOW
+            </a>
+            
+            <!-- Mobile toggle button -->
+            <button class="navbar-toggler border-warning" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            
+            <!-- Collapsible content -->
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <!-- Navigation links -->
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/">HOME</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/collection/">COLLECTION</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/corporate-gifting/">CORPORATE GIFTING</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/about/">ABOUT</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/reviews/">REVIEWS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link text-white" href="/contact/">CONTACT</a>
+                    </li>
+                </ul>
+                
+                <!-- Right side elements -->
+                <div class="navbar-nav d-flex flex-row align-items-center">
+                    <!-- Cart icon -->
+                    <div class="nav-item">
+                        <a class="nav-link text-warning position-relative" href="/cart-view/" onclick="goToCart(event)">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger" style="display: none;">0</span>
+                        </a>
+                    </div>
+                    
+                    <!-- User auth -->
+                    <div class="nav-item">
+                        <!-- Logged out state -->
+                        <a href="/login/" class="nav-link text-warning" id="authLink" style="display: block;">
+                            <i class="fas fa-user"></i>
+                        </a>
+                        
+                        <!-- Logged in state -->
+                        <div class="dropdown" id="userDropdown" style="display: none;">
+                            <a class="nav-link text-warning dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle"></i>
+                                <span id="userName" class="ms-1"></span>
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" style="background: linear-gradient(135deg, #1a1a1a, #2a2a2a); border: 1px solid #d4af37; border-radius: 10px; padding: 10px;">
+                                <li>
+                                    <a class="dropdown-item text-warning" href="/orders/" onclick="goToMyOrders(event)" style="padding: 8px 15px; border-radius: 5px; transition: all 0.3s ease;">
+                                        <i class="fas fa-shopping-bag me-2"></i> My Orders
+                                    </a>
+                                </li>
+                                <li><hr class="dropdown-divider" style="border-color: #d4af37;"></li>
+                                <li>
+                                    <a class="dropdown-item text-danger" href="#" onclick="logout(event)" style="padding: 8px 15px; border-radius: 5px; transition: all 0.3s ease;">
+                                        <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                    
+                    <!-- Shop Now button -->
+                    <div class="nav-item ms-2">
+                        <a href="/collection/" class="btn btn-warning btn-sm">
+                            Shop Now
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main>
+        {% block content %}
+        {% endblock %}
+    </main>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Custom JS -->
+    <script src="{% static 'js/script.js' %}"></script>
+    
+    <script>
+        // Authentication Functions
+        function checkAuthStatus() {
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            const authLink = document.getElementById('authLink');
+            const userDropdown = document.getElementById('userDropdown');
+            const userName = document.getElementById('userName');
+            
+            if (currentUser && authLink && userDropdown && userName) {
+                authLink.style.display = 'none';
+                userDropdown.style.display = 'block';
+                userName.textContent = currentUser.name || currentUser.username || 'User';
+            } else {
+                if (authLink) authLink.style.display = 'block';
+                if (userDropdown) userDropdown.style.display = 'none';
+            }
+        }
+        
+        function logout(e) {
+            if (e) e.preventDefault();
+            console.log('Logout clicked');
+            localStorage.removeItem('currentUser');
+            const authLink = document.getElementById('authLink');
+            const userDropdown = document.getElementById('userDropdown');
+            if (authLink) authLink.style.display = 'block';
+            if (userDropdown) userDropdown.style.display = 'none';
+            window.location.href = '/';
+        }
+        
+        function goToMyOrders(e) {
+            if (e) e.preventDefault();
+            console.log('My Orders clicked');
+            window.location.href = '/orders/';
+        }
+        
+        function goToCart(e) {
+            if (e) e.preventDefault();
+            try {
+                window.location.href = '/cart-view/';
+            } catch (error) {
+                console.error('Navigation error:', error);
+            }
+        }
+        
+        // Cart Functions
+        function addToCart(productId, productName, productPrice, productImage = null) {
+            // Check if user is logged in
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                showNotification('Please login to add items to cart', 'error');
+                setTimeout(() => {
+                    window.location.href = '/login/';
+                }, 1500);
+                return;
+            }
+
+            // Store cart data in localStorage
+            let cartData = JSON.parse(localStorage.getItem('cartData') || '[]');
+
+            // Check if item already exists in cart
+            const existingItemIndex = cartData.findIndex(item => item.id == productId);
+
+            if (existingItemIndex !== -1) {
+                // Update existing item quantity
+                cartData[existingItemIndex].quantity += 1;
+                cartData[existingItemIndex].subtotal = cartData[existingItemIndex].quantity * productPrice;
+                
+                // Show notification for quantity update
+                showNotification(`${productName} quantity updated to ${cartData[existingItemIndex].quantity}`, 'info');
+            } else {
+                // Add new item to cart
+                cartData.push({
+                    id: productId,
+                    name: productName,
+                    price: productPrice,
+                    quantity: 1,
+                    subtotal: productPrice,
+                    image: productImage
+                });
+                
+                // Show notification for new item
+                showNotification(`${productName} added to cart!`, 'success');
+            }
+
+            // Store updated cart data
+            localStorage.setItem('cartData', JSON.stringify(cartData));
+
+            // Update cart count
+            updateCartCount();
+
+            // Refresh cart display if cart page is open
+            if (window.location.pathname === '/cart-view/') {
+                refreshCartDisplay();
+            }
+
+            // Add animation to cart icon
+            const cartIcon = document.querySelector('.fa-shopping-cart');
+            if (cartIcon) {
+                cartIcon.style.transform = 'scale(1.2)';
+                setTimeout(() => {
+                    cartIcon.style.transform = 'scale(1)';
+                }, 300);
+            }
+        }
+
+        function updateCartCount() {
+            const cartData = JSON.parse(localStorage.getItem('cartData') || '[]');
+            const cartCountElement = document.getElementById('cart-count');
+            if (cartCountElement) {
+                const totalItems = cartData.reduce((sum, item) => sum + item.quantity, 0);
+                cartCountElement.textContent = totalItems;
+                cartCountElement.style.display = totalItems > 0 ? 'flex' : 'none';
+            }
+        }
+
+        // Function to refresh cart display (called when items are added)
+        function refreshCartDisplay() {
+            const cartData = JSON.parse(localStorage.getItem('cartData') || '[]');
+            
+            // Display cart items
+            displayCartItems(cartData);
+            
+            // Calculate and display totals
+            calculateCartTotals(cartData);
+            
+            // Update cart count
+            updateCartCount();
+        }
+
+        // Update quantity of cart items
+        function updateQuantity(index, change) {
+            console.log('Updating quantity for item', index, 'by', change);
+            
+            const cartData = JSON.parse(localStorage.getItem('cartData') || '[]');
+            console.log('Current cart data:', cartData);
+            
+            if (index < 0 || index >= cartData.length) {
+                console.error('Invalid index:', index);
+                return;
+            }
+            
+            const item = cartData[index];
+            const newQuantity = item.quantity + change;
+            
+            console.log('Item:', item, 'New quantity:', newQuantity);
+            
+            if (newQuantity <= 0) {
+                // Remove item if quantity is 0 or less
+                cartData.splice(index, 1);
+                showNotification(`${item.name} removed from cart`, 'info');
+            } else {
+                // Update quantity and subtotal
+                item.quantity = newQuantity;
+                item.subtotal = newQuantity * item.price;
+                showNotification(`${item.name} quantity updated to ${newQuantity}`, 'info');
+            }
+            
+            // Save to localStorage
+            localStorage.setItem('cartData', JSON.stringify(cartData));
+            console.log('Updated cart data saved:', cartData);
+            
+            // Refresh display
+            refreshCartDisplay();
+        }
+
+        // Display cart items function
+        function displayCartItems(cartData) {
+            const cartItemsList = document.getElementById('cartItemsList');
+            
+            if (!cartData || cartData.length === 0) {
+                if (cartItemsList) {
+                    cartItemsList.innerHTML = '<div class="empty-cart-message" style="text-align: center; padding: 40px; color: #666;"><i class="fas fa-shopping-cart" style="font-size: 3rem; margin-bottom: 20px;"></i><h3>Your cart is empty</h3><p>Add some luxury fragrances to get started!</p></div>';
+                }
+                return;
+            }
+            
+            let itemsHTML = '';
+            cartData.forEach((item, index) => {
+                const productImage = item.image || '/static/images/perfume.png';
+                itemsHTML += `
+                    <div class="cart-item" style="display: flex; justify-content: space-between; align-items: center; padding: 20px; margin-bottom: 15px; background: rgba(0, 0, 0, 0.3); border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.2);">
+                        <div style="display: flex; align-items: center; gap: 20px;">
+                            <img src="${productImage}" alt="${item.name}" style="width: 80px; height: 80px; border-radius: 10px; object-fit: cover; border: 2px solid rgba(212, 175, 55, 0.3);">
+                            <div>
+                                <h4 style="color: #ffffff; font-size: 1.2rem; font-weight: 600; margin: 0;">${item.name}</h4>
+                                <p style="color: rgba(212, 175, 55, 0.8); font-size: 1rem; margin: 5px 0 0 0;">₹${item.price.toFixed(2)} each</p>
+                            </div>
+                        </div>
+                        <div style="display: flex; align-items: center; gap: 15px;">
+                            <div style="display: flex; align-items: center; gap: 10px; background: rgba(0, 0, 0, 0.3); padding: 8px; border-radius: 8px;">
+                                <button onclick="updateQuantity(${index}, -1)" style="width: 30px; height: 30px; background: rgba(239, 68, 68, 0.8); border: none; border-radius: 6px; color: white; cursor: pointer; font-weight: bold;">-</button>
+                                <span style="color: white; font-weight: bold; min-width: 30px; text-align: center;">${item.quantity}</span>
+                                <button onclick="updateQuantity(${index}, 1)" style="width: 30px; height: 30px; background: rgba(16, 185, 129, 0.8); border: none; border-radius: 6px; color: white; cursor: pointer; font-weight: bold;">+</button>
+                            </div>
+                            <div style="color: #d4af37; font-weight: 700; font-size: 1.3rem; min-width: 80px; text-align: right;">₹${item.subtotal.toFixed(2)}</div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            if (cartItemsList) {
+                cartItemsList.innerHTML = itemsHTML;
+            }
+        }
+
+        // Calculate cart totals function
+        function calculateCartTotals(cartData) {
+            const subtotal = cartData.reduce((sum, item) => sum + item.subtotal, 0);
+            const shipping = subtotal > 0 ? 10 : 0;
+            const tax = subtotal * 0.18; // 18% GST
+            const total = subtotal + shipping + tax;
+            
+            // Update totals display if elements exist
+            const subtotalElement = document.getElementById('subtotal');
+            const shippingElement = document.getElementById('shipping');
+            const taxElement = document.getElementById('tax');
+            const totalElement = document.getElementById('total');
+            
+            if (subtotalElement) subtotalElement.textContent = `₹${subtotal.toFixed(2)}`;
+            if (shippingElement) shippingElement.textContent = `₹${shipping.toFixed(2)}`;
+            if (taxElement) taxElement.textContent = `₹${tax.toFixed(2)}`;
+            if (totalElement) totalElement.textContent = `₹${total.toFixed(2)}`;
+        }
+
+        // Show notification function
+        function showNotification(message, type = 'info') {
+            const notification = document.createElement('div');
+            notification.className = `alert alert-${type} alert-dismissible fade show position-fixed`;
+            notification.style.cssText = `
+                top: 20px;
+                right: 20px;
+                z-index: 9999;
+                min-width: 300px;
+                max-width: 400px;
+                padding: 15px;
+                border-radius: 10px;
+                box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+                animation: slideInRight 0.3s ease;
+            `;
+            notification.innerHTML = `
+                <div class="d-flex justify-content-between align-items-center">
+                    <div class="fw-bold">${message}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+            `;
+            
+            document.body.appendChild(notification);
+            
+            setTimeout(() => {
+                notification.style.animation = 'slideOutRight 0.3s ease';
+                setTimeout(() => notification.remove(), 300);
+            }, 3000);
+        }
+
+        // Initialize cart functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            // Function to attach button listeners
+            function attachButtonListeners() {
+                const addToCartButtons = document.querySelectorAll('.add-to-cart-btn');
+                
+                addToCartButtons.forEach((button, index) => {
+                    // Remove existing listeners to avoid duplicates
+                    button.removeEventListener('click', handleAddToCart);
+                    
+                    // Add new listener
+                    button.addEventListener('click', handleAddToCart);
+                });
+                
+                return addToCartButtons.length;
+            }
+            
+            // Handle add to cart click
+            function handleAddToCart(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                const productId = this.getAttribute('data-product-id');
+                const productName = this.getAttribute('data-product-name');
+                const productPrice = parseFloat(this.getAttribute('data-product-price'));
+                const productImage = this.getAttribute('data-product-image');
+                
+                if (!productId || !productName || !productPrice) {
+                    showNotification('Invalid product data', 'error');
+                    return;
+                }
+                
+                addToCart(productId, productName, productPrice, productImage);
+            }
+            
+            // Initial attachment
+            attachButtonListeners();
+            
+            // Fallback: try again after delay (for dynamic content)
+            setTimeout(() => {
+                attachButtonListeners();
+            }, 500);
+            
+            // Fallback: try again after longer delay
+            setTimeout(() => {
+                attachButtonListeners();
+            }, 2000);
+            
+            // Check auth status
+            checkAuthStatus();
+            
+            // Update cart count
+            updateCartCount();
+        });
+    </script>
+</body>
+</html>

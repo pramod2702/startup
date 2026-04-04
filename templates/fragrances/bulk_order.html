@@ -1,0 +1,210 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+
+{% block title %}Bulk Order - VICTNOW{% endblock %}
+
+{% block content %}
+<!-- Bulk Order Header -->
+<section class="bulk-order-header">
+    <div class="container">
+        <h1><i class="fas fa-shopping-cart"></i> Bulk Order</h1>
+        <p>Order our premium corporate gifting solutions in bulk quantities</p>
+    </div>
+</section>
+
+<!-- Bulk Order Content -->
+<section class="bulk-order-section">
+    <div class="container">
+        <div class="bulk-order-container">
+            <!-- Order Form -->
+            <div class="bulk-order-form-container">
+                <h2>Place Your Bulk Order</h2>
+                <form class="bulk-order-form" action="/bulk-order-process/" method="POST">
+                    {% csrf_token %}
+                    <input type="hidden" name="subject" value="Bulk Order Inquiry">
+                    
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="name">Your Name *</label>
+                            <input type="text" id="name" name="name" placeholder="Enter your full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Business Email *</label>
+                            <input type="email" id="email" name="email" placeholder="your@company.com" required>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="company">Company Name *</label>
+                            <input type="text" id="company" name="company" placeholder="Enter your company name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="phone">Phone Number *</label>
+                            <input type="tel" id="phone" name="phone" placeholder="Enter your phone number" required>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="address">Shipping Address *</label>
+                        <textarea id="address" name="address" placeholder="Enter complete shipping address" rows="3" required></textarea>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="quantity">Quantity *</label>
+                            <input type="number" id="quantity" name="quantity" placeholder="Minimum 10 units" min="10" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="fragrance_type">Fragrance Type *</label>
+                            <select id="fragrance_type" name="fragrance_type" required>
+                                <option value="">Select fragrance...</option>
+                                <option value="victnow_forge">VICTNOW FORGE</option>
+                                <option value="victnow_muse">VICTNOW MUSE</option>
+                                <option value="victnow_nexus">VICTNOW NEXUS</option>
+                                <option value="mixed">Mixed Collection</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="message">Special Requirements</label>
+                        <textarea id="message" name="message" placeholder="Customization needs, delivery requirements..." rows="4"></textarea>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="button" class="btn btn-secondary" onclick="window.location.href='/corporate-gifting/'">
+                            <i class="fas fa-arrow-left"></i> BACK TO CORPORATE
+                        </button>
+                        <button type="submit" class="btn btn-primary btn-large">
+                            <i class="fas fa-shopping-cart"></i> SUBMIT BULK ORDER
+                        </button>
+                    </div>
+                </form>
+            </div>
+
+            <!-- Order Benefits -->
+            <div class="bulk-benefits">
+                <h3>Why Choose Bulk Orders?</h3>
+                <div class="benefits-grid">
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-percentage"></i>
+                        </div>
+                        <h4>Volume Discounts</h4>
+                        <p>Special pricing for orders over 50 units</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-truck"></i>
+                        </div>
+                        <h4>Free Shipping</h4>
+                        <p>Complimentary delivery on bulk orders</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-palette"></i>
+                        </div>
+                        <h4>Custom Branding</h4>
+                        <p>Personalized packaging and labels</p>
+                    </div>
+                    <div class="benefit-item">
+                        <div class="benefit-icon">
+                            <i class="fas fa-headset"></i>
+                        </div>
+                        <h4>Priority Support</h4>
+                        <p>Dedicated account manager for bulk clients</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Add smooth animations and interactions
+    const form = document.querySelector('.bulk-order-form');
+    const submitBtn = form.querySelector('button[type="submit"]');
+    
+    form.addEventListener('submit', function(e) {
+        e.preventDefault(); // Prevent default form submission
+        
+        // Validate minimum quantity
+        const quantity = document.getElementById('quantity').value;
+        if (quantity < 10) {
+            alert('Minimum order quantity is 10 units');
+            return;
+        }
+        
+        // Show loading state
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> PROCESSING...';
+        submitBtn.disabled = true;
+        
+        // Collect form data
+        const formData = new FormData(form);
+        const bulkOrderData = {
+            name: formData.get('name'),
+            email: formData.get('email'),
+            company_name: formData.get('company'),
+            phone: formData.get('phone') || '',
+            quantity: parseInt(formData.get('quantity')),
+            fragrance_type: formData.get('fragrance_type'),
+            unit_size: formData.get('unit_size') || '50ml',
+            packaging: formData.get('packaging') || 'standard',
+            special_instructions: formData.get('message') || '',
+            status: 'pending'
+        };
+        
+        // Calculate pricing
+        const basePrice = 2499; // Base price per unit
+        const packagingCost = formData.get('packaging') === 'premium' ? 200 : 0;
+        const customBrandingCost = formData.get('packaging') === 'custom' ? 500 : 0;
+        
+        bulkOrderData.unit_price = basePrice;
+        bulkOrderData.packaging_cost = packagingCost + customBrandingCost;
+        bulkOrderData.total_amount = (bulkOrderData.unit_price * bulkOrderData.quantity) + bulkOrderData.packaging_cost;
+        
+        // Save bulk order to Django admin
+        fetch('/bulk-order-process/', {
+            method: 'POST',
+            body: formData
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('Bulk order submitted successfully!\nOrder ID: ' + data.order_id + '\nWe will contact you soon to confirm details.');
+                // Redirect to orders page to see the new order
+                form.reset();
+                window.location.href = '/orders/';
+            } else {
+                alert('Error submitting bulk order: ' + data.error);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('Error submitting bulk order. Please try again or contact us directly.');
+        })
+        .finally(() => {
+            // Reset button state
+            submitBtn.innerHTML = '<i class="fas fa-shopping-cart"></i> SUBMIT BULK ORDER';
+            submitBtn.disabled = false;
+        });
+    });
+});
+
+// Helper function to get CSRF token
+function getCookie(name) {
+    let cookieValue = null;
+    if (document.cookie && document.cookie !== '') {
+        const cookies = document.cookie.split(';');
+        for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                break;
+            }
+        }
+    }
+    return cookieValue;
+}
+</script>
+{% endblock %}

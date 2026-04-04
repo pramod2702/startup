@@ -1,0 +1,220 @@
+{% extends 'fragrances/base.html' %}
+{% load static %}
+
+{% block title %}Dynamic Payment Demo - VICTNOW{% endblock %}
+
+{% block content %}
+<!-- Include Razorpay Script -->
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<!-- Include Dynamic Payment JS -->
+<script src="{% static 'js/razorpay-dynamic.js' %}"></script>
+
+<section class="demo-section" style="padding: 80px 0; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);">
+    <div class="container">
+        <div class="text-center mb-5">
+            <h1 style="color: #d4af37; font-size: 3rem; font-weight: 700; margin-bottom: 20px;">
+                Dynamic Razorpay Payment Demo
+            </h1>
+            <p style="color: #ccc; font-size: 1.2rem;">
+                Test different price points and see how Razorpay shows the correct dynamic amount
+            </p>
+        </div>
+        
+        <!-- Price Test Cards -->
+        <div class="row mb-5">
+            <div class="col-md-4 mb-4">
+                <div class="price-card" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 30px; text-align: center; border: 2px solid #d4af37; transition: all 0.3s ease;">
+                    <h3 style="color: #fff; margin-bottom: 15px;">Basic Plan</h3>
+                    <p style="color: #d4af37; font-size: 2.5rem; font-weight: 700; margin-bottom: 20px;">₹799</p>
+                    <button onclick="testPayment(799, 'Basic Plan')" 
+                            class="btn btn-outline-warning w-100">
+                        Pay ₹799
+                    </button>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="price-card" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 30px; text-align: center; border: 2px solid #28a745; transition: all 0.3s ease;">
+                    <h3 style="color: #fff; margin-bottom: 15px;">Premium Plan</h3>
+                    <p style="color: #28a745; font-size: 2.5rem; font-weight: 700; margin-bottom: 20px;">₹1499</p>
+                    <button onclick="testPayment(1499, 'Premium Plan')" 
+                            class="btn btn-outline-success w-100">
+                        Pay ₹1499
+                    </button>
+                </div>
+            </div>
+            
+            <div class="col-md-4 mb-4">
+                <div class="price-card" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 30px; text-align: center; border: 2px solid #dc3545; transition: all 0.3s ease;">
+                    <h3 style="color: #fff; margin-bottom: 15px;">VIP Plan</h3>
+                    <p style="color: #dc3545; font-size: 2.5rem; font-weight: 700; margin-bottom: 20px;">₹2499</p>
+                    <button onclick="testPayment(2499, 'VIP Plan')" 
+                            class="btn btn-outline-danger w-100">
+                        Pay ₹2499
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Custom Amount Test -->
+        <div class="row mb-5">
+            <div class="col-md-6 mx-auto">
+                <div class="custom-amount-card" style="background: linear-gradient(135deg, #1a1a1a 0%, #2a2a2a 100%); border-radius: 15px; padding: 40px; text-align: center; border: 2px solid #17a2b8;">
+                    <h3 style="color: #17a2b8; margin-bottom: 25px;">Custom Amount Test</h3>
+                    <div class="input-group mb-3">
+                        <span class="input-group-text" style="background: #17a2b8; color: white; border: none;">₹</span>
+                        <input type="number" id="customAmount" class="form-control" placeholder="Enter amount" value="999" min="1" max="10000">
+                    </div>
+                    <button onclick="testCustomPayment()" 
+                            class="btn btn-info btn-lg w-100">
+                        Test Custom Amount
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Debug Console -->
+        <div class="row">
+            <div class="col-md-8 mx-auto">
+                <div class="debug-console" style="background: #1a1a1a; border-radius: 10px; padding: 20px; border: 1px solid #444;">
+                    <h4 style="color: #d4af37; margin-bottom: 15px;">Debug Console</h4>
+                    <div id="debugOutput" style="background: #000; color: #00ff00; padding: 15px; border-radius: 5px; font-family: monospace; font-size: 0.9rem; height: 200px; overflow-y: auto;">
+                        Debug output will appear here...
+                    </div>
+                    <button onclick="clearDebug()" class="btn btn-sm btn-outline-secondary mt-2">Clear Console</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+// Override console.log to show in debug console
+const originalLog = console.log;
+console.log = function(...args) {
+    originalLog.apply(console, args);
+    const debugOutput = document.getElementById('debugOutput');
+    if (debugOutput) {
+        debugOutput.innerHTML += args.join(' ') + '\n';
+        debugOutput.scrollTop = debugOutput.scrollHeight;
+    }
+};
+
+function clearDebug() {
+    document.getElementById('debugOutput').innerHTML = '';
+}
+
+function testPayment(price, planName) {
+    console.log(`=== TESTING PAYMENT: ${planName} - ₹${price} ===`);
+    
+    const productData = {
+        plan_name: planName,
+        test_mode: true,
+        timestamp: new Date().toISOString()
+    };
+    
+    // Call the dynamic payment function
+    payNow(price, planName, productData);
+}
+
+function testCustomPayment() {
+    const amount = parseFloat(document.getElementById('customAmount').value);
+    
+    if (!amount || amount <= 0) {
+        alert('Please enter a valid amount');
+        return;
+    }
+    
+    console.log(`=== TESTING CUSTOM PAYMENT: ₹${amount} ===`);
+    
+    const productData = {
+        custom_amount: true,
+        test_mode: true,
+        timestamp: new Date().toISOString()
+    };
+    
+    payNow(amount, `Custom Plan - ₹${amount}`, productData);
+}
+
+// Add hover effects
+document.querySelectorAll('.price-card').forEach(card => {
+    card.addEventListener('mouseenter', function() {
+        this.style.transform = 'translateY(-10px)';
+        this.style.boxShadow = '0 20px 40px rgba(212, 175, 55, 0.3)';
+    });
+    
+    card.addEventListener('mouseleave', function() {
+        this.style.transform = 'translateY(0)';
+        this.style.boxShadow = 'none';
+    });
+});
+
+// Initialize
+document.addEventListener('DOMContentLoaded', function() {
+    console.log('Dynamic Payment Demo Loaded');
+    console.log('Ready to test dynamic Razorpay payments!');
+});
+</script>
+
+<style>
+.price-card:hover {
+    transform: translateY(-10px);
+    box-shadow: 0 20px 40px rgba(212, 175, 55, 0.3);
+}
+
+.btn-outline-warning:hover {
+    background: #d4af37;
+    color: #0a0a0a;
+    transform: translateY(-2px);
+}
+
+.btn-outline-success:hover {
+    background: #28a745;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-outline-danger:hover {
+    background: #dc3545;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.btn-info:hover {
+    background: #17a2b8;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.custom-amount-card {
+    transition: all 0.3s ease;
+}
+
+.custom-amount-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(23, 162, 184, 0.3);
+}
+
+#debugOutput {
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.form-control {
+    background: #2a2a2a;
+    border: 1px solid #444;
+    color: white;
+}
+
+.form-control:focus {
+    background: #2a2a2a;
+    border-color: #17a2b8;
+    box-shadow: 0 0 0 0.2rem rgba(23, 162, 184, 0.25);
+    color: white;
+}
+
+.input-group-text {
+    border: none;
+}
+</style>
+{% endblock %}
