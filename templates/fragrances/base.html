@@ -235,7 +235,136 @@
         -webkit-scroll-snap-type: mandatory !important;
     }
     
-    /* Remove side gaps on mobile */
+    /* Fix mobile button double text issue */
+    .shop-now-btn {
+        -webkit-font-smoothing: antialiased !important;
+        -moz-osx-font-smoothing: grayscale !important;
+        text-rendering: optimizeLegibility !important;
+        text-indent: 0 !important;
+        line-height: normal !important;
+        white-space: nowrap !important;
+        overflow: hidden !important;
+    }
+    
+    .shop-now-btn::before {
+        z-index: 1 !important;
+        pointer-events: none !important;
+        content: '' !important;
+    }
+    
+    .shop-now-btn::after {
+        display: none !important;
+    }
+    
+    .shop-now-btn * {
+        position: relative !important;
+        z-index: 2 !important;
+    }
+    
+    .shop-now-btn i,
+    .shop-now-btn .fas,
+    .shop-now-btn .fa {
+        display: inline-block !important;
+        margin-right: 0.5rem !important;
+    }
+    
+    /* Prevent text duplication on mobile */
+    .shop-now-btn .btn-text,
+    .shop-now-btn .text,
+    .shop-now-btn span:not([class*="fa-"]) {
+        display: inline !important;
+        visibility: visible !important;
+        opacity: 1 !important;
+    }
+    
+    /* Hide any potential duplicates */
+    .shop-now-btn .btn-text + .btn-text,
+    .shop-now-btn span + span:not([class*="fa-"]) {
+        display: none !important;
+    }
+    
+    /* Remove spaces below signature fragrances section */
+    .signature-fragrances {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    .signature-fragrances .container {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    .signature-fragrances .products-grid {
+        margin-bottom: 0 !important;
+        padding-bottom: 0 !important;
+    }
+    
+    .signature-fragrances + * {
+        margin-top: 0 !important;
+        padding-top: 0 !important;
+    }
+    
+    /* Remove more spaces from collection-features section */
+    .collection-features {
+        padding: 20px 20px !important;
+    }
+    
+    .collection-features .features-grid {
+        gap: 25px !important;
+    }
+    
+    .collection-features .feature-item {
+        padding: 25px !important;
+    }
+    
+    @media (max-width: 768px) {
+        .collection-features {
+            padding: 15px 15px !important;
+        }
+        
+        .collection-features .features-grid {
+            gap: 20px !important;
+        }
+        
+        .collection-features .feature-item {
+            padding: 20px !important;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .collection-features {
+            padding: 10px 10px !important;
+        }
+        
+        .collection-features .features-grid {
+            gap: 15px !important;
+        }
+        
+        .collection-features .feature-item {
+            padding: 15px !important;
+        }
+    }
+    
+    /* Increase navbar brand text size on mobile */
+    @media (max-width: 768px) {
+        .navbar-brand {
+            font-size: 2.2rem !important;
+            min-width: 200px !important;
+            width: auto !important;
+            padding: 0 15px !important;
+        }
+    }
+    
+    @media (max-width: 576px) {
+        .navbar-brand {
+            font-size: 2rem !important;
+            min-width: 180px !important;
+            width: auto !important;
+            padding: 0 10px !important;
+        }
+    }
+    
+    /* Products grid full width on mobile */
     @media (max-width: 991.98px) {
         .products-grid,
         .products-gri {
