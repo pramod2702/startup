@@ -392,202 +392,363 @@
         touch-action: pan-x pinch-zoom !important;
     }
     
-    /* Signature Fragrances Section - Compact Spacing */
-    .signature-fragrances {
-        padding-top: 2rem !important;
-        padding-bottom: 2rem !important;
-    }
-    
-    .signature-fragrances .container {
-        padding-top: 0 !important;
-        padding-bottom: 0 !important;
-    }
-    
-    .signature-fragrances .row {
-        margin-bottom: 1rem !important;
-    }
-    
-    .signature-fragrances .text-center.mb-5 {
-        margin-bottom: 1.5rem !important;
-    }
-    
-    .signature-fragrances .display-4 {
-        font-size: 2rem !important;
-        margin-bottom: 0.5rem !important;
-    }
-    
-    /* Mobile adjustments for signature fragrances */
-    @media (max-width: 991.98px) {
-        .signature-fragrances {
-            padding-top: 1rem !important;
-            padding-bottom: 1rem !important;
-        }
-        
-        .signature-fragrances .text-center.mb-5 {
-            margin-bottom: 0.75rem !important;
-        }
-        
-        .signature-fragrances .display-4 {
-            font-size: 1.5rem !important;
-            margin-bottom: 0.25rem !important;
-        }
-        
-        .signature-fragrances .row {
-            margin-bottom: 0.5rem !important;
-        }
-    }
-    
-    /* Hero Section - Compact Spacing */
-    .hero-section {
-        min-height: 80vh !important;
-        padding-top: 2rem !important;
-        padding-bottom: 2rem !important;
-    }
-    
-    /* Hero content spacing */
-    .hero-content {
-        padding-top: 1rem !important;
-        padding-bottom: 1rem !important;
-    }
-    
-    .hero-main-title {
-        font-size: 3rem !important;
-        margin-bottom: 0.5rem !important;
-    }
-    
-    .hero-subtitle {
-        font-size: 1.5rem !important;
-        margin-bottom: 0.75rem !important;
-    }
-    
-    .hero-description {
-        font-size: 1rem !important;
-        margin-bottom: 1.5rem !important;
-        line-height: 1.4 !important;
-    }
-    
-    .hero-buttons {
-        margin-top: 1rem !important;
-    }
-    
-    /* Mobile hero adjustments */
+    /* Hero Section Mobile Optimization */
     @media (max-width: 991.98px) {
         .hero-section {
-            min-height: 60vh !important;
-            padding-top: 1rem !important;
-            padding-bottom: 1rem !important;
+            min-height: 70vh !important;
+            padding-top: 2rem !important;
+            padding-bottom: 2rem !important;
             align-items: center !important;
             justify-content: center !important;
         }
         
-        .hero-content {
-            padding-top: 0.5rem !important;
-            padding-bottom: 0.5rem !important;
-            text-align: center !important;
-            max-width: 100% !important;
+        .hero-section .container-fluid {
             width: 100% !important;
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+        }
+        
+        .hero-section .row {
+            width: 100% !important;
+            margin: 0 !important;
+            justify-content: center !important;
+        }
+        
+        .hero-section .col-lg-6,
+        .hero-section .col-md-8,
+        .hero-section .col-sm-10,
+        .hero-section .col-12 {
+            width: 100% !important;
+            max-width: 100% !important;
+            margin: 0 !important;
+            padding: 0 10px !important;
+            text-align: center !important;
+        }
+        
+        .hero-content {
+            text-align: center !important;
+            padding: 1rem !important;
+            width: 100% !important;
+            max-width: 100% !important;
+            display: block !important;
+            position: relative !important;
+            z-index: 2 !important;
+            left: 0 !important;
+            right: 0 !important;
+            margin: 0 auto !important;
         }
         
         .hero-main-title {
             font-size: 2.5rem !important;
-            margin-bottom: 0.25rem !important;
-            line-height: 1.2 !important;
+            margin-bottom: 0.5rem !important;
+            color: #d4af37 !important;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8) !important;
+            display: block !important;
+            visibility: visible !important;
+            width: 100% !important;
+            text-align: center !important;
         }
         
         .hero-subtitle {
-            font-size: 1.25rem !important;
-            margin-bottom: 0.5rem !important;
-            line-height: 1.1 !important;
+            font-size: 1.3rem !important;
+            margin-bottom: 0.75rem !important;
+            color: #ffffff !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.8) !important;
+            display: block !important;
+            visibility: visible !important;
+            width: 100% !important;
+            text-align: center !important;
         }
         
         .hero-description {
-            font-size: 0.9rem !important;
+            font-size: 1rem !important;
             margin-bottom: 1rem !important;
-            line-height: 1.3 !important;
+            line-height: 1.4 !important;
+            color: #ffffff !important;
+            text-shadow: 1px 1px 2px rgba(0,0,0,0.6) !important;
+            display: block !important;
+            visibility: visible !important;
             max-width: 90% !important;
             margin-left: auto !important;
             margin-right: auto !important;
+            text-align: center !important;
         }
         
         .hero-buttons {
-            margin-top: 0.75rem !important;
+            margin-top: 1.5rem !important;
             text-align: center !important;
+            display: block !important;
+            visibility: visible !important;
+            width: 100% !important;
         }
         
         .hero-buttons .btn {
             display: inline-block !important;
-            margin: 0 0.25rem !important;
+            visibility: visible !important;
         }
     }
     
-    /* Small mobile hero adjustments */
     @media (max-width: 576px) {
         .hero-section {
-            min-height: 50vh !important;
-            padding-top: 0.75rem !important;
-            padding-bottom: 0.75rem !important;
+            min-height: 60vh !important;
+            padding-top: 1.5rem !important;
+            padding-bottom: 1.5rem !important;
+        }
+        
+        .hero-section .container-fluid {
+            padding-left: 10px !important;
+            padding-right: 10px !important;
+        }
+        
+        .hero-section .col-lg-6,
+        .hero-section .col-md-8,
+        .hero-section .col-sm-10,
+        .hero-section .col-12 {
+            padding: 0 5px !important;
         }
         
         .hero-content {
-            padding-top: 0.25rem !important;
-            padding-bottom: 0.25rem !important;
-            text-align: center !important;
+            padding: 0.5rem !important;
             width: 95% !important;
         }
         
         .hero-main-title {
             font-size: 2rem !important;
-            margin-bottom: 0.2rem !important;
-            line-height: 1.1 !important;
+            margin-bottom: 0.3rem !important;
         }
         
         .hero-subtitle {
             font-size: 1.1rem !important;
-            margin-bottom: 0.4rem !important;
-            line-height: 1.1 !important;
+            margin-bottom: 0.5rem !important;
         }
         
         .hero-description {
-            font-size: 0.85rem !important;
+            font-size: 0.9rem !important;
             margin-bottom: 0.75rem !important;
-            line-height: 1.2 !important;
-            max-width: 85% !important;
+            max-width: 95% !important;
         }
         
         .hero-buttons {
-            margin-top: 0.5rem !important;
-            text-align: center !important;
+            margin-top: 1rem !important;
         }
         
         .hero-buttons .btn {
             font-size: 0.9rem !important;
-            padding: 0.75rem 1.5rem !important;
+            padding: 12px 25px !important;
         }
     }
     
-    /* Small mobile adjustments */
-    @media (max-width: 480px) {
-        .product-card {
-            min-width: 300px !important;
-            max-width: 300px !important;
-        }
-        
-        .collection .product-card {
-            min-width: 300px !important;
-            max-width: 300px !important;
+    /* Mobile About Section Optimization */
+    @media (max-width: 768px) {
+        .about-victnow-banner {
+            padding-top: 1.5rem !important;
+            padding-bottom: 1.5rem !important;
         }
     }
     
-    /* Extra small mobile adjustments */
-    @media (max-width: 360px) {
-        .product-card {
-            min-width: 280px !important;
-            max-width: 280px !important;
+    @media (max-width: 576px) {
+        .about-victnow-banner {
+            padding-top: 1rem !important;
+            padding-bottom: 1rem !important;
         }
         
-        .collection .product-card {
-            min-width: 280px !important;
-            max-width: 280px !important;
+        .contact-section {
+            padding-top: 1.5rem !important;
+            padding-bottom: 1rem !important;
+        }
+    }
+    
+    /* Mobile Navbar Background Image */
+    @media (max-width: 991.98px) {
+        .navbar {
+            background-image: url('/media/products/client.png') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            padding-top: 15px !important;
+            padding-bottom: 15px !important;
+            min-height: 80px !important;
+            margin: 0 !important;
+            padding-left: 0 !important;
+            padding-right: 0 !important;
+            position: static !important;
+        }
+        
+        .navbar .container-fluid {
+            padding-left: 15px !important;
+            padding-right: 15px !important;
+        }
+        
+        /* Professional Sidebar Menu Design */
+        .navbar-collapse {
+            background: linear-gradient(145deg, #0a0a0a 0%, #1a1a1a 50%, #0f0f0f 100%) !important;
+            backdrop-filter: blur(25px) !important;
+            border-top: 4px solid #d4af37 !important;
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3) !important;
+            box-shadow: 
+                0 10px 40px rgba(0, 0, 0, 0.6),
+                0 0 0 1px rgba(212, 175, 55, 0.1),
+                inset 0 1px 0 rgba(255, 255, 255, 0.1) !important;
+            margin-left: 0 !important;
+            margin-right: 0 !important;
+            padding: 0 !important;
+            position: relative !important;
+        }
+        
+        .navbar-collapse::before {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            height: 2px !important;
+            background: linear-gradient(90deg, 
+                transparent, 
+                #d4af37 20%, 
+                #d4af37 80%, 
+                transparent) !important;
+            animation: shimmer 3s ease-in-out infinite !important;
+        }
+        
+        @keyframes shimmer {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 1; }
+        }
+        
+        .navbar-nav {
+            padding: 30px 0 !important;
+            margin: 0 !important;
+        }
+        
+        .navbar-nav .nav-item {
+            margin: 10px 25px !important;
+            position: relative !important;
+            perspective: 1000px !important;
+        }
+        
+        .navbar-nav .nav-link {
+            color: #ffffff !important;
+            font-weight: 700 !important;
+            font-size: 1.2rem !important;
+            font-family: 'Playfair Display', serif !important;
+            padding: 18px 30px !important;
+            margin: 0 !important;
+            border-radius: 15px !important;
+            background: 
+                linear-gradient(145deg, rgba(255, 255, 255, 0.08), rgba(255, 255, 255, 0.02)),
+                radial-gradient(circle at 20% 50%, rgba(212, 175, 55, 0.1), transparent 50%) !important;
+            border: 
+                1px solid rgba(212, 175, 55, 0.3),
+                1px solid rgba(255, 255, 255, 0.1) !important;
+            transition: all 0.5s cubic-bezier(0.23, 1, 0.32, 1) !important;
+            text-transform: uppercase !important;
+            letter-spacing: 2px !important;
+            position: relative !important;
+            overflow: hidden !important;
+            text-shadow: 0 1px 2px rgba(0, 0, 0, 0.3) !important;
+            transform-style: preserve-3d !important;
+        }
+        
+        .navbar-nav .nav-link::before {
+            content: '' !important;
+            position: absolute !important;
+            top: 0 !important;
+            left: -100% !important;
+            width: 100% !important;
+            height: 100% !important;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(212, 175, 55, 0.4), 
+                rgba(255, 255, 255, 0.2),
+                transparent) !important;
+            transition: left 0.8s cubic-bezier(0.23, 1, 0.32, 1) !important;
+            z-index: 1 !important;
+        }
+        
+        .navbar-nav .nav-link::after {
+            content: '' !important;
+            position: absolute !important;
+            top: 50% !important;
+            left: 50% !important;
+            width: 0 !important;
+            height: 0 !important;
+            background: radial-gradient(circle, rgba(212, 175, 55, 0.3), transparent 70%) !important;
+            transition: all 0.6s ease !important;
+            transform: translate(-50%, -50%) !important;
+            z-index: 0 !important;
+        }
+        
+        .navbar-nav .nav-link:hover::before {
+            left: 100% !important;
+        }
+        
+        .navbar-nav .nav-link:hover::after {
+            width: 100% !important;
+            height: 100% !important;
+        }
+        
+        .navbar-nav .nav-link:hover {
+            color: #d4af37 !important;
+            background: 
+                linear-gradient(145deg, rgba(212, 175, 55, 0.2), rgba(212, 175, 55, 0.05)),
+                radial-gradient(circle at 80% 20%, rgba(255, 255, 255, 0.15), transparent 50%) !important;
+            border-color: #d4af37 !important;
+            transform: translateX(12px) translateY(-2px) rotateY(5deg) !important;
+            box-shadow: 
+                0 12px 30px rgba(212, 175, 55, 0.4),
+                0 0 20px rgba(212, 175, 55, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2) !important;
+            text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5), 0 0 10px rgba(212, 175, 55, 0.3) !important;
+        }
+        
+        .navbar-nav .nav-link:active {
+            transform: translateX(8px) translateY(0) scale(0.96) !important;
+            transition: all 0.1s ease !important;
+        }
+        
+        /* Premium icon indicators */
+        .navbar-nav .nav-item::after {
+            content: '▶' !important;
+            position: absolute !important;
+            right: 30px !important;
+            top: 50% !important;
+            transform: translateY(-50%) !important;
+            color: #d4af37 !important;
+            font-size: 1.2rem !important;
+            opacity: 0 !important;
+            transition: all 0.4s cubic-bezier(0.23, 1, 0.32, 1) !important;
+            text-shadow: 0 0 10px rgba(212, 175, 55, 0.5) !important;
+        }
+        
+        .navbar-nav .nav-item:hover::after {
+            opacity: 1 !important;
+            transform: translateY(-50%) translateX(8px) !important;
+        }
+        
+        /* Add subtle pulse to active items */
+        .navbar-nav .nav-link:focus {
+            box-shadow: 
+                0 0 0 3px rgba(212, 175, 55, 0.3),
+                0 8px 25px rgba(212, 175, 55, 0.2) !important;
+        }
+        
+        /* Increase mobile icon sizes */
+        .navbar .d-lg-none .nav-link i {
+            font-size: 1.8rem !important;
+        }
+        
+        /* Adjust cart count badge for larger icons */
+        .navbar .d-lg-none #cart-count {
+            font-size: 0.9rem !important;
+            min-width: 24px !important;
+            height: 24px !important;
+            line-height: 24px !important;
+        }
+        
+        /* Remove body padding for mobile */
+        body {
+            padding-top: 0 !important;
+            margin: 0 !important;
         }
     }
     </style>
@@ -601,9 +762,46 @@
             <a class="navbar-brand" href="{% url 'home' %}">
                 VICTNOW
             </a>
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="navbar-toggler-icon"></span>
-            </button>
+            
+            <!-- Mobile Cart and Auth Icons -->
+            <div class="d-lg-none d-flex align-items-center">
+                <!-- Cart -->
+                <a href="/cart/" class="nav-link text-warning position-relative" style="padding: 8px 10px;">
+                    <i class="fas fa-shopping-cart"></i>
+                    <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark" style="display: none; font-size: 0.7rem; min-width: 18px; text-align: center;">0</span>
+                </a>
+                
+                <!-- User auth -->
+                <a href="/login/" class="nav-link text-warning" id="authLinkMobile" style="display: block; padding: 8px 10px;">
+                    <i class="fas fa-user"></i>
+                </a>
+                
+                <!-- Logged in state mobile -->
+                <div class="dropdown" id="userDropdownMobile" style="display: none;">
+                    <a class="nav-link text-warning dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" style="padding: 8px 10px;">
+                        <i class="fas fa-user-circle"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" style="background: linear-gradient(135deg, #1a1a1a, #2a2a2a); border: 1px solid #d4af37; border-radius: 10px; padding: 10px;">
+                        <li>
+                            <a class="dropdown-item text-warning" href="/orders/" onclick="goToMyOrders(event)" style="padding: 8px 15px; border-radius: 5px; transition: all 0.3s ease;">
+                                <i class="fas fa-shopping-bag me-2"></i> My Orders
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider" style="border-color: #d4af37;"></li>
+                        <li>
+                            <a class="dropdown-item text-danger" href="#" onclick="logout(event)" style="padding: 8px 15px; border-radius: 5px; transition: all 0.3s ease;">
+                                <i class="fas fa-sign-out-alt me-2"></i> Logout
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                
+                <!-- Hamburger menu -->
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" style="margin-left: 10px;">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+            </div>
+            
             <div class="collapse navbar-collapse" id="navbarNav">
                 <!-- Navigation links -->
                 <ul class="navbar-nav mx-auto">
@@ -627,25 +825,25 @@
                     </li>
                 </ul>
                 
-                <!-- Cart and User auth -->
-                <div class="navbar-nav ms-auto d-flex align-items-center">
+                <!-- Desktop Cart and User auth -->
+                <div class="navbar-nav ms-auto d-none d-lg-flex align-items-center">
                     <!-- Cart -->
                     <div class="nav-item">
                         <a href="/cart/" class="nav-link text-warning position-relative" style="padding: 8px 15px;">
                             <i class="fas fa-shopping-cart"></i>
-                            <span id="cart-count" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark" style="display: none; font-size: 0.7rem; min-width: 18px; text-align: center;">0</span>
+                            <span id="cart-count-desktop" class="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-warning text-dark" style="display: none; font-size: 0.7rem; min-width: 18px; text-align: center;">0</span>
                         </a>
                     </div>
                     
                     <!-- User auth -->
                     <div class="nav-item">
                         <!-- Logged out state -->
-                        <a href="/login/" class="nav-link text-warning" id="authLink" style="display: block;">
+                        <a href="/login/" class="nav-link text-warning" id="authLinkDesktop" style="display: block;">
                             <i class="fas fa-user"></i>
                         </a>
                         
                         <!-- Logged in state -->
-                        <div class="dropdown" id="userDropdown" style="display: none;">
+                        <div class="dropdown" id="userDropdownDesktop" style="display: none;">
                             <a class="nav-link text-warning dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                                 <i class="fas fa-user-circle"></i>
                                 <span id="userName" class="ms-1"></span>
@@ -693,17 +891,39 @@
         // Authentication Functions
         function checkAuthStatus() {
             const currentUser = JSON.parse(localStorage.getItem('currentUser'));
-            const authLink = document.getElementById('authLink');
-            const userDropdown = document.getElementById('userDropdown');
+            
+            // Desktop elements
+            const authLinkDesktop = document.getElementById('authLinkDesktop');
+            const userDropdownDesktop = document.getElementById('userDropdownDesktop');
             const userName = document.getElementById('userName');
             
-            if (currentUser && authLink && userDropdown && userName) {
-                authLink.style.display = 'none';
-                userDropdown.style.display = 'block';
-                userName.textContent = currentUser.name || currentUser.username || 'User';
+            // Mobile elements
+            const authLinkMobile = document.getElementById('authLinkMobile');
+            const userDropdownMobile = document.getElementById('userDropdownMobile');
+            
+            if (currentUser) {
+                // Update desktop elements
+                if (authLinkDesktop && userDropdownDesktop) {
+                    authLinkDesktop.style.display = 'none';
+                    userDropdownDesktop.style.display = 'block';
+                    if (userName) {
+                        userName.textContent = currentUser.name || currentUser.username || 'User';
+                    }
+                }
+                
+                // Update mobile elements
+                if (authLinkMobile && userDropdownMobile) {
+                    authLinkMobile.style.display = 'none';
+                    userDropdownMobile.style.display = 'block';
+                }
             } else {
-                if (authLink) authLink.style.display = 'block';
-                if (userDropdown) userDropdown.style.display = 'none';
+                // Update desktop elements
+                if (authLinkDesktop) authLinkDesktop.style.display = 'block';
+                if (userDropdownDesktop) userDropdownDesktop.style.display = 'none';
+                
+                // Update mobile elements
+                if (authLinkMobile) authLinkMobile.style.display = 'block';
+                if (userDropdownMobile) userDropdownMobile.style.display = 'none';
             }
         }
         
@@ -711,10 +931,23 @@
             if (e) e.preventDefault();
             console.log('Logout clicked');
             localStorage.removeItem('currentUser');
-            const authLink = document.getElementById('authLink');
-            const userDropdown = document.getElementById('userDropdown');
-            if (authLink) authLink.style.display = 'block';
-            if (userDropdown) userDropdown.style.display = 'none';
+            
+            // Desktop elements
+            const authLinkDesktop = document.getElementById('authLinkDesktop');
+            const userDropdownDesktop = document.getElementById('userDropdownDesktop');
+            
+            // Mobile elements
+            const authLinkMobile = document.getElementById('authLinkMobile');
+            const userDropdownMobile = document.getElementById('userDropdownMobile');
+            
+            // Update desktop elements
+            if (authLinkDesktop) authLinkDesktop.style.display = 'block';
+            if (userDropdownDesktop) userDropdownDesktop.style.display = 'none';
+            
+            // Update mobile elements
+            if (authLinkMobile) authLinkMobile.style.display = 'block';
+            if (userDropdownMobile) userDropdownMobile.style.display = 'none';
+            
             window.location.href = '/';
         }
         
@@ -816,11 +1049,20 @@
 
         function updateCartCount() {
             const cartData = JSON.parse(localStorage.getItem('cartData') || '[]');
-            const cartCountElement = document.getElementById('cart-count');
-            if (cartCountElement) {
-                const totalItems = cartData.reduce((sum, item) => sum + item.quantity, 0);
-                cartCountElement.textContent = totalItems;
-                cartCountElement.style.display = totalItems > 0 ? 'flex' : 'none';
+            const totalItems = cartData.reduce((sum, item) => sum + item.quantity, 0);
+            
+            // Update mobile cart count
+            const cartCountMobile = document.getElementById('cart-count');
+            if (cartCountMobile) {
+                cartCountMobile.textContent = totalItems;
+                cartCountMobile.style.display = totalItems > 0 ? 'flex' : 'none';
+            }
+            
+            // Update desktop cart count
+            const cartCountDesktop = document.getElementById('cart-count-desktop');
+            if (cartCountDesktop) {
+                cartCountDesktop.textContent = totalItems;
+                cartCountDesktop.style.display = totalItems > 0 ? 'flex' : 'none';
             }
         }
 
