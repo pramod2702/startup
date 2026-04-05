@@ -23,17 +23,8 @@ SECRET_KEY = 'django-insecure-your-secret-key-change-this-in-production-xyz789'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
-
-ALLOWED_HOSTS = [
-    "127.0.0.1",
-    "localhost",
-    "0.0.0.0",
-    "127.0.0.1",
-    "::1",
-    "testserver",
-    "machinelike-unsentimentally-cherry.ngrok-free.dev",
-    "*.ngrok-free.dev",
-    "*.ngrok.io",
+ALLOWED_HOSTS = ['54.79.9.184',
+                  '*',
 ]
 
 # Application definition
@@ -47,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'corsheaders',
     'fragrances',
+    'django.contrib.sitemaps',
 ]
 
 # Security middleware - fixed configuration
@@ -173,13 +165,13 @@ MESSAGE_TAGS = {
 }
 
 # Static files (CSS, JavaScript, Images)
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
 STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
 ]
 
-MEDIA_URL = 'media/'
+MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
 # Default primary key field type
