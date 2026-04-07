@@ -709,6 +709,158 @@
         max-width: 260px !important;
     }
 }
+
+/* Enhanced Mobile Touch Scrolling */
+@media (max-width: 768px) {
+    .products-grid {
+        -webkit-overflow-scrolling: touch !important;
+        scroll-behavior: smooth !important;
+        overflow-x: scroll !important;
+        overflow-y: hidden !important;
+        white-space: nowrap !important;
+        scrollbar-width: thin !important;
+        scrollbar-color: rgba(212, 175, 55, 0.3) transparent !important;
+        touch-action: pan-x !important;
+        pointer-events: auto !important;
+    }
+    
+    .products-grid::-webkit-scrollbar {
+        height: 8px !important;
+        display: block !important;
+    }
+    
+    .products-grid::-webkit-scrollbar-track {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-radius: 4px !important;
+    }
+    
+    .products-grid::-webkit-scrollbar-thumb {
+        background: rgba(212, 175, 55, 0.6) !important;
+        border-radius: 4px !important;
+        border: 1px solid rgba(212, 175, 55, 0.3) !important;
+    }
+    
+    .products-grid::-webkit-scrollbar-thumb:hover {
+        background: rgba(212, 175, 55, 0.8) !important;
+    }
+    
+    .product-card {
+        touch-action: manipulation !important;
+        -webkit-tap-highlight-color: transparent !important;
+        pointer-events: auto !important;
+        user-select: none !important;
+        -webkit-user-select: none !important;
+        -moz-user-select: none !important;
+        -ms-user-select: none !important;
+    }
+    
+    .product-card * {
+        touch-action: manipulation !important;
+        pointer-events: auto !important;
+    }
+    
+    .products-grid:active {
+        cursor: grabbing !important;
+    }
+    
+    .products-grid.dragging {
+        scroll-behavior: auto !important;
+    }
+}
 </style>
+
+<script>
+// Mobile Touch Scrolling Enhancement
+document.addEventListener('DOMContentLoaded', function() {
+    const productsGrid = document.querySelector('.products-grid');
+    
+    if (productsGrid) {
+        let isDown = false;
+        let startX;
+        let scrollLeft;
+        let isTouch = false;
+        
+        // Touch events for mobile
+        productsGrid.addEventListener('touchstart', function(e) {
+            isTouch = true;
+            startX = e.touches[0].pageX - productsGrid.offsetLeft;
+            scrollLeft = productsGrid.scrollLeft;
+            productsGrid.classList.add('dragging');
+        }, { passive: true });
+        
+        productsGrid.addEventListener('touchmove', function(e) {
+            if (!isTouch) return;
+            e.preventDefault();
+            const x = e.touches[0].pageX - productsGrid.offsetLeft;
+            const walk = (x - startX) * 2; // Scroll speed
+            productsGrid.scrollLeft = scrollLeft - walk;
+        }, { passive: false });
+        
+        productsGrid.addEventListener('touchend', function() {
+            isTouch = false;
+            productsGrid.classList.remove('dragging');
+        }, { passive: true });
+        
+        // Mouse events for desktop
+        productsGrid.addEventListener('mousedown', function(e) {
+            if (window.innerWidth <= 768) { // Only on mobile view
+                isDown = true;
+                startX = e.pageX - productsGrid.offsetLeft;
+                scrollLeft = productsGrid.scrollLeft;
+                productsGrid.classList.add('dragging');
+                e.preventDefault();
+            }
+        });
+        
+        productsGrid.addEventListener('mouseleave', function() {
+            isDown = false;
+            productsGrid.classList.remove('dragging');
+        });
+        
+        productsGrid.addEventListener('mouseup', function() {
+            isDown = false;
+            productsGrid.classList.remove('dragging');
+        });
+        
+        productsGrid.addEventListener('mousemove', function(e) {
+            if (!isDown || window.innerWidth > 768) return;
+            e.preventDefault();
+            const x = e.pageX - productsGrid.offsetLeft;
+            const walk = (x - startX) * 2; // Scroll speed
+            productsGrid.scrollLeft = scrollLeft - walk;
+        });
+        
+        // Prevent click events while scrolling
+        let isScrolling = false;
+        productsGrid.addEventListener('scroll', function() {
+            isScrolling = true;
+            clearTimeout(isScrolling.timeout);
+            isScrolling.timeout = setTimeout(function() {
+                isScrolling = false;
+            }, 100);
+        });
+        
+        // Prevent button clicks during scroll
+        const buttons = productsGrid.querySelectorAll('.shop-now-btn');
+        buttons.forEach(button => {
+            button.addEventListener('click', function(e) {
+                if (isScrolling) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    return false;
+                }
+            });
+        });
+        
+        // Force horizontal scroll on wheel event (for trackpad users)
+        productsGrid.addEventListener('wheel', function(e) {
+            if (window.innerWidth <= 768) {
+                e.preventDefault();
+                productsGrid.scrollLeft += e.deltaY;
+            }
+        }, { passive: false });
+    }
+});
+</script>
 
 {% endblock %}
