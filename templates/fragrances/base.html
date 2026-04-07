@@ -1259,6 +1259,104 @@
     
     <script>
         // Authentication Functions
+        function initializeMobileTouchScrolling() {
+            console.log('Initializing mobile touch scrolling...');
+            
+            // Find all product grids with horizontal scroll
+            const productGrids = document.querySelectorAll('.products-grid.d-flex.flex-row.overflow-auto');
+            
+            productGrids.forEach((grid, index) => {
+                console.log(`Setting up touch scrolling for grid ${index}`);
+                
+                let isDown = false;
+                let startX;
+                let scrollLeft;
+                let isScrolling = false;
+                
+                // Mouse events for desktop testing
+                grid.addEventListener('mousedown', (e) => {
+                    if (window.innerWidth <= 768) {
+                        isDown = true;
+                        grid.style.cursor = 'grabbing';
+                        startX = e.pageX - grid.offsetLeft;
+                        scrollLeft = grid.scrollLeft;
+                        e.preventDefault();
+                    }
+                });
+                
+                grid.addEventListener('mouseleave', () => {
+                    isDown = false;
+                    grid.style.cursor = 'grab';
+                });
+                
+                grid.addEventListener('mouseup', () => {
+                    isDown = false;
+                    grid.style.cursor = 'grab';
+                });
+                
+                grid.addEventListener('mousemove', (e) => {
+                    if (!isDown || window.innerWidth > 768) return;
+                    e.preventDefault();
+                    const x = e.pageX - grid.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    grid.scrollLeft = scrollLeft - walk;
+                });
+                
+                // Touch events for mobile
+                grid.addEventListener('touchstart', (e) => {
+                    if (window.innerWidth <= 768) {
+                        isDown = true;
+                        startX = e.touches[0].pageX - grid.offsetLeft;
+                        scrollLeft = grid.scrollLeft;
+                        isScrolling = false;
+                        console.log('Touch start detected');
+                    }
+                });
+                
+                grid.addEventListener('touchmove', (e) => {
+                    if (!isDown || window.innerWidth > 768) return;
+                    
+                    const x = e.touches[0].pageX - grid.offsetLeft;
+                    const walk = (x - startX) * 2;
+                    const newScrollLeft = scrollLeft - walk;
+                    
+                    // Check if actually scrolling horizontally
+                    if (Math.abs(walk) > 10) {
+                        isScrolling = true;
+                        e.preventDefault();
+                        grid.scrollLeft = newScrollLeft;
+                        console.log('Touch scrolling, scrollLeft:', newScrollLeft);
+                    }
+                });
+                
+                grid.addEventListener('touchend', () => {
+                    isDown = false;
+                    console.log('Touch end, final scrollLeft:', grid.scrollLeft);
+                });
+                
+                // Prevent vertical scroll when horizontal scrolling
+                grid.addEventListener('touchmove', (e) => {
+                    if (isScrolling && window.innerWidth <= 768) {
+                        e.preventDefault();
+                    }
+                }, { passive: false });
+                
+                // Set cursor style
+                if (window.innerWidth <= 768) {
+                    grid.style.cursor = 'grab';
+                }
+                
+                console.log(`Touch scrolling initialized for grid ${index}`);
+            });
+            
+            // Re-initialize on window resize
+            window.addEventListener('resize', () => {
+                setTimeout(() => {
+                    initializeMobileTouchScrolling();
+                }, 100);
+            });
+        }
+        
         function initializeAllDropdowns() {
             console.log('Initializing all Bootstrap dropdowns...');
             
@@ -1545,6 +1643,9 @@
                 initializeMobileDropdown();
                 initializeAllDropdowns();
             }, 1000);
+            
+            // Initialize mobile touch scrolling
+            initializeMobileTouchScrolling();
             
             // Update cart count
             updateCartCount();
