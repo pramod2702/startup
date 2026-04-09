@@ -1,4 +1,4 @@
-name: Deploy to EC2 (Working Method)
+name: Deploy to EC2
 
 on:
   push:
@@ -10,27 +10,37 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Deploy using direct SSH
-        run: |
-          echo "${{ secrets.EC2_KEY }}" > key.pem
-          chmod 600 key.pem
+      - name: Deploy to EC2
+        uses: appleboy/ssh-action@v1.0.0
 
-          ssh -o StrictHostKeyChecking=no -i key.pem ${{ secrets.EC2_USER }}@${{ secrets.EC2_HOST }} << 'EOF'
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ${{ secrets.EC2_USER }}
+          key: ${{ secrets.EC2_KEY }}
 
-          echo "Connected ✅"
-          cd /home/ubuntu/business
+          script: |
+            set -e
 
-          git pull origin main
+            echo "📂 Go to project"
+            cd /home/ubuntu/business
 
-          source venv/bin/activate
-          pip install -r requirements.txt
+            echo "📥 Pull latest code"
+            git pull origin main
 
-          python manage.py migrate
-          python manage.py collectstatic --noinput
+            echo "🐍 Activate venv"
+            source venv/bin/activate
 
-          sudo systemctl restart gunicorn
-          sudo systemctl restart nginx
+            echo "📦 Install deps"
+            pip install -r requirements.txt
 
-          echo "Deployment done 🚀"
+            echo "⚙️ Migrate"
+            python manage.py migrate
 
-          EOF
+            echo "🎨 Collect static"
+            python manage.py collectstatic --noinput
+
+            echo "🔁 Restart services"
+            sudo systemctl restart gunicorn
+            sudo systemctl restart nginx
+
+            echo "✅ DONE"
