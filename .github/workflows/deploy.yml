@@ -16,18 +16,29 @@ jobs:
           host: ${{ secrets.EC2_HOST }}
           username: ${{ secrets.EC2_USER }}
           key: ${{ secrets.EC2_SSH_KEY }}
+          port: 22
           script: |
+            echo "🚀 Starting deployment..."
+
             cd /home/ubuntu/startup
 
+            echo "📥 Pulling latest code..."
             git pull origin main
 
+            echo "🐍 Activating virtual environment..."
             source venv/bin/activate
 
+            echo "📦 Installing dependencies..."
             pip install -r requirements.txt
 
+            echo "🗄️ Running migrations..."
             python manage.py migrate
 
+            echo "📁 Collecting static files..."
             python manage.py collectstatic --noinput
 
+            echo "🔁 Restarting services..."
             sudo systemctl restart gunicorn
             sudo systemctl restart nginx
+
+            echo "✅ Deployment successful!"
