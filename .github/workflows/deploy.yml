@@ -1,46 +1,15 @@
-name: Deploy to EC2
+script: |
+  cd /home/ubuntu/startup
 
-on:
-  push:
-    branches:
-      - main
+  git pull origin main
 
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
+  source venv/bin/activate
 
-    steps:
-      - name: Deploy to EC2
-        uses: appleboy/ssh-action@v1.0.0
+  pip install -r requirements.txt
 
-        with:
-          host: ${{ secrets.EC2_HOST }}
-          username: ${{ secrets.EC2_USER }}
-          key: ${{ secrets.EC2_KEY }}
+  python manage.py migrate
 
-          script: |
-            set -e
+  python manage.py collectstatic --noinput
 
-            echo "📂 Go to project"
-            cd /home/ubuntu/business
-
-            echo "📥 Pull latest code"
-            git pull origin main
-
-            echo "🐍 Activate venv"
-            source venv/bin/activate
-
-            echo "📦 Install deps"
-            pip install -r requirements.txt
-
-            echo "⚙️ Migrate"
-            python manage.py migrate
-
-            echo "🎨 Collect static"
-            python manage.py collectstatic --noinput
-
-            echo "🔁 Restart services"
-            sudo systemctl restart gunicorn
-            sudo systemctl restart nginx
-
-            echo "✅ DONE"
+  sudo systemctl restart gunicorn
+  sudo systemctl restart nginx
