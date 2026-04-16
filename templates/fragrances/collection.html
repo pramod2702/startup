@@ -37,11 +37,12 @@
                         </div>
                         
                         <p class="price h4 text-warning mb-3">₹{{ product.price }}</p>
-                        <button class="luxury-cart-btn {% if not product.available %}disabled{% endif %}" 
+                        <button class="luxury-cart-btn {% if product.stock_status == 'out_of_stock' %}disabled{% endif %}" 
                                 data-product-id="{{ product.id }}" 
                                 data-product-name="{{ product.name|escapejs }}" 
                                 data-product-price="{{ product.price }}" 
-                                data-product-image="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/perfume.png' %}{% endif %}">
+                                data-product-image="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/perfume.png' %}{% endif %}"
+                                data-stock-status="{{ product.stock_status|default:'in_stock' }}">
                             <div class="btn-content">
                                 <div class="btn-icon">
                                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -50,7 +51,7 @@
                                         <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6"></path>
                                     </svg>
                                 </div>
-                                <span class="btn-text">{% if product.available %}Add to Cart{% else %}Out of Stock{% endif %}</span>
+                                <span class="btn-text">{% if product.stock_status == 'out_of_stock' %}Out of Stock{% else %}Add to Cart{% endif %}</span>
                                 <div class="btn-shine"></div>
                             </div>
                             <div class="btn-border"></div>
@@ -110,10 +111,10 @@
                     
                     <div class="footer-section">
                         <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Contact</h4>
-                        <p style="color: white; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fas fa-phone" style="margin-right: 10px;"></i> 8055854596</p>
-                        <p style="color: white; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fas fa-envelope" style="margin-right: 10px;"></i> victnowperfume@gmail.com</p>
+                        <p style="color: white; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fas fa-phone" style="margin-right: 10px;"></i> +91 8055854596</p>
+                        <p style="color: white; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8); display: flex; align-items: center;"><i class="fas fa-envelope" style="margin-right: 10px;"></i> victnowperfume@gmail.com</p>
                         <div class="social-icons">
-                            <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-instagram"></i></a>
+                            <a href="https://www.instagram.com/victnow_perfume?igsh=MTYzemp0cTV2OHVtcA==" target="_blank" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); cursor: pointer; display: inline-block;"><i class="fab fa-instagram"></i></a>
                             <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-facebook"></i></a>
                         </div>
                     </div>
@@ -122,7 +123,7 @@
                         <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Newsletter</h4>
                         <p style="color: white; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Subscribe to get exclusive offers</p>
                         <form class="newsletter-form" action="/newsletter/" method="POST" style="display: flex; gap: 10px;">
-                            <input type="hidden" name="csrfmiddlewaretoken" value="PFsLWXeb2F2Dn1ZggICrfY4gRZC1HCGRtxSCMyFbiVuZozLoEDKzqDYI8XKelKtz">
+                            {% csrf_token %}
                             <input type="email" name="email" placeholder="Your email" required="" style="flex: 1; padding: 12px; border: 1px solid #d4af37; background: rgba(255,255,255,0.2); color: white; border-radius: 5px;">
                             <button type="submit" style="background: #d4af37; color: #000; border: none; padding: 12px 20px; border-radius: 5px; cursor: pointer; font-weight: bold; transition: background 0.3s;">Subscribe</button>
                         </form>
@@ -160,13 +161,21 @@ document.addEventListener('DOMContentLoaded', function() {
                 productId: this.dataset.productId,
                 productName: this.dataset.productName,
                 productPrice: this.dataset.productPrice,
-                productImage: this.dataset.productImage
+                productImage: this.dataset.productImage,
+                stockStatus: this.dataset.stockStatus
             });
             
             const productId = this.dataset.productId;
             const productName = this.dataset.productName;
             const productPrice = parseFloat(this.dataset.productPrice);
             const productImage = this.dataset.productImage;
+            const stockStatus = this.dataset.stockStatus || 'in_stock';
+            
+            // Check if product is out of stock
+            if (stockStatus === 'out_of_stock') {
+                showNotification('This product is out of stock', 'error');
+                return;
+            }
             
             // Validate data
             if (!productId || !productName || !productPrice) {
@@ -242,11 +251,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Cart count update function
     function updateCartCount() {
         const cartData = JSON.parse(localStorage.getItem('cartData') || '[]');
-        const cartCountElement = document.getElementById('cart-count');
-        if (cartCountElement) {
-            const totalItems = cartData.reduce((sum, item) => sum + item.quantity, 0);
-            cartCountElement.textContent = totalItems;
-            cartCountElement.style.display = totalItems > 0 ? 'flex' : 'none';
+        const totalItems = cartData.reduce((sum, item) => sum + item.quantity, 0);
+        
+        // Update mobile cart count
+        const cartCountMobile = document.getElementById('cart-count');
+        if (cartCountMobile) {
+            cartCountMobile.textContent = totalItems;
+            cartCountMobile.style.display = totalItems > 0 ? 'flex' : 'none';
+        }
+        
+        // Update desktop cart count
+        const cartCountDesktop = document.getElementById('cart-count-desktop');
+        if (cartCountDesktop) {
+            cartCountDesktop.textContent = totalItems;
+            cartCountDesktop.style.display = totalItems > 0 ? 'flex' : 'none';
         }
     }
     

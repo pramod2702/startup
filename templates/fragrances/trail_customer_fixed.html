@@ -265,6 +265,14 @@ let orderData = {};
 function handleSubmit(event) {
     event.preventDefault();
     
+    // Check if user is logged in
+    const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+    if (!currentUser) {
+        alert('Please login to order trial pack');
+        window.location.href = '/login/';
+        return;
+    }
+    
     const form = event.target;
     const formData = new FormData(form);
     

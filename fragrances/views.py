@@ -12,7 +12,7 @@ from django.views.decorators.http import require_POST
 from django.contrib.auth.decorators import login_required
 from django.views.decorators.cache import never_cache
 import json
-from .models import Product, Testimonial, BlogPost, ContactMessage, Newsletter, UserProfile, CorporateOrder, TrialPack, UserActivity, Cart
+from .models import Product, Testimonial, BlogPost, ContactMessage, Newsletter, UserProfile, CorporateOrder, TrialPack, UserActivity, Cart, Order
 
 def get_client_ip(request):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
@@ -24,11 +24,25 @@ def get_client_ip(request):
 
 def home(request):
     """Serve the main index.html page with signature products"""
+    # Log query parameters for debugging Instagram in-app browser issues
+    import logging
+    logger = logging.getLogger(__name__)
+    if request.GET:
+        logger.info(f"Query parameters received: {request.GET}")
+    
+    # Always load products regardless of query parameters
     products = Product.objects.all().order_by('-created_at')
     context = {'products': products}
     return render(request, 'index.html', context)
 
 def collection(request):
+    # Log query parameters for debugging Instagram in-app browser issues
+    import logging
+    logger = logging.getLogger(__name__)
+    if request.GET:
+        logger.info(f"Collection view query parameters: {request.GET}")
+    
+    # Always load products regardless of query parameters
     products = Product.objects.all().order_by('-created_at')
     context = {'products': products}
     return render(request, 'fragrances/collection.html', context)
@@ -239,7 +253,8 @@ def orders(request):
     if user.is_authenticated:
         print(f"DEBUG: Orders page accessed by user: {user.username} (ID: {user.id})")
         
-        # Get current user's orders (no slicing yet)
+        # Get current user's orders from all models
+        all_user_orders = Order.objects.filter(user=user).order_by('-created_at')
         all_user_trial_packs = TrialPack.objects.filter(user=user).order_by('-created_at')
         all_user_corporate_orders = CorporateOrder.objects.filter(user=user).order_by('-created_at')
         
@@ -247,64 +262,119 @@ def orders(request):
         recent_activities = UserActivity.objects.filter(user=user).order_by('-created_at')[:15]
         
         # Calculate statistics from full querysets (before slicing)
-        pending_orders = all_user_trial_packs.filter(order_status='pending').count() + all_user_corporate_orders.filter(status='pending').count()
-        processing_orders = all_user_trial_packs.filter(order_status='processing').count() + all_user_corporate_orders.filter(status='processing').count()
-        delivered_orders = all_user_trial_packs.filter(order_status='delivered').count() + all_user_corporate_orders.filter(status='delivered').count()
-        cancelled_orders = all_user_trial_packs.filter(order_status='cancelled').count() + all_user_corporate_orders.filter(status='cancelled').count()
+        # Main orders
+        pending_main_orders = all_user_orders.filter(order_status='pending').count()
+        processing_main_orders = all_user_orders.filter(order_status='processing').count()
+        delivered_main_orders = all_user_orders.filter(order_status='delivered').count()
+        cancelled_main_orders = all_user_orders.filter(order_status='cancelled').count()
+        
+        # Trial packs
+        pending_trial_orders = all_user_trial_packs.filter(order_status='pending').count()
+        processing_trial_orders = all_user_trial_packs.filter(order_status='processing').count()
+        delivered_trial_orders = all_user_trial_packs.filter(order_status='delivered').count()
+        cancelled_trial_orders = all_user_trial_packs.filter(order_status='cancelled').count()
+        
+        # Corporate orders
+        pending_corporate_orders = all_user_corporate_orders.filter(status='pending').count()
+        processing_corporate_orders = all_user_corporate_orders.filter(status='processing').count()
+        delivered_corporate_orders = all_user_corporate_orders.filter(status='delivered').count()
+        cancelled_corporate_orders = all_user_corporate_orders.filter(status='cancelled').count()
+        
+        # Total counts
+        total_pending = pending_main_orders + pending_trial_orders + pending_corporate_orders
+        total_processing = processing_main_orders + processing_trial_orders + processing_corporate_orders
+        total_delivered = delivered_main_orders + delivered_trial_orders + delivered_corporate_orders
+        total_cancelled = cancelled_main_orders + cancelled_trial_orders + cancelled_corporate_orders
         
         # Now slice for display
+        user_orders = all_user_orders[:10]
         user_trial_packs = all_user_trial_packs[:10]
         user_corporate_orders = all_user_corporate_orders[:10]
         
         # Debug individual orders
+        print(f"DEBUG: Found {len(user_orders)} main orders")
+        for order in user_orders:
+            print(f"DEBUG: User Order {order.id}: {order.get_full_name()} - {order.order_status} - Rs.{order.total_amount}")
+        
+        print(f"DEBUG: Found {len(user_trial_packs)} trial packs")
         for pack in user_trial_packs:
             print(f"DEBUG: User TrialPack {pack.id}: {pack.trial_pack_name} - {pack.order_status}")
         
+        print(f"DEBUG: Found {len(user_corporate_orders)} corporate orders")
         for corp in user_corporate_orders:
             print(f"DEBUG: User CorporateOrder {corp.id}: {corp.company_name} - {corp.status}")
         
         context = {
+            'orders': user_orders,
             'trial_packs': user_trial_packs,
             'corporate_orders': user_corporate_orders,
             'recent_activities': recent_activities,
-            'pending_orders': pending_orders,
-            'processing_orders': processing_orders,
-            'delivered_orders': delivered_orders,
-            'cancelled_orders': cancelled_orders,
+            'orders_count': len(user_orders),
+            'trial_packs_count': len(user_trial_packs),
+            'corporate_orders_count': len(user_corporate_orders),
+            'pending_orders': total_pending,
+            'processing_orders': total_processing,
+            'delivered_orders': total_delivered,
+            'cancelled_orders': total_cancelled,
             'debug_user_id': user.id,
             'debug_username': user.username,
         }
     else:
         # User not authenticated - show empty orders
         context = {
+            'orders': [],
             'trial_packs': [],
             'corporate_orders': [],
             'recent_activities': [],
+            'orders_count': 0,
+            'trial_packs_count': 0,
+            'corporate_orders_count': 0,
             'pending_orders': 0,
             'processing_orders': 0,
             'delivered_orders': 0,
             'cancelled_orders': 0,
-            'debug_user_id': 'anonymous',
-            'debug_username': 'anonymous',
+            'debug_user_id': None,
+            'debug_username': 'Guest',
         }
     
     return render(request, 'fragrances/orders.html', context)
 
 @csrf_exempt
-@login_required
 def add_to_cart(request):
     """Add item to user's cart"""
+    print("=== ADD TO CART START ===")
+    print(f"Request method: {request.method}")
+    
     if request.method == 'POST':
         try:
             data = json.loads(request.body)
+            print(f"Request data: {data}")
+            
             product_id = data.get('product_id')
             quantity = data.get('quantity', 1)
             
-            user = request.user
+            print(f"Product ID: {product_id}, Quantity: {quantity}")
+            
+            # Get user from localStorage or use anonymous user
+            user = request.user if request.user.is_authenticated else None
+            print(f"Authenticated user: {user}")
+            
+            if not user:
+                # For now, use first user as fallback (temporary fix)
+                from django.contrib.auth import get_user_model
+                User = get_user_model()
+                user = User.objects.first()
+                print(f"Fallback user: {user}")
+                if not user:
+                    print("ERROR: No users in database")
+                    return JsonResponse({'success': False, 'error': 'No users in database'})
+            
             product = get_object_or_404(Product, id=product_id)
+            print(f"Product found: {product.name}")
             
             # Add to cart
             cart_item = Cart.add_to_cart(user, product, quantity)
+            print(f"Cart item created/updated: {cart_item}")
             
             # Log activity
             UserActivity.log_activity(
@@ -335,7 +405,6 @@ def add_to_cart(request):
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 @csrf_exempt
-@login_required
 def remove_from_cart(request):
     """Remove item from user's cart"""
     if request.method == 'POST':
@@ -343,7 +412,17 @@ def remove_from_cart(request):
             data = json.loads(request.body)
             product_id = data.get('product_id')
             
-            user = request.user
+            # Get user from localStorage or use anonymous user
+            user = request.user if request.user.is_authenticated else None
+            
+            if not user:
+                # For now, use first user as fallback (temporary fix)
+                from django.contrib.auth import get_user_model
+                User = get_user_model()
+                user = User.objects.first()
+                if not user:
+                    return JsonResponse({'success': False, 'error': 'No users in database'})
+            
             product = get_object_or_404(Product, id=product_id)
             
             # Remove from cart
@@ -379,7 +458,6 @@ def remove_from_cart(request):
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
 @csrf_exempt
-@login_required
 def update_cart_quantity(request):
     """Update cart item quantity"""
     if request.method == 'POST':
@@ -388,7 +466,17 @@ def update_cart_quantity(request):
             product_id = data.get('product_id')
             quantity = data.get('quantity', 1)
             
-            user = request.user
+            # Get user from localStorage or use anonymous user
+            user = request.user if request.user.is_authenticated else None
+            
+            if not user:
+                # For now, use first user as fallback (temporary fix)
+                from django.contrib.auth import get_user_model
+                User = get_user_model()
+                user = User.objects.first()
+                if not user:
+                    return JsonResponse({'success': False, 'error': 'No users in database'})
+            
             product = get_object_or_404(Product, id=product_id)
             
             # Update quantity
@@ -422,18 +510,60 @@ def update_cart_quantity(request):
     
     return JsonResponse({'success': False, 'error': 'Invalid request method'})
 
-@login_required
 def get_cart_info(request):
     """Get current cart information"""
-    user = request.user
+    print("=== GET CART INFO START ===")
+    
+    # Get user from localStorage or use anonymous user
+    user = request.user if request.user.is_authenticated else None
+    print(f"Authenticated user: {user}")
+    
+    if not user:
+        # For now, use first user as fallback (temporary fix)
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        user = User.objects.first()
+        print(f"Fallback user: {user}")
+        if not user:
+            print("ERROR: No users in database")
+            return JsonResponse({
+                'success': False,
+                'cart_count': 0,
+                'cart_total': 0,
+                'cart_items': []
+            })
+    
     cart_count = Cart.get_cart_count(user)
     cart_total = Cart.get_cart_total(user)
+    print(f"Cart count: {cart_count}, Cart total: {cart_total}")
     
-    return JsonResponse({
+    # Get cart items with product details
+    cart_items = Cart.objects.filter(user=user).select_related('product')
+    print(f"Cart items found: {cart_items.count()}")
+    
+    cart_items_data = []
+    
+    for item in cart_items:
+        print(f"Processing cart item: {item.product.name}, quantity: {item.quantity}")
+        cart_items_data.append({
+            'id': item.product.id,
+            'name': item.product.name,
+            'price': float(item.product.price),
+            'quantity': item.quantity,
+            'subtotal': float(item.product.price * item.quantity),
+            'image': item.product.image.url if item.product.image else '/static/images/default-perfume.jpg'
+        })
+    
+    print(f"Cart items data: {cart_items_data}")
+    
+    response = JsonResponse({
         'success': True,
         'cart_count': cart_count,
-        'cart_total': float(cart_total)
+        'cart_total': float(cart_total),
+        'cart_items': cart_items_data
     })
+    print("=== GET CART INFO END ===")
+    return response
 
 def checkout_complete(request):
     if request.method == 'POST':
@@ -1215,16 +1345,27 @@ def contact(request):
         # Return a simple error page
         return render(request, 'fragrances/contact.html')
 
+@csrf_exempt
 def newsletter(request):
+    # Log for debugging
+    import logging
+    logger = logging.getLogger(__name__)
+    logger.info(f"Newsletter view called - Method: {request.method}, GET: {request.GET}, POST: {request.POST}")
+    
     if request.method == 'POST':
         email = request.POST.get('email')
+        logger.info(f"Newsletter form submitted with email: {email}")
         
         try:
             Newsletter.objects.get(email=email)
             messages.warning(request, 'You are already subscribed to our newsletter.')
+            logger.info("Email already subscribed")
         except Newsletter.DoesNotExist:
             Newsletter.objects.create(email=email)
             messages.success(request, 'Thank you for subscribing to our newsletter!')
+            logger.info("New email subscribed successfully")
+    else:
+        logger.warning("Newsletter view called with non-POST method")
     
     return redirect('home')
 

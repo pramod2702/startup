@@ -7,6 +7,7 @@ from . import views_fast2sms
 from . import views_db_viewer
 from . import views_razorpay
 from . import views_fixed_razorpay
+from . import views_admin
 
 urlpatterns = [
     path('', views.home, name='home'),
@@ -95,4 +96,8 @@ urlpatterns = [
     
     # Fixed Razorpay Test Page
     path('fixed-razorpay-test/', views.fixed_razorpay_test, name='fixed_razorpay_test'),
+    
+    # Admin Dashboard URLs
+    path('admin/api/stats/', views_admin.admin_stats_api, name='admin_stats_api'),
+    path('admin/dashboard/', views_admin.admin_dashboard_custom, name='admin_dashboard_custom'),
 ]

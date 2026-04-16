@@ -5,7 +5,7 @@
 
 class DirectMobileLogin {
     constructor() {
-        this.baseURL = window.location.origin;
+        this.baseURL = '';  // Use relative URLs for Instagram in-app browser compatibility
         this.init();
     }
 

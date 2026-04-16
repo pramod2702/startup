@@ -24,6 +24,8 @@ SECRET_KEY = 'django-insecure-your-secret-key-change-this-in-production-xyz789'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 ALLOWED_HOSTS = ['54.79.9.184',
+                  'victnow.com',
+                  'www.victnow.com',
                   '*',
 ]
 
@@ -125,24 +127,8 @@ CORS_ALLOWED_ORIGINS = [
     "https://machinelike-unsentimentally-cherry.ngrok-free.dev",
     "https://*.ngrok-free.dev",
     "https://*.ngrok.io",
-]
-
-CSRF_TRUSTED_ORIGINS = [
-    "http://127.0.0.1:8000",
-    "http://localhost:8000",
-    "http://127.0.0.1:64354",
-    "http://localhost:64354",
-    "http://127.0.0.1:56185",
-    "http://localhost:56185",
-    "http://127.0.0.1:3000",
-    "http://localhost:3000",
-    "http://127.0.0.1:5000",
-    "http://localhost:5000",
-    "http://127.0.0.1:5500",
-    "http://localhost:5500",
-    "https://machinelike-unsentimentally-cherry.ngrok-free.dev",
-    "https://*.ngrok-free.dev",
-    "https://*.ngrok.io",
+    "https://victnow.com",
+    "https://www.victnow.com",
 ]
 
 # CSRF Cookie Settings for Admin Panel
@@ -151,7 +137,7 @@ CSRF_COOKIE_HTTPONLY = False
 CSRF_COOKIE_SAMESITE = 'Lax'
 SESSION_COOKIE_SECURE = False  # Set to False for development
 
-# More permissive CSRF settings for development
+# CSRF Trusted Origins - including victnow.com for Instagram in-app browser
 CSRF_TRUSTED_ORIGINS = [
     "http://127.0.0.1:8000",
     "http://localhost:8000",
@@ -168,9 +154,11 @@ CSRF_TRUSTED_ORIGINS = [
     "https://machinelike-unsentimentally-cherry.ngrok-free.dev",
     "https://*.ngrok-free.dev",
     "https://*.ngrok.io",
+    "https://victnow.com",
+    "https://www.victnow.com",
 ]
 
-# Disable CSRF referer checking for development
+# Disable CSRF referer checking for development and Instagram in-app browser
 CSRF_REFERER_POLICY = 'same-origin'
 SESSION_COOKIE_SAMESITE = 'Lax'
 

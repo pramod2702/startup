@@ -22,31 +22,6 @@
     </div>
 </section>
 
-<!-- About VICTNOW Section -->
-<section class="about-victnow-banner py-5">
-    <div class="silver-dots d-none d-md-block">
-        <div class="silver-dot"></div>
-        <div class="silver-dot"></div>
-        <div class="silver-dot"></div>
-        <div class="silver-dot"></div>
-        <div class="silver-dot"></div>
-        <div class="silver-dot"></div>
-        <div class="silver-dot"></div>
-        <div class="silver-dot"></div>
-    </div>
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-12 text-center">
-                <div class="about-victnow-content">
-                    <p class="section-subtitle text-warning mb-2">ABOUT VICTNOW</p>
-                    <h2 class="section-title display-5 fw-bold text-white mb-3">THE ART OF PERFUME</h2>
-                    <p class="section-description text-white-50 mb-4">Crafted with passion, perfected by elegance.<br class="d-none d-md-block">Discover the essence of true luxury.</p>
-                    <a href="{% url 'about' %}" class="btn btn-outline-warning btn-lg">LEARN MORE</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- Signature Fragrances Section -->
 <section class="signature-fragrances py-5">
@@ -176,10 +151,21 @@
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10">
                 <div class="contact-option bg-dark bg-opacity-85 p-5 rounded" style="backdrop-filter: blur(20px); border: 2px solid rgba(212, 175, 55, 0.4); background: linear-gradient(135deg, rgba(0, 0, 0, 0.95), rgba(26, 26, 26, 0.9)); box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3), 0 0 0 1px rgba(212, 175, 55, 0.2);">
-                    <h3 class="h3 text-warning text-center mb-4" style="font-size: 1.8rem; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Online Enquiry</h3>
-                    <p class="text-white text-center mb-4" style="font-size: 1rem; opacity: 0.8;">Connect with our fragrance experts for personalized assistance</p>
-                    <form class="contact-form" action="{% url 'contact' %}" method="POST">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="slwMMu6JS4moAMO7TXa0q6Lby4zfsX1o5JXv7UBF9FUHJexHv4P39w4bqioYfVTN">
+                    <h3 class="h3 text-warning text-center mb-4" style="font-size: 1.8rem; font-weight: 700; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Contact Us</h3>
+                    
+                    {% if messages %}
+                        <div class="messages-container mb-4">
+                            {% for message in messages %}
+                                <div class="alert alert-success" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.08)); backdrop-filter: blur(25px); border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 15px; padding: 15px; margin-bottom: 10px; color: #ffffff; font-weight: 500; text-align: center;">
+                                    <i class="fas fa-check-circle" style="margin-right: 10px;"></i>
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    <form method="POST" action="{% url 'contact' %}">
+                        {% csrf_token %}
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 <label for="name" class="form-label text-warning fw-bold" style="font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px;">Your Name</label>
@@ -244,10 +230,10 @@
                 
                 <div class="footer-section">
                     <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Contact</h4>
-                    <p style="color: white; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fas fa-phone" style="margin-right: 10px;"></i> 8055854596</p>
+                    <p style="color: white; margin-bottom: 10px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fas fa-phone" style="margin-right: 10px;"></i> +91 8055854596</p>
                     <p style="color: white; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);"><i class="fas fa-envelope" style="margin-right: 10px;"></i> victnowperfume@gmail.com</p>
                     <div class="social-icons">
-                        <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.instagram.com/victnow_perfume?igsh=MTYzemp0cTV2OHVtcA==" target="_blank" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8); cursor: pointer; display: inline-block;"><i class="fab fa-instagram"></i></a>
                         <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-facebook"></i></a>
                         <a href="#" style="color: #d4af37; font-size: 20px; margin-right: 15px; text-decoration: none; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);"><i class="fab fa-twitter"></i></a>
                     </div>
@@ -257,7 +243,7 @@
                     <h4 style="color: #d4af37; margin-bottom: 20px; text-shadow: 2px 2px 4px rgba(0,0,0,0.8);">Newsletter</h4>
                     <p style="color: white; margin-bottom: 20px; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">Subscribe to get exclusive offers</p>
                     <form class="newsletter-form" action="/newsletter/" method="POST" style="display: flex; gap: 10px;">
-                        <input type="hidden" name="csrfmiddlewaretoken" value="PFsLWXeb2F2Dn1ZggICrfY4gRZC1HCGRtxSCMyFbiVuZozLoEDKzqDYI8XKelKtz">
+                        {% csrf_token %}
                         <input type="email" name="email" placeholder="Your email" required="" style="flex: 1; padding: 12px; border: 1px solid #d4af37; background: rgba(255,255,255,0.2); color: white; border-radius: 5px;">
                         <button type="submit" style="padding: 12px 20px; border: none; border-radius: 5px; background: #d4af37; color: black; font-weight: bold;">Subscribe</button>
                     </form>

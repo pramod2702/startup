@@ -331,6 +331,13 @@
             </div>
             
             <div class="form-group">
+                <label for="pincode">
+                    <i class="fas fa-map-pin" style="margin-right: 8px;"></i>PIN Code *
+                </label>
+                <input type="text" id="pincode" name="pincode" placeholder="Enter 6-digit PIN code" required maxlength="6" pattern="[0-9]{6}">
+            </div>
+            
+            <div class="form-group">
                 <label for="address">
                     <i class="fas fa-home" style="margin-right: 8px;"></i>Shipping Address *
                 </label>
@@ -358,6 +365,75 @@
         function openRazorpayDirect() {
             console.log('Opening Razorpay with dynamic price');
             
+            // Validate form fields first
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const pincode = document.getElementById('pincode').value.trim();
+            const address = document.getElementById('address').value.trim();
+            
+            // Check if all fields are filled
+            if (!name) {
+                alert('Please enter your full name');
+                document.getElementById('name').focus();
+                return;
+            }
+            
+            if (!email) {
+                alert('Please enter your email address');
+                document.getElementById('email').focus();
+                return;
+            }
+            
+            if (!phone) {
+                alert('Please enter your phone number');
+                document.getElementById('phone').focus();
+                return;
+            }
+            
+            if (!city) {
+                alert('Please enter your city');
+                document.getElementById('city').focus();
+                return;
+            }
+            
+            if (!pincode) {
+                alert('Please enter your PIN code');
+                document.getElementById('pincode').focus();
+                return;
+            }
+            
+            if (!address) {
+                alert('Please enter your shipping address');
+                document.getElementById('address').focus();
+                return;
+            }
+            
+            // Email validation
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address');
+                document.getElementById('email').focus();
+                return;
+            }
+            
+            // Phone validation (10 digits for India)
+            const phoneRegex = /^[6-9]\d{9}$/;
+            if (!phoneRegex.test(phone)) {
+                alert('Please enter a valid 10-digit phone number');
+                document.getElementById('phone').focus();
+                return;
+            }
+            
+            // Pincode validation (6 digits for India)
+            const pincodeRegex = /^\d{6}$/;
+            if (!pincodeRegex.test(pincode)) {
+                alert('Please enter a valid 6-digit PIN code');
+                document.getElementById('pincode').focus();
+                return;
+            }
+            
             // Show loading state
             const button = event.target;
             const originalText = button.innerHTML;
@@ -382,20 +458,55 @@
             
             const options = {
                 key: 'rzp_live_SWbTlXM1BhD6RZ',
-                amount: Math.round(currentPrice * 100), // Convert to paise
+                amount: Math.round(999 * 100), // ₹999 in paise
                 currency: 'INR',
                 name: currentConfig.name,
                 description: currentConfig.description,
                 image: '/static/images/perfume.png',
                 handler: function (response) {
-                    console.log('Payment successful with amount:', currentPrice, response);
-                    alert('Payment successful! Amount: ₹' + currentPrice.toFixed(2) + ', Payment ID: ' + response.razorpay_payment_id);
-                    window.location.href = '/payment-success/?payment_id=' + response.razorpay_payment_id;
+                    console.log('Payment successful with amount:', 999, response);
+                    alert('Payment successful! Amount: ₹999.00, Payment ID: ' + response.razorpay_payment_id);
+                    
+                    // Save order to backend after successful payment
+                    fetch('/create-trial-pack/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': getCookie('csrftoken')
+                        },
+                        body: JSON.stringify({
+                            name: name,
+                            email: email,
+                            phone: phone,
+                            city: city,
+                            pincode: pincode,
+                            address: address,
+                            product_name: currentConfig.name,
+                            amount: 999,
+                            payment_method: 'razorpay',
+                            payment_id: response.razorpay_payment_id,
+                            payment_status: 'completed'
+                        })
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        console.log('Order saved:', data);
+                        window.location.href = '/payment-success/?payment_id=' + response.razorpay_payment_id;
+                    })
+                    .catch(error => {
+                        console.error('Error saving order:', error);
+                        window.location.href = '/payment-success/?payment_id=' + response.razorpay_payment_id;
+                    });
                 },
                 prefill: {
-                    name: 'VICTNOW Customer',
-                    email: 'customer@victnow.com',
-                    contact: '9999999999'
+                    name: name,
+                    email: email,
+                    contact: phone
+                },
+                notes: {
+                    address: address,
+                    city: city,
+                    order_type: 'Trial Pack Order'
                 },
                 theme: {
                     color: '#d4af37'
@@ -413,7 +524,7 @@
                 redirect: false
             };
             
-            console.log('FINAL AMOUNT BEING SENT TO RAZORPAY:', Math.round(currentPrice * 100), '(₹' + currentPrice.toFixed(2) + ')');
+            console.log('FINAL AMOUNT BEING SENT TO RAZORPAY:', Math.round(999 * 100), '(₹999.00)');
             
             try {
                 const rzp = new Razorpay(options);

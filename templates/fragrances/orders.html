@@ -27,7 +27,7 @@
         <!-- Order Stats -->
         <div class="order-stats">
             <div class="stat-item">
-                <div class="stat-number" id="totalOrders">{{ orders.count }}</div>
+                <div class="stat-number" id="totalOrders">{{ orders_count|add:trial_packs_count|add:corporate_orders_count }}</div>
                 <div class="stat-label">Total Orders</div>
             </div>
             <div class="stat-item">
@@ -44,19 +44,23 @@
             </div>
         </div>
 
-        <!-- Additional Stats for Trial Packs and Corporate Orders -->
+        <!-- Additional Stats for Order Types -->
         <div class="order-stats" style="margin-top: 20px;">
             <div class="stat-item">
-                <div class="stat-number">{{ trial_packs.count }}</div>
+                <div class="stat-number">{{ orders_count }}</div>
+                <div class="stat-label">Regular Orders</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-number">{{ trial_packs_count }}</div>
                 <div class="stat-label">Trial Packs</div>
             </div>
             <div class="stat-item">
-                <div class="stat-number">{{ corporate_orders.count }}</div>
+                <div class="stat-number">{{ corporate_orders_count }}</div>
                 <div class="stat-label">Corporate Orders</div>
             </div>
             <div class="stat-item">
                 <div class="stat-number">{{ recent_activities.count }}</div>
-                <div class="stat-label">Recent Activities</div>
+                <div class="stat-label">Activities</div>
             </div>
         </div>
 
@@ -64,6 +68,9 @@
         <div class="filters">
             <div class="filter-tabs">
                 <button class="filter-btn active" onclick="filterOrders('all')">All Orders</button>
+                <button class="filter-btn" onclick="filterOrders('corporate')">Corporate Orders</button>
+                <button class="filter-btn" onclick="filterOrders('trial')">Trial Packs</button>
+                <button class="filter-btn" onclick="filterOrders('regular')">Regular Orders</button>
                 <button class="filter-btn" onclick="filterOrders('pending')">Processing</button>
                 <button class="filter-btn" onclick="filterOrders('shipped')">Shipped</button>
                 <button class="filter-btn" onclick="filterOrders('completed')">Completed</button>
@@ -82,6 +89,50 @@
 
         <!-- Orders List -->
         <div id="ordersList" class="orders-list">
+            <!-- Regular Orders -->
+            {% if orders %}
+                <h3 style="color: #d4af37; margin-bottom: 20px;">Regular Orders</h3>
+                {% for order in orders %}
+                <div class="order-card" data-order-type="regular" data-status="{{ order.order_status }}">
+                    <div class="order-header">
+                        <div>
+                            <div class="order-id">ORD-{{ order.id }}</div>
+                            <div class="order-date">{{ order.created_at|date:"M d, Y H:i" }}</div>
+                        </div>
+                        <div class="order-status status-{{ order.order_status }}">{{ order.order_status|title }}</div>
+                    </div>
+                    
+                    <div class="order-items">
+                        <div class="order-item">
+                            <div class="item-image">
+                                {% if order.product %}
+                                    <img src="{{ order.product.image.url|default:'/static/images/perfume.png' }}" alt="{{ order.product.name }}">
+                                {% else %}
+                                    <img src="/static/images/perfume.png" alt="Product">
+                                {% endif %}
+                            </div>
+                            <div class="item-details">
+                                <div class="item-name">{{ order.product.name|default:'Product' }}</div>
+                                <div class="item-quantity">Quantity: {{ order.quantity }}</div>
+                                <div class="item-price">Rs.{{ order.product_price }}</div>
+                            </div>
+                            <div class="item-total">Rs.{{ order.total_amount }}</div>
+                        </div>
+                    </div>
+                    
+                    <div class="order-footer">
+                        <div class="order-total">Total: Rs.{{ order.total_amount }}</div>
+                        <div class="order-actions">
+                            <button class="btn btn-small btn-secondary" onclick="viewOrderDetails({{ order.id }}, 'regular')">Details</button>
+                            {% if order.tracking %}
+                                <button class="btn btn-small btn-primary" onclick="trackOrder({{ order.id }}, 'regular')">Track</button>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            {% endif %}
+            
             <!-- Trial Packs -->
             {% if trial_packs %}
                 <h3 style="color: #d4af37; margin-bottom: 20px;">Trial Pack Orders</h3>
@@ -790,7 +841,7 @@ function getStatusText(status) {
     return statusTexts[status] || 'Processing';
 }
 
-function filterOrders(status) {
+function filterOrders(filterType) {
     // Update active tab
     document.querySelectorAll('.filter-btn').forEach(btn => {
         btn.classList.remove('active');
@@ -800,8 +851,17 @@ function filterOrders(status) {
     const allOrders = JSON.parse(localStorage.getItem('userOrders') || '[]');
     
     let filteredOrders = allOrders;
-    if (status !== 'all') {
-        filteredOrders = allOrders.filter(order => order.status === status);
+    
+    // Handle order type filtering
+    if (filterType === 'corporate') {
+        filteredOrders = allOrders.filter(order => order.type === 'corporate');
+    } else if (filterType === 'trial') {
+        filteredOrders = allOrders.filter(order => order.type === 'trial');
+    } else if (filterType === 'regular') {
+        filteredOrders = allOrders.filter(order => order.type === 'regular');
+    } else if (filterType !== 'all') {
+        // Handle status filtering (pending, shipped, completed, cancelled)
+        filteredOrders = allOrders.filter(order => order.status === filterType);
     }
     
     displayOrders(filteredOrders);

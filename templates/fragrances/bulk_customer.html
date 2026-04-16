@@ -301,8 +301,6 @@
                     </label>
                     <select id="bottle_size" name="bottle_size" required>
                         <option value="">Select bottle size</option>
-                        <option value="10ml">10ml</option>
-                        <option value="25ml">25ml</option>
                         <option value="50ml">50ml</option>
                     </select>
                 </div>
@@ -381,6 +379,14 @@
     <script>
         function handleSubmit(event) {
             event.preventDefault();
+            
+            // Check if user is logged in
+            const currentUser = JSON.parse(localStorage.getItem('currentUser'));
+            if (!currentUser) {
+                alert('Please login to submit bulk order');
+                window.location.href = '/login/';
+                return;
+            }
             
             const form = event.target;
             const formData = new FormData(form);

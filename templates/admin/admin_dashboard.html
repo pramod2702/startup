@@ -1,9 +1,23 @@
-{% extends "admin/base_site.html" %}
 {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ site_title }} - {{ title }}</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f5f5f5;
+        }
+    </style>
+</head>
+<body>
 
-{% block extrastyle %}{{ block.super }}
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <style>
 /* Custom Admin Panel Styling */
 .admin-panel-header {
@@ -503,16 +517,8 @@
     }
 }
 </style>
-{% endblock %}
 
-{% block branding %}
 <h1 id="site-name"><i class="fas fa-crown"></i> VICTNOW Admin</h1>
-{% endblock %}
-
-{% block nav-global %}
-{% endblock %}
-
-{% block content %}
 <div class="admin-panel-header">
     <div class="admin-header-content">
         <h1><i class="fas fa-tachometer-alt"></i> Admin Dashboard</h1>
@@ -646,6 +652,7 @@ document.addEventListener('DOMContentLoaded', function() {
     loadRecentActivity();
     // Auto-refresh every 30 seconds
     setInterval(loadAdminStats, 30000);
+    setInterval(loadRecentActivity, 30000);
 });
 
 function loadAdminStats() {
@@ -882,490 +889,15 @@ function loadDemoActivity() {
     updateActivityList(activities);
 }
 </script>
-{% endblock %}
 
-{% block footer %}
 <div style="text-align: center; padding: 20px; background: #f8f9fa; border-top: 1px solid #e0e0e0;">
     <p style="color: #666; margin: 0;">
         <i class="fas fa-crown" style="color: #d4af37;"></i> 
         VICTNOW Admin Panel - Premium Management System
     </p>
 </div>
-{% endblock %}
 
 <script>
-// Load statistics and initialize charts
-document.addEventListener('DOMContentLoaded', function() {
-    loadAdminStats();
-    initializeCharts();
-    loadRecentActivity();
-    // Auto-refresh every 30 seconds
-    setInterval(loadAdminStats, 30000);
-});
-
-function loadAdminStats() {
-    // Show loading state
-    document.querySelectorAll('.stat-number').forEach(el => {
-        el.innerHTML = '<div class="loading"></div>';
-    });
-    
-    // Fetch real data from API
-    fetch('/admin/api/stats/')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const stats = data.data;
-                
-                // Update statistics with animation
-                animateValue('bulk-orders', 0, stats.bulk_orders, 2000);
-                animateValue('total-orders', 0, stats.total_orders, 2000);
-                animateValue('trial-packs', 0, stats.trial_packs, 2000);
-                animateValue('shipped-orders', 0, stats.shipped_orders, 2000);
-                animateValue('revenue', 0, stats.revenue, 2000, true);
-                
-                // Store data for charts
-                window.dashboardData = data;
-                
-                // Update charts if they exist
-                if (window.salesChart) {
-                    updateCharts(data);
-                }
-            } else {
-                // Fallback to demo data if API fails
-                loadDemoStats();
-            }
-        })
-        .catch(error => {
-            console.error('Error loading stats:', error);
-            // Fallback to demo data
-            loadDemoStats();
-        });
-}
-
-function loadDemoStats() {
-    // Fallback demo data for bulk orders
-    animateValue('bulk-orders', 0, 10, 2000);
-    animateValue('total-orders', 0, 1, 2000);
-    animateValue('trial-packs', 0, 17, 2000);
-    animateValue('shipped-orders', 0, 0, 2000);
-    animateValue('revenue', 0, 1322165, 2000, true);
-}
-
-function animateValue(id, start, end, duration, isCurrency = false) {
-    const element = document.getElementById(id);
-    const range = end - start;
-    const increment = range / (duration / 16);
-    let current = start;
-    
-    const timer = setInterval(() => {
-        current += increment;
-        if (current >= end) {
-            current = end;
-            clearInterval(timer);
-        }
-        
-        if (isCurrency) {
-            element.textContent = '$' + current.toLocaleString('en-US', {maximumFractionDigits: 0});
-        } else {
-            element.textContent = Math.floor(current).toLocaleString();
-        }
-    }, 16);
-}
-
-function initializeCharts() {
-    // Sales Overview Chart
-    const salesCtx = document.getElementById('salesChart').getContext('2d');
-    window.salesChart = new Chart(salesCtx, {
-        type: 'line',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            datasets: [{
-                label: 'Sales',
-                data: [12000, 19000, 15000, 25000, 22000, 30000],
-                borderColor: '#d4af37',
-                backgroundColor: 'rgba(212, 175, 55, 0.1)',
-                borderWidth: 3,
-                tension: 0.4,
-                fill: true
-            }, {
-                label: 'Orders',
-                data: [45, 67, 52, 89, 78, 95],
-                borderColor: '#0a2e0a',
-                backgroundColor: 'rgba(10, 46, 10, 0.1)',
-                borderWidth: 3,
-                tension: 0.4,
-                fill: true,
-                yAxisID: 'y1'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'top'
-                }
-            },
-            scales: {
-                y: {
-                    type: 'linear',
-                    display: true,
-                    position: 'left',
-                    ticks: {
-                        callback: function(value) {
-                            return '$' + value.toLocaleString();
-                        }
-                    }
-                },
-                y1: {
-                    type: 'linear',
-                    display: true,
-                    position: 'right',
-                    grid: {
-                        drawOnChartArea: false
-                    }
-                }
-            }
-        }
-    });
-
-    // Order Status Distribution Chart
-    const statusCtx = document.getElementById('statusChart').getContext('2d');
-    window.statusChart = new Chart(statusCtx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
-            datasets: [{
-                data: [23, 35, 89, 156, 8],
-                backgroundColor: [
-                    '#ff9800',
-                    '#9c27b0',
-                    '#4caf50',
-                    '#2196f3',
-                    '#f44336'
-                ],
-                borderWidth: 2,
-                borderColor: '#fff'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'bottom'
-                }
-            }
-        }
-    });
-}
-
-function updateCharts(data) {
-    if (window.salesChart && data.data.sales_data) {
-        const salesData = data.data.sales_data;
-        const labels = data.data.chart_labels;
-        
-        window.salesChart.data.labels = labels;
-        window.salesChart.data.datasets[0].data = salesData.map(item => item.revenue);
-        window.salesChart.data.datasets[1].data = salesData.map(item => item.orders);
-        window.salesChart.update();
-    }
-    
-    if (window.statusChart && data.data.status_distribution) {
-        const statusData = data.data.status_distribution;
-        const labels = Object.keys(statusData);
-        const values = Object.values(statusData);
-        
-        window.statusChart.data.labels = labels.map(label => label.charAt(0).toUpperCase() + label.slice(1));
-        window.statusChart.data.datasets[0].data = values;
-        window.statusChart.update();
-    }
-}
-
-function loadRecentActivity() {
-    // Try to load real activity data first
-    fetch('/admin/api/stats/')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success && data.data.activities) {
-                updateActivityList(data.data.activities);
-            } else {
-                loadDemoActivity();
-            }
-        })
-        .catch(error => {
-            console.error('Error loading activity:', error);
-            loadDemoActivity();
-        });
-}
-
-function updateActivityList(activities) {
-    const activityList = document.getElementById('activity-list');
-    activityList.innerHTML = activities.map(activity => `
-        <li class="activity-item">
-            <div class="activity-icon">
-                <i class="fas ${activity.icon}"></i>
-            </div>
-            <div class="activity-content">
-                <div class="activity-title">${activity.title}</div>
-                <div class="activity-time">${activity.time}</div>
-            </div>
-        </li>
-    `).join('');
-}
-
-function loadDemoActivity() {
-    // Fallback demo activity data for bulk orders
-    const activities = [
-        { icon: 'fa-truck', title: 'New bulk order received', time: '2 minutes ago' },
-        { icon: 'fa-shipping-fast', title: 'Bulk order shipped', time: '1 hour ago' },
-        { icon: 'fa-check-circle', title: 'Bulk order delivered', time: '3 hours ago' },
-        { icon: 'fa-clock', title: 'Bulk order pending confirmation', time: '5 hours ago' },
-        { icon: 'fa-box', title: 'Bulk order tracking updated', time: '6 hours ago' }
-    ];
-    
-    updateActivityList(activities);
-}
-
-{% block extra_js %}
-<script>
-// Load statistics and initialize charts
-document.addEventListener('DOMContentLoaded', function() {
-    loadAdminStats();
-    initializeCharts();
-    loadRecentActivity();
-    // Auto-refresh every 30 seconds
-    setInterval(loadAdminStats, 30000);
-});
-
-function loadAdminStats() {
-    // Show loading state
-    document.querySelectorAll('.stat-number').forEach(el => {
-        el.innerHTML = '<div class="loading"></div>';
-    });
-    
-    // Fetch real data from API
-    fetch('/admin/api/stats/')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success) {
-                const stats = data.data;
-                
-                // Update statistics with animation
-                animateValue('bulk-orders', 0, stats.bulk_orders, 2000);
-                animateValue('total-orders', 0, stats.total_orders, 2000);
-                animateValue('trial-packs', 0, stats.trial_packs, 2000);
-                animateValue('shipped-orders', 0, stats.shipped_orders, 2000);
-                animateValue('revenue', 0, stats.revenue, 2000, true);
-                
-                // Store data for charts
-                window.dashboardData = data;
-                
-                // Update charts if they exist
-                if (window.salesChart) {
-                    updateCharts(data);
-                }
-            } else {
-                // Fallback to demo data if API fails
-                loadDemoStats();
-            }
-        })
-        .catch(error => {
-            console.error('Error loading stats:', error);
-            // Fallback to demo data
-            loadDemoStats();
-        });
-}
-
-function loadDemoStats() {
-    // Fallback demo data for bulk orders
-    animateValue('bulk-orders', 0, 10, 2000);
-    animateValue('total-orders', 0, 1, 2000);
-    animateValue('trial-packs', 0, 17, 2000);
-    animateValue('shipped-orders', 0, 0, 2000);
-    animateValue('revenue', 0, 1322165, 2000, true);
-}
-
-function animateValue(id, start, end, duration, isCurrency = false) {
-    const element = document.getElementById(id);
-    const range = end - start;
-    const increment = range / (duration / 16);
-    let current = start;
-    
-    const timer = setInterval(() => {
-        current += increment;
-        if (current >= end) {
-            current = end;
-            clearInterval(timer);
-        }
-        
-        if (isCurrency) {
-            element.textContent = '₹' + current.toLocaleString('en-US', {maximumFractionDigits: 0});
-        } else {
-            element.textContent = Math.floor(current).toLocaleString();
-        }
-    }, 16);
-}
-
-function initializeCharts() {
-    // Sales Overview Chart
-    const salesCtx = document.getElementById('salesChart').getContext('2d');
-    window.salesChart = new Chart(salesCtx, {
-        type: 'line',
-        data: {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-            datasets: [{
-                label: 'Sales',
-                data: [12000, 19000, 15000, 25000, 22000, 30000],
-                borderColor: '#d4af37',
-                backgroundColor: 'rgba(212, 175, 55, 0.1)',
-                borderWidth: 3,
-                tension: 0.4,
-                fill: true
-            }, {
-                label: 'Orders',
-                data: [45, 67, 52, 89, 78, 95],
-                borderColor: '#0a2e0a',
-                backgroundColor: 'rgba(10, 46, 10, 0.1)',
-                borderWidth: 3,
-                tension: 0.4,
-                fill: true,
-                yAxisID: 'y1'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'top'
-                }
-            },
-            scales: {
-                y: {
-                    type: 'linear',
-                    display: true,
-                    position: 'left',
-                    ticks: {
-                        callback: function(value) {
-                            return '₹' + value.toLocaleString();
-                        }
-                    }
-                },
-                y1: {
-                    type: 'linear',
-                    display: true,
-                    position: 'right',
-                    grid: {
-                        drawOnChartArea: false
-                    }
-                }
-            }
-        }
-    });
-
-    // Order Status Distribution Chart
-    const statusCtx = document.getElementById('statusChart').getContext('2d');
-    window.statusChart = new Chart(statusCtx, {
-        type: 'doughnut',
-        data: {
-            labels: ['Pending', 'Processing', 'Shipped', 'Delivered', 'Cancelled'],
-            datasets: [{
-                data: [23, 35, 89, 156, 8],
-                backgroundColor: [
-                    '#ff9800',
-                    '#9c27b0',
-                    '#4caf50',
-                    '#2196f3',
-                    '#f44336'
-                ],
-                borderWidth: 2,
-                borderColor: '#fff'
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            plugins: {
-                legend: {
-                    display: true,
-                    position: 'bottom'
-                }
-            }
-        }
-    });
-}
-
-function updateCharts(data) {
-    if (window.salesChart && data.data.sales_data) {
-        const salesData = data.data.sales_data;
-        const labels = data.data.chart_labels;
-        
-        window.salesChart.data.labels = labels;
-        window.salesChart.data.datasets[0].data = salesData.map(item => item.revenue);
-        window.salesChart.data.datasets[1].data = salesData.map(item => item.orders);
-        window.salesChart.update();
-    }
-    
-    if (window.statusChart && data.data.status_distribution) {
-        const statusData = data.data.status_distribution;
-        const labels = Object.keys(statusData);
-        const values = Object.values(statusData);
-        
-        window.statusChart.data.labels = labels.map(label => label.charAt(0).toUpperCase() + label.slice(1));
-        window.statusChart.data.datasets[0].data = values;
-        window.statusChart.update();
-    }
-}
-
-function loadRecentActivity() {
-    // Try to load real activity data first
-    fetch('/admin/api/stats/')
-        .then(response => response.json())
-        .then(data => {
-            if (data.success && data.data.activities) {
-                updateActivityList(data.data.activities);
-            } else {
-                loadDemoActivity();
-            }
-        })
-        .catch(error => {
-            console.error('Error loading activity:', error);
-            loadDemoActivity();
-        });
-}
-
-function updateActivityList(activities) {
-    const activityList = document.getElementById('activity-list');
-    activityList.innerHTML = activities.map(activity => `
-        <li class="activity-item">
-            <div class="activity-icon">
-                <i class="fas ${activity.icon}"></i>
-            </div>
-            <div class="activity-content">
-                <div class="activity-title">${activity.title}</div>
-                <div class="activity-time">${activity.time}</div>
-            </div>
-        </li>
-    `).join('');
-}
-
-function loadDemoActivity() {
-    // Fallback demo activity data for bulk orders
-    const activities = [
-        { icon: 'fa-truck', title: 'New bulk order received', time: '2 minutes ago' },
-        { icon: 'fa-shipping-fast', title: 'Bulk order shipped', time: '1 hour ago' },
-        { icon: 'fa-check-circle', title: 'Bulk order delivered', time: '3 hours ago' },
-        { icon: 'fa-clock', title: 'Bulk order pending confirmation', time: '5 hours ago' },
-        { icon: 'fa-box', title: 'Bulk order tracking updated', time: '6 hours ago' }
-    ];
-    
-    updateActivityList(activities);
-}
-
 // Add smooth scroll behavior
 document.querySelectorAll('a[href^="#"]').forEach(anchor => {
     anchor.addEventListener('click', function (e) {
@@ -1409,4 +941,6 @@ document.addEventListener('DOMContentLoaded', function() {
     });
 });
 </script>
-{% endblock %}
+
+</body>
+</html>

@@ -17,6 +17,7 @@
             <h1>{{ product.name }}</h1>
             <p class="subtitle">{{ product.category|upper }} • {{ product.size|upper }}</p>
             <p class="price">₹{{ product.price }}</p>
+            <p class="description">{{ product.description|default:"Experience the luxury and elegance of VICTNOW fragrances. Crafted with the finest ingredients to provide a lasting impression." }}</p>
             
             <div class="quantity">
                 <label>Quantity</label>
@@ -96,6 +97,13 @@ body {
 .price {
     color: #D4AF37;
     font-size: 26px;
+    margin: 20px 0;
+}
+
+.description {
+    color: #ccc;
+    font-size: 16px;
+    line-height: 1.6;
     margin: 20px 0;
 }
 

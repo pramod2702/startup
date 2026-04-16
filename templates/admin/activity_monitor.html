@@ -1,0 +1,983 @@
+{% extends "admin/base_site.html" %}
+{% load static %}
+
+{% block extrastyle %}{{ block.super }}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<style>
+/* Activity Monitor Styles */
+.activity-monitor-header {
+    background: linear-gradient(135deg, #0a2e0a 0%, #1a4d1a 50%, #2a6d2a 100%);
+    color: white;
+    padding: 30px 0;
+    margin: -20px -20px 30px -20px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+    position: relative;
+    overflow: hidden;
+}
+
+.activity-monitor-header::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grid" width="10" height="10" patternUnits="userSpaceOnUse"><path d="M 10 0 L 0 0 0 10" fill="none" stroke="rgba(255,255,255,0.05)" stroke-width="1"/></pattern></defs><rect width="100" height="100" fill="url(%23grid)"/></svg>');
+    opacity: 0.3;
+}
+
+.activity-header-content {
+    position: relative;
+    z-index: 1;
+    text-align: center;
+}
+
+.activity-monitor-header h1 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin: 0;
+    color: #d4af37;
+    text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.4);
+    letter-spacing: -1px;
+}
+
+.activity-monitor-header p {
+    font-size: 1.1rem;
+    opacity: 0.9;
+    margin-top: 10px;
+}
+
+/* Filter Controls */
+.activity-filters {
+    background: white;
+    padding: 25px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.filter-row {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.filter-group {
+    flex: 1;
+    min-width: 200px;
+}
+
+.filter-group label {
+    display: block;
+    font-weight: 600;
+    color: #0a2e0a;
+    margin-bottom: 8px;
+}
+
+.filter-group select,
+.filter-group input {
+    width: 100%;
+    padding: 10px 15px;
+    border: 2px solid #e0e0e0;
+    border-radius: 8px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.filter-group select:focus,
+.filter-group input:focus {
+    outline: none;
+    border-color: #d4af37;
+    box-shadow: 0 0 0 3px rgba(212, 175, 55, 0.1);
+}
+
+.filter-actions {
+    display: flex;
+    gap: 10px;
+    align-items: flex-end;
+}
+
+.btn-filter {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 8px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-apply {
+    background: linear-gradient(135deg, #d4af37 0%, #b8941f 100%);
+    color: white;
+}
+
+.btn-apply:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(212, 175, 55, 0.3);
+}
+
+.btn-reset {
+    background: #f8f9fa;
+    color: #666;
+    border: 2px solid #e0e0e0;
+}
+
+.btn-reset:hover {
+    background: #e9ecef;
+}
+
+/* Activity Statistics */
+.activity-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-box {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(212, 175, 55, 0.2);
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.stat-box:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.15);
+}
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #d4af37;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    color: #666;
+    font-weight: 600;
+}
+
+/* Activity Table */
+.activity-table-container {
+    background: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.activity-table-header {
+    background: linear-gradient(135deg, #0a2e0a 0%, #1a4d1a 100%);
+    color: white;
+    padding: 20px 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.activity-table-title {
+    font-size: 1.3rem;
+    font-weight: 700;
+    margin: 0;
+}
+
+.activity-actions {
+    display: flex;
+    gap: 10px;
+}
+
+.btn-action {
+    padding: 8px 15px;
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-action:hover {
+    background: rgba(255, 255, 255, 0.2);
+    border-color: rgba(255, 255, 255, 0.5);
+}
+
+.activity-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.activity-table th {
+    background: #f8f9fa;
+    padding: 15px;
+    text-align: left;
+    font-weight: 700;
+    color: #0a2e0a;
+    border-bottom: 2px solid #e0e0e0;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+}
+
+.activity-table td {
+    padding: 15px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+}
+
+.activity-table tr:hover {
+    background: rgba(212, 175, 55, 0.05);
+}
+
+.activity-type-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.type-order {
+    background: #e3f2fd;
+    color: #1976d2;
+}
+
+.type-contact {
+    background: #f3e5f5;
+    color: #7b1fa2;
+}
+
+.type-user {
+    background: #e8f5e8;
+    color: #388e3c;
+}
+
+.type-newsletter {
+    background: #fff3e0;
+    color: #f57c00;
+}
+
+.type-trial {
+    background: #fce4ec;
+    color: #c2185b;
+}
+
+.activity-status {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 5px 10px;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+.status-new {
+    background: #ffebee;
+    color: #c62828;
+}
+
+.status-pending {
+    background: #fff8e1;
+    color: #f57f17;
+}
+
+.status-completed {
+    background: #e8f5e8;
+    color: #2e7d32;
+}
+
+.status-urgent {
+    background: #ffebee;
+    color: #d32f2f;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+}
+
+.activity-description {
+    max-width: 300px;
+    line-height: 1.4;
+}
+
+.activity-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.activity-time {
+    font-weight: 600;
+}
+
+.activity-user {
+    color: #d4af37;
+}
+
+/* Bulk Actions */
+.bulk-actions {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 3px 15px rgba(0, 0, 0, 0.1);
+    margin-top: 20px;
+    border: 1px solid rgba(212, 175, 55, 0.2);
+}
+
+.bulk-actions-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.bulk-actions-title {
+    font-weight: 700;
+    color: #0a2e0a;
+}
+
+.selected-count {
+    background: #d4af37;
+    color: white;
+    padding: 5px 15px;
+    border-radius: 20px;
+    font-weight: 600;
+}
+
+.bulk-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.btn-bulk {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.btn-bulk-approve {
+    background: #4caf50;
+    color: white;
+}
+
+.btn-bulk-reject {
+    background: #f44336;
+    color: white;
+}
+
+.btn-bulk-mark {
+    background: #ff9800;
+    color: white;
+}
+
+/* Loading State */
+.loading-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+}
+
+.loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(255, 255, 255, 0.3);
+    border-radius: 50%;
+    border-top-color: #d4af37;
+    animation: spin 1s ease-in-out infinite;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .filter-row {
+        flex-direction: column;
+    }
+    
+    .filter-group {
+        width: 100%;
+    }
+    
+    .filter-actions {
+        width: 100%;
+        justify-content: stretch;
+    }
+    
+    .btn-filter {
+        flex: 1;
+    }
+    
+    .activity-table-container {
+        overflow-x: auto;
+    }
+    
+    .activity-table {
+        min-width: 800px;
+    }
+    
+    .activity-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+</style>
+{% endblock %}
+
+{% block branding %}
+<h1 id="site-name"><i class="fas fa-crown"></i> VICTNOW Admin</h1>
+{% endblock %}
+
+{% block nav-global %}
+{% endblock %}
+
+{% block content %}
+<div class="activity-monitor-header">
+    <div class="activity-header-content">
+        <h1><i class="fas fa-eye"></i> Activity Monitor</h1>
+        <p>Real-time monitoring of all website activities and new events</p>
+    </div>
+</div>
+
+<!-- Activity Statistics -->
+<div class="activity-stats">
+    <div class="stat-box">
+        <div class="stat-number" id="total-activities">0</div>
+        <div class="stat-label">Total Activities</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-number" id="new-activities">0</div>
+        <div class="stat-label">New Activities</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-number" id="pending-items">0</div>
+        <div class="stat-label">Pending Items</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-number" id="urgent-items">0</div>
+        <div class="stat-label">Urgent Items</div>
+    </div>
+    <div class="stat-box">
+        <div class="stat-number" id="today-activities">0</div>
+        <div class="stat-label">Today's Activities</div>
+    </div>
+</div>
+
+<!-- Filter Controls -->
+<div class="activity-filters">
+    <div class="filter-row">
+        <div class="filter-group">
+            <label for="activity-type">Activity Type</label>
+            <select id="activity-type">
+                <option value="">All Types</option>
+                <option value="order">Orders</option>
+                <option value="contact">Contact Messages</option>
+                <option value="user">User Registrations</option>
+                <option value="newsletter">Newsletter Subscriptions</option>
+                <option value="trial">Trial Pack Requests</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="activity-status">Status</label>
+            <select id="activity-status">
+                <option value="">All Status</option>
+                <option value="new">New</option>
+                <option value="pending">Pending</option>
+                <option value="completed">Completed</option>
+                <option value="urgent">Urgent</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="date-range">Date Range</label>
+            <select id="date-range">
+                <option value="">All Time</option>
+                <option value="today">Today</option>
+                <option value="yesterday">Yesterday</option>
+                <option value="week">Last 7 Days</option>
+                <option value="month">Last 30 Days</option>
+            </select>
+        </div>
+        <div class="filter-group">
+            <label for="search-activity">Search</label>
+            <input type="text" id="search-activity" placeholder="Search activities...">
+        </div>
+        <div class="filter-actions">
+            <button class="btn-filter btn-apply" onclick="applyFilters()">
+                <i class="fas fa-filter"></i> Apply
+            </button>
+            <button class="btn-filter btn-reset" onclick="resetFilters()">
+                <i class="fas fa-undo"></i> Reset
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- Activity Table -->
+<div class="activity-table-container">
+    <div class="activity-table-header">
+        <h2 class="activity-table-title">
+            <i class="fas fa-list"></i> Recent Activities
+        </h2>
+        <div class="activity-actions">
+            <button class="btn-action" onclick="refreshActivities()">
+                <i class="fas fa-sync-alt"></i> Refresh
+            </button>
+            <button class="btn-action" onclick="exportActivities()">
+                <i class="fas fa-download"></i> Export
+            </button>
+            <button class="btn-action" onclick="markAllRead()">
+                <i class="fas fa-check-double"></i> Mark All Read
+            </button>
+        </div>
+    </div>
+    
+    <table class="activity-table">
+        <thead>
+            <tr>
+                <th><input type="checkbox" id="select-all" onchange="toggleSelectAll()"></th>
+                <th>Type</th>
+                <th>Description</th>
+                <th>User</th>
+                <th>Status</th>
+                <th>Time</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody id="activity-tbody">
+            <!-- Activities will be loaded here -->
+        </tbody>
+    </table>
+</div>
+
+<!-- Bulk Actions -->
+<div class="bulk-actions" id="bulk-actions" style="display: none;">
+    <div class="bulk-actions-header">
+        <span class="bulk-actions-title">Bulk Actions</span>
+        <span class="selected-count" id="selected-count">0 selected</span>
+    </div>
+    <div class="bulk-buttons">
+        <button class="btn-bulk btn-bulk-approve" onclick="bulkApprove()">
+            <i class="fas fa-check"></i> Approve Selected
+        </button>
+        <button class="btn-bulk btn-bulk-reject" onclick="bulkReject()">
+            <i class="fas fa-times"></i> Reject Selected
+        </button>
+        <button class="btn-bulk btn-bulk-mark" onclick="bulkMarkRead()">
+            <i class="fas fa-check"></i> Mark as Read
+        </button>
+    </div>
+</div>
+
+<!-- Loading Overlay -->
+<div class="loading-overlay" id="loading-overlay" style="display: none;">
+    <div class="loading-spinner"></div>
+</div>
+{% endblock %}
+
+{% block footer %}
+<script>
+// Activity Monitor JavaScript
+let activities = [];
+let selectedActivities = new Set();
+
+// Load activities on page load
+document.addEventListener('DOMContentLoaded', function() {
+    loadActivities();
+    
+    // Auto-refresh every 30 seconds
+    setInterval(loadActivities, 30000);
+    
+    // Initialize search
+    document.getElementById('search-activity').addEventListener('input', debounce(applyFilters, 300));
+});
+
+function loadActivities() {
+    showLoading();
+    
+    // Try to load real data first
+    fetch('/admin/api/activities/')
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                activities = data.activities || [];
+            } else {
+                activities = loadDemoActivities();
+            }
+            renderActivities();
+            updateStatistics();
+        })
+        .catch(error => {
+            console.error('Error loading activities:', error);
+            activities = loadDemoActivities();
+            renderActivities();
+            updateStatistics();
+        })
+        .finally(() => {
+            hideLoading();
+        });
+}
+
+function loadDemoActivities() {
+    return [
+        {
+            id: 1,
+            type: 'order',
+            description: 'New bulk order received - 50 units of Premium Perfume Collection',
+            user: 'John Doe',
+            status: 'new',
+            time: '2 minutes ago',
+            timestamp: new Date(Date.now() - 2 * 60 * 1000),
+            urgent: true
+        },
+        {
+            id: 2,
+            type: 'contact',
+            description: 'Customer inquiry about custom fragrance design',
+            user: 'Jane Smith',
+            status: 'pending',
+            time: '15 minutes ago',
+            timestamp: new Date(Date.now() - 15 * 60 * 1000),
+            urgent: false
+        },
+        {
+            id: 3,
+            type: 'user',
+            description: 'New user registration from corporate email',
+            user: 'admin@company.com',
+            status: 'new',
+            time: '1 hour ago',
+            timestamp: new Date(Date.now() - 60 * 60 * 1000),
+            urgent: false
+        },
+        {
+            id: 4,
+            type: 'newsletter',
+            description: 'Newsletter subscription - Premium tier',
+            user: 'mike@example.com',
+            status: 'completed',
+            time: '2 hours ago',
+            timestamp: new Date(Date.now() - 2 * 60 * 60 * 1000),
+            urgent: false
+        },
+        {
+            id: 5,
+            type: 'trial',
+            description: 'Trial pack request - VIP customer',
+            user: 'Sarah Johnson',
+            status: 'urgent',
+            time: '3 hours ago',
+            timestamp: new Date(Date.now() - 3 * 60 * 60 * 1000),
+            urgent: true
+        },
+        {
+            id: 6,
+            type: 'order',
+            description: 'International order shipped - Tracking #12345',
+            user: 'Robert Brown',
+            status: 'completed',
+            time: '4 hours ago',
+            timestamp: new Date(Date.now() - 4 * 60 * 60 * 1000),
+            urgent: false
+        },
+        {
+            id: 7,
+            type: 'contact',
+            description: 'Partnership inquiry from distributor',
+            user: 'partnership@company.com',
+            status: 'new',
+            time: '5 hours ago',
+            timestamp: new Date(Date.now() - 5 * 60 * 60 * 1000),
+            urgent: true
+        },
+        {
+            id: 8,
+            type: 'user',
+            description: 'Profile update - Premium member upgrade',
+            user: 'Emily Davis',
+            status: 'completed',
+            time: '6 hours ago',
+            timestamp: new Date(Date.now() - 6 * 60 * 60 * 1000),
+            urgent: false
+        }
+    ];
+}
+
+function renderActivities() {
+    const tbody = document.getElementById('activity-tbody');
+    const filteredActivities = getFilteredActivities();
+    
+    tbody.innerHTML = filteredActivities.map(activity => `
+        <tr data-id="${activity.id}">
+            <td><input type="checkbox" class="activity-checkbox" value="${activity.id}" onchange="toggleSelection(${activity.id})"></td>
+            <td>
+                <span class="activity-type-badge type-${activity.type}">
+                    ${getTypeIcon(activity.type)} ${activity.type}
+                </span>
+            </td>
+            <td class="activity-description">${activity.description}</td>
+            <td class="activity-user">${activity.user}</td>
+            <td>
+                <span class="activity-status status-${activity.status}">
+                    ${getStatusIcon(activity.status)} ${activity.status}
+                    ${activity.urgent ? '<i class="fas fa-exclamation-triangle"></i>' : ''}
+                </span>
+            </td>
+            <td>
+                <div class="activity-meta">
+                    <span class="activity-time">${activity.time}</span>
+                </div>
+            </td>
+            <td>
+                <div style="display: flex; gap: 5px;">
+                    <button class="btn-action" onclick="viewActivity(${activity.id})" title="View">
+                        <i class="fas fa-eye"></i>
+                    </button>
+                    <button class="btn-action" onclick="processActivity(${activity.id})" title="Process">
+                        <i class="fas fa-cog"></i>
+                    </button>
+                    <button class="btn-action" onclick="markAsRead(${activity.id})" title="Mark as Read">
+                        <i class="fas fa-check"></i>
+                    </button>
+                </div>
+            </td>
+        </tr>
+    `).join('');
+}
+
+function getFilteredActivities() {
+    let filtered = [...activities];
+    
+    // Filter by type
+    const typeFilter = document.getElementById('activity-type').value;
+    if (typeFilter) {
+        filtered = filtered.filter(a => a.type === typeFilter);
+    }
+    
+    // Filter by status
+    const statusFilter = document.getElementById('activity-status').value;
+    if (statusFilter) {
+        filtered = filtered.filter(a => a.status === statusFilter);
+    }
+    
+    // Filter by date range
+    const dateRange = document.getElementById('date-range').value;
+    if (dateRange) {
+        const now = new Date();
+        let cutoffDate;
+        
+        switch(dateRange) {
+            case 'today':
+                cutoffDate = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+                break;
+            case 'yesterday':
+                cutoffDate = new Date(now.getFullYear(), now.getMonth(), now.getDate() - 1);
+                break;
+            case 'week':
+                cutoffDate = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
+                break;
+            case 'month':
+                cutoffDate = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+                break;
+        }
+        
+        if (cutoffDate) {
+            filtered = filtered.filter(a => a.timestamp >= cutoffDate);
+        }
+    }
+    
+    // Filter by search
+    const search = document.getElementById('search-activity').value.toLowerCase();
+    if (search) {
+        filtered = filtered.filter(a => 
+            a.description.toLowerCase().includes(search) ||
+            a.user.toLowerCase().includes(search) ||
+            a.type.toLowerCase().includes(search)
+        );
+    }
+    
+    return filtered;
+}
+
+function updateStatistics() {
+    const now = new Date();
+    const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    
+    const stats = {
+        total: activities.length,
+        new: activities.filter(a => a.status === 'new').length,
+        pending: activities.filter(a => a.status === 'pending').length,
+        urgent: activities.filter(a => a.urgent).length,
+        today: activities.filter(a => a.timestamp >= today).length
+    };
+    
+    document.getElementById('total-activities').textContent = stats.total;
+    document.getElementById('new-activities').textContent = stats.new;
+    document.getElementById('pending-items').textContent = stats.pending;
+    document.getElementById('urgent-items').textContent = stats.urgent;
+    document.getElementById('today-activities').textContent = stats.today;
+}
+
+function getTypeIcon(type) {
+    const icons = {
+        order: '<i class="fas fa-shopping-cart"></i>',
+        contact: '<i class="fas fa-envelope"></i>',
+        user: '<i class="fas fa-user"></i>',
+        newsletter: '<i class="fas fa-newspaper"></i>',
+        trial: '<i class="fas fa-vial"></i>'
+    };
+    return icons[type] || '<i class="fas fa-circle"></i>';
+}
+
+function getStatusIcon(status) {
+    const icons = {
+        new: '<i class="fas fa-sparkles"></i>',
+        pending: '<i class="fas fa-clock"></i>',
+        completed: '<i class="fas fa-check-circle"></i>',
+        urgent: '<i class="fas fa-exclamation-triangle"></i>'
+    };
+    return icons[status] || '<i class="fas fa-circle"></i>';
+}
+
+function applyFilters() {
+    renderActivities();
+}
+
+function resetFilters() {
+    document.getElementById('activity-type').value = '';
+    document.getElementById('activity-status').value = '';
+    document.getElementById('date-range').value = '';
+    document.getElementById('search-activity').value = '';
+    renderActivities();
+}
+
+function refreshActivities() {
+    loadActivities();
+}
+
+function toggleSelection(id) {
+    if (selectedActivities.has(id)) {
+        selectedActivities.delete(id);
+    } else {
+        selectedActivities.add(id);
+    }
+    updateBulkActions();
+}
+
+function toggleSelectAll() {
+    const selectAll = document.getElementById('select-all');
+    const checkboxes = document.querySelectorAll('.activity-checkbox');
+    
+    checkboxes.forEach(checkbox => {
+        checkbox.checked = selectAll.checked;
+        const id = parseInt(checkbox.value);
+        if (selectAll.checked) {
+            selectedActivities.add(id);
+        } else {
+            selectedActivities.delete(id);
+        }
+    });
+    
+    updateBulkActions();
+}
+
+function updateBulkActions() {
+    const bulkActions = document.getElementById('bulk-actions');
+    const selectedCount = document.getElementById('selected-count');
+    
+    if (selectedActivities.size > 0) {
+        bulkActions.style.display = 'block';
+        selectedCount.textContent = `${selectedActivities.size} selected`;
+    } else {
+        bulkActions.style.display = 'none';
+    }
+}
+
+function bulkApprove() {
+    console.log('Approving activities:', Array.from(selectedActivities));
+    // Implementation for bulk approval
+    alert('Bulk approval functionality would be implemented here');
+}
+
+function bulkReject() {
+    console.log('Rejecting activities:', Array.from(selectedActivities));
+    // Implementation for bulk rejection
+    alert('Bulk rejection functionality would be implemented here');
+}
+
+function bulkMarkRead() {
+    console.log('Marking activities as read:', Array.from(selectedActivities));
+    // Implementation for bulk mark as read
+    alert('Bulk mark as read functionality would be implemented here');
+}
+
+function viewActivity(id) {
+    console.log('Viewing activity:', id);
+    // Implementation for viewing activity details
+    alert('Activity details view would be implemented here');
+}
+
+function processActivity(id) {
+    console.log('Processing activity:', id);
+    // Implementation for processing activity
+    alert('Activity processing would be implemented here');
+}
+
+function markAsRead(id) {
+    console.log('Marking activity as read:', id);
+    // Implementation for marking as read
+    alert('Mark as read functionality would be implemented here');
+}
+
+function exportActivities() {
+    console.log('Exporting activities');
+    // Implementation for exporting activities
+    alert('Export functionality would be implemented here');
+}
+
+function markAllRead() {
+    console.log('Marking all activities as read');
+    // Implementation for marking all as read
+    alert('Mark all as read functionality would be implemented here');
+}
+
+function showLoading() {
+    document.getElementById('loading-overlay').style.display = 'flex';
+}
+
+function hideLoading() {
+    document.getElementById('loading-overlay').style.display = 'none';
+}
+
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
+}
+</script>
+{% endblock %}

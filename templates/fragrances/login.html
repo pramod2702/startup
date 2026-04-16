@@ -793,11 +793,11 @@
             </div>
             
             <!-- Tab Navigation -->
-            <div class="tab-navigation" style="display: flex; background: rgba(212, 175, 55, 0.1); border-radius: 15px; padding: 4px; margin-bottom: 30px;">
-                <button class="tab-btn active" onclick="switchTab('login')" id="loginTab" style="flex: 1; background: transparent; border: none; color: #d4af37; padding: 12px 20px; border-radius: 12px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px;">
+            <div class="tab-navigation" style="display: flex; background: rgba(212, 175, 55, 0.1); border-radius: 15px; padding: 4px; margin-bottom: 30px; position: relative; z-index: 50;">
+                <button class="tab-btn active" id="loginTab" style="flex: 1; background: transparent; border: none; color: #d4af37; padding: 12px 20px; border-radius: 12px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; position: relative; z-index: 51;">
                     <i class="fas fa-sign-in-alt"></i> Existing User
                 </button>
-                <button class="tab-btn" onclick="switchTab('register')" id="registerTab" style="flex: 1; background: transparent; border: none; color: rgba(255, 255, 255, 0.7); padding: 12px 20px; border-radius: 12px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                <button class="tab-btn" id="registerTab" style="flex: 1; background: transparent; border: none; color: rgba(255, 255, 255, 0.7); padding: 12px 20px; border-radius: 12px; font-size: 0.9rem; font-weight: 600; cursor: pointer; transition: all 0.3s ease; display: flex; align-items: center; justify-content: center; gap: 8px; position: relative; z-index: 51;">
                     <i class="fas fa-user-plus"></i> New User
                 </button>
             </div>
@@ -828,6 +828,12 @@
                 </button>
                 
                 <a href="#" class="forgot-password" onclick="handleForgotPassword(event)">Forgot Password?</a>
+                
+                <div style="text-align: center; margin-top: 15px;">
+                    <span style="color: rgba(255, 255, 255, 0.7); font-size: 0.9rem;">New to VICTNOW? 
+                        <a href="#" onclick="switchTab('register')" style="color: #d4af37; text-decoration: none; font-weight: 600; transition: all 0.3s ease;">Sign Up Now</a>
+                    </span>
+                </div>
             </form>
             
             <!-- Registration Form -->
@@ -872,12 +878,9 @@
                     </div>
                 </div>
                 
-                <button type="submit" class="register-btn">
-                    <span class="btn-content">
-                        <i class="fas fa-user-plus"></i>
-                        <span class="btn-text">Create Account</span>
-                    </span>
-                    <div class="btn-effect"></div>
+                <button type="submit" class="login-btn">
+                    <i class="fas fa-user-plus" style="margin-right: 10px;"></i>
+                    Create Account
                 </button>
                 
                 <!-- Back to Login Link -->
@@ -892,14 +895,9 @@
         </div>
         
         <!-- New to VICTNOW Section -->
-        <div class="new-to-victnow" id="newToVictnow">
+        <div class="new-to-victnow" id="newToVictnow" style="display: none;">
             <h4>New to VICTNOW?</h4>
             <p>Join our exclusive community and discover luxury fragrances</p>
-            <button class="victnow-join-btn" onclick="switchTab('register')" style="background: linear-gradient(135deg, #d4af37, #b8941f); color: #0a0a0a; border: none; padding: 15px 30px; border-radius: 25px; font-weight: 700; cursor: pointer; transition: all 0.4s ease; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.95rem; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4); position: relative; overflow: hidden; pointer-events: auto; z-index: 10;">
-                <span style="position: relative; z-index: 2;">
-                    <i class="fas fa-crown" style="margin-right: 10px;"></i>Create Account
-                </span>
-            </button>
         </div>
     </div>
     
@@ -916,14 +914,9 @@
             </div>
             
             <!-- New to VICTNOW Section -->
-            <div class="new-to-victnow" id="newToVictnow">
+            <div class="new-to-victnow" id="newToVictnow" style="display: none;">
                 <h4>New to VICTNOW?</h4>
                 <p>Join our exclusive community and discover luxury fragrances</p>
-                <button class="victnow-join-btn" style="background: linear-gradient(135deg, #d4af37, #b8941f); color: #0a0a0a; border: none; padding: 15px 30px; border-radius: 25px; font-weight: 700; cursor: pointer; transition: all 0.4s ease; text-transform: uppercase; letter-spacing: 1.5px; font-size: 0.95rem; box-shadow: 0 10px 25px rgba(212, 175, 55, 0.4); position: relative; overflow: hidden; pointer-events: auto; z-index: 10;">
-                    <span style="position: relative; z-index: 2;">
-                        <i class="fas fa-crown" style="margin-right: 10px;"></i>Create Account
-                    </span>
-                </button>
             </div>
         </div>
     </div>
@@ -1100,20 +1093,28 @@
             hideMessage();
         }
         
-        // Add event listener for the Create Account button
+        // Add event listeners for tab buttons
         document.addEventListener('DOMContentLoaded', function() {
-            const createAccountBtn = document.querySelector('.victnow-join-btn');
-            if (createAccountBtn) {
-                createAccountBtn.addEventListener('click', function(e) {
+            const loginTab = document.getElementById('loginTab');
+            const registerTab = document.getElementById('registerTab');
+            
+            if (loginTab) {
+                loginTab.addEventListener('click', function(e) {
                     e.preventDefault();
-                    e.stopPropagation();
-                    console.log('Create Account button clicked via event listener');
+                    console.log('Login tab clicked');
+                    switchTab('login');
+                });
+            }
+            
+            if (registerTab) {
+                registerTab.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    console.log('Register tab clicked');
                     switchTab('register');
                 });
-                console.log('Event listener attached to Create Account button');
-            } else {
-                console.log('Create Account button not found');
             }
+            
+            console.log('Tab event listeners attached');
         });
         
         // Tab Switching Function
@@ -1128,9 +1129,13 @@
             if (tab === 'login') {
                 document.getElementById('loginTab').classList.add('active');
                 document.getElementById('loginForm').classList.add('active');
+                document.getElementById('loginForm').style.display = 'block';
+                document.getElementById('registerForm').style.display = 'none';
             } else {
                 document.getElementById('registerTab').classList.add('active');
                 document.getElementById('registerForm').classList.add('active');
+                document.getElementById('registerForm').style.display = 'block';
+                document.getElementById('loginForm').style.display = 'none';
             }
             
             // Clear messages
@@ -1141,6 +1146,13 @@
         // Login Handler - Professional Authentication
         function handleLogin(event) {
             event.preventDefault();
+            
+            // Clear all localStorage data to prevent data mixing between users
+            localStorage.removeItem('currentUser');
+            localStorage.removeItem('cartData');
+            localStorage.removeItem('victnowUsers');
+            localStorage.clear();
+            console.log('Cleared previous user data from localStorage');
             
             const username = document.getElementById('username').value.trim();
             const password = document.getElementById('password').value.trim();

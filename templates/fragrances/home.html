@@ -22,31 +22,6 @@
     </div>
 </section>
 
-<!-- About VICTNOW Section -->
-<section class="about-victnow-banner py-3">
-    <div class="silver-dots d-none d-md-block">
-        <div class="silver-dot"></div>
-        <div class="silver-dot"></div>
-        <div class="silver-dot"></div>
-        <div class="silver-dot"></div>
-        <div class="silver-dot"></div>
-        <div class="silver-dot"></div>
-        <div class="silver-dot"></div>
-        <div class="silver-dot"></div>
-    </div>
-    <div class="container">
-        <div class="row align-items-center">
-            <div class="col-lg-12 text-center">
-                <div class="about-victnow-content">
-                    <p class="section-subtitle text-warning mb-2">ABOUT VICTNOW</p>
-                    <h2 class="section-title display-5 fw-bold text-white mb-3">THE ART OF PERFUME</h2>
-                    <p class="section-description text-white-50 mb-4">Crafted with passion, perfected by elegance.<br class="d-none d-md-block">Discover the essence of true luxury.</p>
-                    <a href="{% url 'about' %}" class="btn btn-outline-warning btn-lg">LEARN MORE</a>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 
 <!-- Signature Fragrances Section -->
 <section class="signature-fragrances py-5">
@@ -77,12 +52,13 @@
                     </div>
                     
                     <p class="price h4 text-warning mb-3">₹{{ product.price }}</p>
-                    <button class="shop-now-btn add-to-cart-btn w-100 btn btn-warning {% if not product.available %}disabled{% endif %}" 
+                    <button class="shop-now-btn add-to-cart-btn w-100 btn btn-warning {% if product.stock_status == 'out_of_stock' %}disabled{% endif %}" 
                             data-product-id="{{ product.id }}" 
                             data-product-name="{{ product.name|escapejs }}" 
                             data-product-price="{{ product.price }}" 
-                            data-product-image="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/default-perfume.jpg' %}{% endif %}">
-                        <i class="fas fa-shopping-cart me-2"></i> {% if product.available %}Add to Cart{% else %}Out of Stock{% endif %}
+                            data-product-image="{% if product.image %}{{ product.image.url }}{% else %}{% static 'images/perfume.png' %}{% endif %}"
+                            data-stock-status="{{ product.stock_status|default:'in_stock' }}"> 
+                            <i class="fas fa-shopping-cart me-2"></i> {% if product.stock_status == 'out_of_stock' %}Out of Stock{% else %}Add to Cart{% endif %}
                     </button>
                 </div>
             </div>
@@ -130,8 +106,27 @@
         <div class="row justify-content-center">
             <div class="col-lg-8 col-md-10">
                 <div class="contact-option bg-dark bg-opacity-85 p-4 rounded" style="backdrop-filter: blur(15px); border: 2px solid rgba(212, 175, 55, 0.4);">
-                    <h3 class="h3 text-warning text-center mb-4">Online Enquiry</h3>
-                    <form class="contact-form" action="{% url 'contact' %}" method="POST">
+                    <h3 class="h3 text-warning text-center mb-4">Contact Us</h3>
+                    
+                    <!-- Contact Information -->
+                    <div style="margin-bottom: 30px; padding: 20px; background: rgba(212, 175, 55, 0.1); border-radius: 10px; border: 1px solid rgba(212, 175, 55, 0.3); text-align: center;">
+                        <p style="color: white; margin-bottom: 0; text-shadow: 1px 1px 2px rgba(0,0,0,0.8);">
+                            <i class="fas fa-phone" style="margin-right: 10px;"></i> +91 8055854596
+                        </p>
+                    </div>
+                    
+                    {% if messages %}
+                        <div class="messages-container mb-4">
+                            {% for message in messages %}
+                                <div class="alert alert-success" style="background: linear-gradient(135deg, rgba(212, 175, 55, 0.15), rgba(212, 175, 55, 0.08)); backdrop-filter: blur(25px); border: 2px solid rgba(212, 175, 55, 0.3); border-radius: 15px; padding: 15px; margin-bottom: 10px; color: #ffffff; font-weight: 500; text-align: center;">
+                                    <i class="fas fa-check-circle" style="margin-right: 10px;"></i>
+                                    {{ message }}
+                                </div>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                    
+                    <form method="POST" action="{% url 'contact' %}">
                         {% csrf_token %}
                         <div class="row">
                             <div class="col-md-6 mb-3">
@@ -601,6 +596,13 @@ document.addEventListener('click', function(e) {
         const productName = button.dataset.productName;
         const productPrice = button.dataset.productPrice;
         const productImage = button.dataset.productImage;
+        const stockStatus = button.dataset.stockStatus || 'in_stock';
+        
+        // Check if product is out of stock
+        if (stockStatus === 'out_of_stock') {
+            showNotification('This product is out of stock', 'error');
+            return;
+        }
         
         // Call the addToCart function from base.html
         if (typeof addToCart === 'function') {

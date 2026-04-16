@@ -17,6 +17,7 @@
             </div>
             
             <form id="customerDetailsForm" method="POST" action="/process-order/">
+                {% csrf_token %}
                 <div class="form-row">
                     <div class="form-group">
                         <label for="fullName">
@@ -24,7 +25,7 @@
                             Full Name
                             <span class="required">*</span>
                         </label>
-                        <input type="text" id="fullName" name="fullName" required placeholder="John Doe" value="{{ request.GET.full_name|default:'' }}">
+                        <input type="text" id="fullName" name="fullName" required placeholder="John Doe" value="">
                         <div class="input-underline"></div>
                     </div>
                     
@@ -34,7 +35,7 @@
                             Email Address
                             <span class="required">*</span>
                         </label>
-                        <input type="email" id="email" name="email" required placeholder="john.doe@example.com" value="{{ request.GET.email|default:'' }}">
+                        <input type="email" id="email" name="email" required placeholder="john.doe@example.com" value="">
                         <div class="input-underline"></div>
                     </div>
                 </div>
@@ -44,8 +45,9 @@
                         <label for="phone">
                             <i class="fas fa-phone"></i>
                             Phone Number
+                            <span class="required">*</span>
                         </label>
-                        <input type="tel" id="phone" name="phone" placeholder="+91 98765 43210" value="{{ request.GET.phone|default:'' }}">
+                        <input type="tel" id="phone" name="phone" required placeholder="+91 98765 43210" value="">
                         <div class="input-underline"></div>
                     </div>
                     
@@ -54,7 +56,7 @@
                             <i class="fab fa-whatsapp"></i>
                             WhatsApp Number
                         </label>
-                        <input type="tel" id="whatsapp" name="whatsapp" placeholder="+91 98765 43210" value="{{ request.GET.whatsapp|default:'' }}">
+                        <input type="tel" id="whatsapp" name="whatsapp" placeholder="+91 98765 43210" value="">
                         <div class="input-underline"></div>
                     </div>
                 </div>
@@ -65,7 +67,7 @@
                         Delivery Address
                         <span class="required">*</span>
                     </label>
-                    <textarea id="address" name="address" required placeholder="Enter your complete delivery address" rows="3">{{ request.GET.address|default:'' }}</textarea>
+                    <textarea id="address" name="address" required placeholder="Enter your complete delivery address" rows="3"></textarea>
                     <div class="input-underline"></div>
                 </div>
                 
@@ -76,7 +78,7 @@
                             City
                             <span class="required">*</span>
                         </label>
-                        <input type="text" id="city" name="city" required placeholder="Mumbai" value="{{ request.GET.city|default:'' }}">
+                        <input type="text" id="city" name="city" required placeholder="Mumbai" value="">
                         <div class="input-underline"></div>
                     </div>
                     
@@ -88,14 +90,34 @@
                         </label>
                         <select id="state" name="state" required>
                             <option value="">Select State</option>
-                            <option value="MH">Maharashtra</option>
-                            <option value="DL">Delhi</option>
-                            <option value="KA">Karnataka</option>
-                            <option value="GJ">Gujarat</option>
-                            <option value="RJ">Rajasthan</option>
-                            <option value="WB">West Bengal</option>
-                            <option value="UP">Uttar Pradesh</option>
-                            <option value="TN">Tamil Nadu</option>
+                            <option value="Andhra Pradesh">Andhra Pradesh</option>
+                            <option value="Arunachal Pradesh">Arunachal Pradesh</option>
+                            <option value="Assam">Assam</option>
+                            <option value="Bihar">Bihar</option>
+                            <option value="Chhattisgarh">Chhattisgarh</option>
+                            <option value="Goa">Goa</option>
+                            <option value="Gujarat">Gujarat</option>
+                            <option value="Haryana">Haryana</option>
+                            <option value="Himachal Pradesh">Himachal Pradesh</option>
+                            <option value="Jharkhand">Jharkhand</option>
+                            <option value="Karnataka">Karnataka</option>
+                            <option value="Kerala">Kerala</option>
+                            <option value="Madhya Pradesh">Madhya Pradesh</option>
+                            <option value="Maharashtra">Maharashtra</option>
+                            <option value="Manipur">Manipur</option>
+                            <option value="Meghalaya">Meghalaya</option>
+                            <option value="Mizoram">Mizoram</option>
+                            <option value="Nagaland">Nagaland</option>
+                            <option value="Odisha">Odisha</option>
+                            <option value="Punjab">Punjab</option>
+                            <option value="Rajasthan">Rajasthan</option>
+                            <option value="Sikkim">Sikkim</option>
+                            <option value="Tamil Nadu">Tamil Nadu</option>
+                            <option value="Telangana">Telangana</option>
+                            <option value="Tripura">Tripura</option>
+                            <option value="Uttar Pradesh">Uttar Pradesh</option>
+                            <option value="Uttarakhand">Uttarakhand</option>
+                            <option value="West Bengal">West Bengal</option>
                         </select>
                         <div class="input-underline"></div>
                     </div>
@@ -104,11 +126,11 @@
                 <div class="form-row">
                     <div class="form-group">
                         <label for="pincode">
-                            <i class="fas fa-lock"></i>
+                            <i class="fas fa-mail-bulk"></i>
                             PIN Code
                             <span class="required">*</span>
                         </label>
-                        <input type="text" id="pincode" name="pincode" required placeholder="400001" maxlength="6" value="{{ request.GET.pincode|default:'' }}">
+                        <input type="text" id="pincode" name="pincode" required placeholder="400001" maxlength="6" pattern="[0-9]{6}">
                         <div class="input-underline"></div>
                     </div>
                     
@@ -117,7 +139,7 @@
                             <i class="fas fa-map-pin"></i>
                             Landmark (Optional)
                         </label>
-                        <input type="text" id="landmark" name="landmark" placeholder="Near Landmark" value="{{ request.GET.landmark|default:'' }}">
+                        <input type="text" id="landmark" name="landmark" placeholder="Near Railway Station">
                         <div class="input-underline"></div>
                     </div>
                 </div>
@@ -125,9 +147,9 @@
                 <div class="form-group full-width">
                     <label for="orderNotes">
                         <i class="fas fa-sticky-note"></i>
-                        Special Instructions
+                        Order Notes (Optional)
                     </label>
-                    <textarea id="orderNotes" name="orderNotes" placeholder="Any special delivery instructions or notes" rows="3">{{ request.GET.notes|default:'' }}</textarea>
+                    <textarea id="orderNotes" name="orderNotes" placeholder="Any special delivery instructions or notes" rows="3"></textarea>
                     <div class="input-underline"></div>
                 </div>
                 
@@ -136,10 +158,10 @@
                         <i class="fas fa-arrow-left"></i>
                         Back to Cart
                     </button>
-                    <a href="/cart_checkout/" class="btn btn-primary">
-                        <i class="fas fa-arrow-right"></i>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-check"></i>
                         Proceed to Payment
-                    </a>
+                    </button>
                 </div>
             </form>
         </div>
@@ -396,171 +418,342 @@ body {
     gap: 15px;
     }
 }
+
+.field-error {
+    color: #ef4444;
+    font-size: 0.875rem;
+    margin-top: 5px;
+    display: block;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 </style>
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Load customer data if available
-    const urlParams = new URLSearchParams(window.location.search);
-    const fullName = urlParams.get('full_name');
-    const email = urlParams.get('email');
-    const phone = urlParams.get('phone');
-    const whatsapp = urlParams.get('whatsapp');
-    const address = urlParams.get('address');
-    const city = urlParams.get('city');
-    const state = urlParams.get('state');
-    const pincode = urlParams.get('pincode');
-    const landmark = urlParams.get('landmark');
-    const orderNotes = urlParams.get('notes');
+    console.log('Customer details page loaded');
     
-    if (fullName) {
-        document.getElementById('fullName').value = fullName;
-    }
-    if (email) {
-        document.getElementById('email').value = email;
-    }
-    if (phone) {
-        document.getElementById('phone').value = phone;
-    }
-    if (whatsapp) {
-        document.getElementById('whatsapp').value = whatsapp;
-    }
-    if (address) {
-        document.getElementById('address').value = address;
-    }
-    if (city) {
-        document.getElementById('city').value = city;
-    }
-    if (state) {
-        document.getElementById('state').value = state;
-    }
-    if (pincode) {
-        document.getElementById('pincode').value = pincode;
-    }
-    if (landmark) {
-        document.getElementById('landmark').value = landmark;
-    }
-    if (orderNotes) {
-        document.getElementById('orderNotes').value = orderNotes;
+    const form = document.getElementById('customerDetailsForm');
+    console.log('Form found:', form);
+    
+    if (form) {
+        form.addEventListener('submit', function(e) {
+            console.log('Form submit event triggered');
+            e.preventDefault();
+            e.stopPropagation();
+            
+            // Clear previous errors
+            clearFormErrors();
+            
+            // Get form values
+            const fullName = document.getElementById('fullName').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const phone = document.getElementById('phone').value.trim();
+            const address = document.getElementById('address').value.trim();
+            const city = document.getElementById('city').value.trim();
+            const state = document.getElementById('state').value.trim();
+            const pincode = document.getElementById('pincode').value.trim();
+            
+            console.log('Form values:', { fullName, email, phone, address, city, state, pincode });
+            
+            // Validate required fields
+            let hasError = false;
+            let firstErrorField = null;
+            
+            if (!fullName) {
+                showFieldError('fullName', 'Please enter your full name');
+                hasError = true;
+                if (!firstErrorField) firstErrorField = document.getElementById('fullName');
+            }
+            
+            if (!email) {
+                showFieldError('email', 'Please enter your email address');
+                hasError = true;
+                if (!firstErrorField) firstErrorField = document.getElementById('email');
+            } else {
+                // Validate email format
+                const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailRegex.test(email)) {
+                    showFieldError('email', 'Please enter a valid email address');
+                    hasError = true;
+                    if (!firstErrorField) firstErrorField = document.getElementById('email');
+                }
+            }
+            
+            if (!phone) {
+                showFieldError('phone', 'Please enter your phone number');
+                hasError = true;
+                if (!firstErrorField) firstErrorField = document.getElementById('phone');
+            } else {
+                // Validate phone (10 digits)
+                const phoneRegex = /^[6-9]\d{9}$/;
+                if (!phoneRegex.test(phone.replace(/\D/g, ''))) {
+                    showFieldError('phone', 'Please enter a valid 10-digit phone number');
+                    hasError = true;
+                    if (!firstErrorField) firstErrorField = document.getElementById('phone');
+                }
+            }
+            
+            if (!address) {
+                showFieldError('address', 'Please enter your delivery address');
+                hasError = true;
+                if (!firstErrorField) firstErrorField = document.getElementById('address');
+            }
+            
+            if (!city) {
+                showFieldError('city', 'Please enter your city');
+                hasError = true;
+                if (!firstErrorField) firstErrorField = document.getElementById('city');
+            }
+            
+            if (!state) {
+                showFieldError('state', 'Please select your state');
+                hasError = true;
+                if (!firstErrorField) firstErrorField = document.getElementById('state');
+            }
+            
+            if (!pincode) {
+                showFieldError('pincode', 'Please enter your PIN code');
+                hasError = true;
+                if (!firstErrorField) firstErrorField = document.getElementById('pincode');
+            } else {
+                // Validate PIN code (6 digits)
+                if (!/^\d{6}$/.test(pincode)) {
+                    showFieldError('pincode', 'Please enter a valid 6-digit PIN code');
+                    hasError = true;
+                    if (!firstErrorField) firstErrorField = document.getElementById('pincode');
+                }
+            }
+            
+            console.log('Has error:', hasError);
+            
+            // If there are errors, focus on the first error field
+            if (hasError) {
+                console.log('Validation failed, focusing on first error field');
+                if (firstErrorField) {
+                    firstErrorField.focus();
+                }
+                return;
+            }
+            
+            // All validations passed
+            console.log('Validation passed, proceeding to payment');
+            
+            // Store customer data
+            const customerData = {
+                fullName: fullName,
+                email: email,
+                phone: phone,
+                whatsapp: document.getElementById('whatsapp').value.trim(),
+                address: address,
+                city: city,
+                state: state,
+                pincode: pincode,
+                landmark: document.getElementById('landmark').value.trim(),
+                orderNotes: document.getElementById('orderNotes').value.trim(),
+                timestamp: new Date().toISOString()
+            };
+            
+            // Store in localStorage
+            localStorage.setItem('customerData', JSON.stringify(customerData));
+            sessionStorage.setItem('customerData', JSON.stringify(customerData));
+            
+            // Proceed to payment
+            proceedToPayment(customerData);
+        });
+    } else {
+        console.error('Form not found!');
     }
     
-    // Form validation and submission
-    document.getElementById('customerDetailsForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        // Store form data before redirecting
-        const formData = new FormData(document.getElementById('customerDetailsForm'));
-        const customerData = {
-            fullName: formData.get('fullName'),
-            email: formData.get('email'),
-            phone: formData.get('phone'),
-            whatsapp: formData.get('whatsapp'),
-            address: formData.get('address'),
-            city: formData.get('city'),
-            state: formData.get('state'),
-            pincode: formData.get('pincode'),
-            landmark: formData.get('landmark'),
-            orderNotes: formData.get('orderNotes'),
-            timestamp: new Date().toISOString()
+    function showFieldError(fieldId, message) {
+        const field = document.getElementById(fieldId);
+        if (!field) {
+            console.error('Field not found:', fieldId);
+            return;
+        }
+        
+        // Remove existing error
+        const existingError = field.parentNode.querySelector('.field-error');
+        if (existingError) {
+            existingError.remove();
+        }
+        
+        // Create error element
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'field-error';
+        errorDiv.textContent = message;
+        
+        // Insert error after field
+        field.parentNode.insertBefore(errorDiv, field.nextSibling);
+        
+        // Add red border to field
+        field.style.borderColor = '#ef4444';
+        field.style.boxShadow = '0 0 0 2px rgba(239, 68, 68, 0.2)';
+        
+        console.log('Error shown for field:', fieldId, message);
+    }
+    
+    function clearFormErrors() {
+        // Remove all error messages
+        const errorMessages = document.querySelectorAll('.field-error');
+        errorMessages.forEach(msg => msg.remove());
+        
+        // Reset field styles
+        const formFields = document.querySelectorAll('input, textarea, select');
+        formFields.forEach(field => {
+            field.style.borderColor = '';
+            field.style.boxShadow = '';
+        });
+    }
+    
+    function proceedToPayment(customerData) {
+        console.log('Proceeding to payment with data:', customerData);
+        
+        // Check if Razorpay is loaded
+        if (typeof Razorpay === 'undefined') {
+            console.error('Razorpay is not loaded!');
+            alert('Payment gateway is loading. Please wait a moment and try again.');
+            return;
+        }
+        
+        console.log('Razorpay is loaded:', Razorpay);
+        
+        // Show processing message
+        showProcessingMessage();
+        
+        // Get cart total from localStorage
+        const cartData = JSON.parse(localStorage.getItem('cartData') || '[]');
+        const totalAmount = cartData.reduce((sum, item) => sum + (item.subtotal || (item.price * item.quantity)), 0);
+        
+        console.log('Cart data:', cartData);
+        console.log('Cart total:', totalAmount);
+        
+        // If cart is empty, show error
+        if (cartData.length === 0) {
+            hideProcessingMessage();
+            alert('Your cart is empty. Please add items to cart before proceeding.');
+            return;
+        }
+        
+        // Open Razorpay
+        const options = {
+            key: 'rzp_live_SWbTlXM1BhD6RZ',
+            amount: Math.round(totalAmount * 100), // Convert to paise
+            currency: 'INR',
+            name: 'VICTNOW Order',
+            description: `Order for ${cartData.length} items`,
+            image: '/static/images/perfume.png',
+            handler: function (response) {
+                console.log('Payment successful:', response);
+                
+                // Save order to backend
+                fetch('/process-order/', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'X-CSRFToken': getCookie('csrftoken')
+                    },
+                    body: JSON.stringify({
+                        customer_data: customerData,
+                        cart_data: cartData,
+                        total_amount: totalAmount,
+                        payment_id: response.razorpay_payment_id,
+                        payment_method: 'razorpay',
+                        payment_status: 'completed'
+                    })
+                })
+                .then(response => response.json())
+                .then(data => {
+                    console.log('Order saved:', data);
+                    // Clear cart
+                    localStorage.removeItem('cartData');
+                    // Redirect to success page
+                    window.location.href = '/payment-success/?payment_id=' + response.razorpay_payment_id;
+                })
+                .catch(error => {
+                    console.error('Error saving order:', error);
+                    alert('Payment successful! We will contact you soon.');
+                    window.location.href = '/payment-success/?payment_id=' + response.razorpay_payment_id;
+                });
+            },
+            prefill: {
+                name: customerData.fullName,
+                email: customerData.email,
+                contact: customerData.phone
+            },
+            notes: {
+                address: customerData.address,
+                city: customerData.city,
+                state: customerData.state,
+                pincode: customerData.pincode,
+                order_type: 'Regular Order'
+            },
+            theme: {
+                color: '#d4af37'
+            },
+            modal: {
+                ondismiss: function() {
+                    console.log('Razorpay modal closed');
+                    hideProcessingMessage();
+                },
+                escape: true,
+                handleback: true
+            }
         };
         
-        // Store in localStorage and sessionStorage
-        localStorage.setItem('customerData', JSON.stringify(customerData));
-        sessionStorage.setItem('customerData', JSON.stringify(customerData));
+        console.log('Razorpay options:', options);
         
-        console.log('Form data stored for order summary');
-    });
-    
-    function clearPageAndProceed(event) {
-    event.preventDefault(); // Prevent immediate navigation
-    
-    // Clear the page content
-    document.body.innerHTML = `
-        <div style="display: flex; justify-content: center; align-items: center; min-height: 100vh; background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);">
-            <div style="text-align: center; color: #d4af37;">
-                <div style="width: 60px; height: 60px; border: 3px solid #d4af37; border-top: 3px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div>
-                <h2>Processing Payment...</h2>
-                <p>Opening Razorpay payment gateway...</p>
-            </div>
-        </div>
-        <style>
-            @keyframes spin {
-                0% { transform: rotate(0deg); }
-                100% { transform: rotate(360deg); }
-            }
-        </style>
-    `;
-    
-    // Redirect to payment page after 1 second
-    setTimeout(() => {
-        window.location.href = '/cart_checkout/';
-    }, 1000);
-}
-
-function showSuccessMessage(message) {
-    // Remove any existing success message
-    const existingMessage = document.querySelector('.success-message');
-    if (existingMessage) {
-        existingMessage.remove();
+        try {
+            const rzp = new Razorpay(options);
+            console.log('Razorpay instance created:', rzp);
+            rzp.open();
+        } catch (error) {
+            console.error('Error opening Razorpay:', error);
+            hideProcessingMessage();
+            alert('Unable to open payment gateway. Please try again.');
+        }
     }
     
-    // Create new success message
-    const successDiv = document.createElement('div');
-    successDiv.className = 'success-message';
-    successDiv.innerHTML = `
-        <i class="fas fa-check-circle"></i>
-        <span>${message}</span>
-            landmark: formData.get('landmark'),
-            orderNotes: formData.get('orderNotes'),
-            timestamp: new Date().toISOString()
-        };
-        
-        // Basic validation
-        if (!customerData.fullName || !customerData.email || !customerData.address || !customerData.city || !customerData.state || !customerData.pincode) {
-            alert('Please fill in all required fields marked with *');
-            return;
-        }
-        
-        // Validate PIN code (6 digits)
-        if (!/^\d{6}$/.test(customerData.pincode)) {
-            alert('Please enter a valid 6-digit PIN code');
-            return;
-        }
-        
-        // Validate email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!emailRegex.test(customerData.email)) {
-            alert('Please enter a valid email address');
-            return;
-        }
-        
-        // Store customer data
-        localStorage.setItem('customerData', JSON.stringify(customerData));
-        sessionStorage.setItem('customerData', JSON.stringify(customerData));
-        
-        // Show success message
-        showSuccessMessage('Customer details saved! Proceeding to order summary...');
-        
-        // Redirect to cart checkout page after 2 seconds
-        setTimeout(() => {
-            window.location.href = '/cart_checkout/';
-        }, 2000);
+    function showProcessingMessage() {
+        const processingDiv = document.createElement('div');
+        processingDiv.id = 'processing-message';
+        processingDiv.style.cssText = 'position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.9); display: flex; justify-content: center; align-items: center; z-index: 99999;';
+        processingDiv.innerHTML = '<div style="text-align: center; color: #d4af37;"><div style="width: 60px; height: 60px; border: 3px solid #d4af37; border-top: 3px solid transparent; border-radius: 50%; animation: spin 1s linear infinite; margin: 0 auto 20px;"></div><h2>Processing Payment...</h2><p>Opening Razorpay payment gateway...</p></div><style>@keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }</style>';
+        document.body.appendChild(processingDiv);
     }
     
-    // Add CSS animation
-    const style = document.createElement('style');
-    style.textContent = `
-        @keyframes slideIn {
-            from {
-                transform: translateX(100%);
-                opacity: 0;
-            }
-            to {
-                transform: translateX(0);
-                opacity: 1;
+    function hideProcessingMessage() {
+        const processingDiv = document.getElementById('processing-message');
+        if (processingDiv) {
+            processingDiv.remove();
+        }
+    }
+    
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
             }
         }
-    `;
-    document.head.appendChild(style);
+        return cookieValue;
+    }
 });
 </script>
 {% endblock %}
