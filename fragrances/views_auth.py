@@ -92,18 +92,13 @@ def authenticate_user(request):
                 'error': 'Your account is not authorized for login. Please contact administrator.'
             })
         
-        # Step 3: Check if user is verified (if verification is required)
-        # For 'standard' login method, we auto-verify users
-        if hasattr(profile, 'is_verified') and not profile.is_verified:
-            if profile.login_method == 'standard':
-                # Auto-verify users who register through the form
-                profile.is_verified = True
-                profile.save()
-            else:
-                return JsonResponse({
-                    'success': False,
-                    'error': 'Your account is not verified. Please verify your email or mobile number.'
-                })
+        # Step 3: Auto-verify all users for seamless registration experience
+        # Always set is_verified to True for all users
+        if not profile.is_verified:
+            profile.is_verified = True
+            profile.login_method = 'standard'  # Ensure login_method is set correctly
+            profile.save()
+            print(f"Auto-verified user: {username}")
         
         # Step 4: Update login information in UserProfile
         profile.last_login = timezone.now()

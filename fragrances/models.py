@@ -29,7 +29,7 @@ class UserProfile(models.Model):
     country_code = models.CharField(max_length=10, default='+91')
     login_method = models.CharField(max_length=20, choices=LOGIN_METHODS, default='mobile')
     profile_picture = models.URLField(blank=True, null=True)
-    is_verified = models.BooleanField(default=False)
+    is_verified = models.BooleanField(default=True)
     last_login = models.DateTimeField(auto_now=True)
     created_at = models.DateTimeField(auto_now_add=True)
     

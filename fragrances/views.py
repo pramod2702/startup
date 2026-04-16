@@ -141,7 +141,7 @@ def checkout(request, product_id=None, quantity=1):
     
     return render(request, 'fragrances/checkout.html', context)
 
-def login(request):
+def login_view(request):
     """Render login page with mobile number and OTP authentication"""
     return render(request, 'fragrances/login.html')
 
@@ -1574,26 +1574,41 @@ def register_user_with_mobile(request):
             data = json.loads(request.body)
             print("Parsed data:", data)  # Debug print
             
-            phone_number = data.get('phone_number')
+            # Get registration data from the form
+            username = data.get('username', '').strip()
+            password = data.get('password', '').strip()
+            email = data.get('email', '').strip()
+            first_name = data.get('first_name', '').strip()
+            last_name = data.get('last_name', '').strip()
+            phone_number = data.get('phone_number', '').strip()
             country_code = data.get('country_code', '+91')
             
-            print("Phone number:", phone_number)  # Debug print
-            print("Country code:", country_code)  # Debug print
+            print("Registration data:", { username, email, phone_number, first_name, last_name })  # Debug print
             
-            # Create or get user
-            username = f"user_{phone_number[-4:]}"  # Use last 4 digits as username
-            print("Creating user with username:", username)  # Debug print
+            # Validate required fields
+            if not username or not password or not email:
+                return JsonResponse({
+                    'success': False,
+                    'error': 'Username, password, and email are required'
+                })
             
-            user, created = User.objects.get_or_create(
+            # Check if username already exists
+            if User.objects.filter(username=username).exists():
+                return JsonResponse({
+                    'success': False,
+                    'error': 'Username already exists'
+                })
+            
+            # Create Django user
+            user = User.objects.create_user(
                 username=username,
-                defaults={
-                    'email': f'{username}@victnow.com',
-                    'first_name': 'User',
-                    'last_name': phone_number[-4:]
-                }
+                email=email,
+                password=password,
+                first_name=first_name,
+                last_name=last_name
             )
             
-            print("User created:", created)  # Debug print
+            print("User created with username:", username)  # Debug print
             print("User ID:", user.id)  # Debug print
             
             # Create or update user profile
@@ -1602,7 +1617,7 @@ def register_user_with_mobile(request):
                 defaults={
                     'phone_number': phone_number,
                     'country_code': country_code,
-                    'login_method': 'mobile',
+                    'login_method': 'standard',
                     'is_verified': True
                 }
             )

@@ -492,30 +492,7 @@
             line-height: 1.5;
         }
         
-        .create-account-section .register-btn {
-            position: relative;
-            background: #000000;
-            color: #d4af37;
-            border: 3px solid #d4af37;
-            padding: 24px 50px;
-            border-radius: 50px;
-            font-size: 1.3rem;
-            font-weight: 700;
-            cursor: pointer;
-            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            box-shadow: 0 15px 40px rgba(212, 175, 55, 0.3), inset 0 0 20px rgba(212, 175, 55, 0.1);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 100%;
-            margin-top: 20px;
-            overflow: hidden;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            animation: goldenGlow 2s ease-in-out infinite alternate;
-        }
-        
+                
         .create-account-section .register-btn .btn-content {
             position: relative;
             z-index: 2;
@@ -1248,6 +1225,10 @@
         function handleRegister(event) {
             event.preventDefault();
             
+            console.log('=== CREATE ACCOUNT BUTTON CLICKED ===');
+            console.log('Event type:', event.type);
+            console.log('Event target:', event.target);
+            
             // Get form values
             const name = document.getElementById('reg_name').value.trim();
             const email = document.getElementById('reg_email').value.trim();
@@ -1284,7 +1265,7 @@
             }
             
             // Show loading state
-            const submitBtn = document.querySelector('#registerForm .register-btn');
+            const submitBtn = document.querySelector('#registerForm .login-btn');
             const originalText = submitBtn.innerHTML;
             submitBtn.innerHTML = `
                 <span class="btn-content">

@@ -39,8 +39,9 @@ urlpatterns = [
     path('test-bulk-simple/', views.test_bulk_simple, name='test_bulk_simple'),  # Simple bulk test
     path('test-admin-integration/', views.test_admin_integration, name='test_admin_integration'),  # Admin integration test
     path('newsletter/', views.newsletter, name='newsletter'),
-    path('login/', views.login, name='login'),
+    path('login/', views.login_view, name='login'),
     path('logout/', views.logout_view, name='logout'),
+    path('api/auth/register/', views.register_user_with_mobile, name='register'),
     path('orders/', views.orders, name='orders'),
     path('dashboard/', views.user_dashboard, name='user_dashboard'),
     
