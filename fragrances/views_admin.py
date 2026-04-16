@@ -163,6 +163,7 @@ def format_time_ago(dt):
     else:
         return dt.strftime('%Y-%m-%d %H:%M')
 
+@staff_member_required
 def admin_dashboard_custom(request):
     """Custom admin dashboard view"""
     return render(request, 'admin/admin_dashboard.html', {

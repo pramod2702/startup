@@ -1,6 +1,11 @@
 from django.contrib import admin
 from django.utils.html import format_html
-from .models import Product, Testimonial, BlogPost, ContactMessage, Newsletter, Order, CorporateOrder, OrderTracking, BulkOrderTracking, UserProfile, TrialPack, TrialPackTracking, TrialPackPrice
+from django.urls import path, reverse
+from django.http import HttpResponseRedirect
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import render
+from .models import Product, Testimonial, BlogPost, ContactMessage, Newsletter, Order, CorporateOrder, OrderTracking, BulkOrderTracking, UserProfile, TrialPack, TrialPackTracking, TrialPackPrice, UserActivity
 
 # Simple Product Admin
 @admin.register(Product)
@@ -154,7 +159,13 @@ class TrialPackTrackingAdmin(admin.ModelAdmin):
     search_fields = ['tracking_number', 'carrier']
     ordering = ['-created_at']
 
-# Customize Admin Site Header
+# Simple UserActivity Admin
+@admin.register(UserActivity)
+class UserActivityAdmin(admin.ModelAdmin):
+    list_display = ['user', 'activity_type', 'created_at']
+    list_filter = ['created_at', 'activity_type']
+    search_fields = ['user__username', 'activity_type']
+    ordering = ['-created_at']
 admin.site.site_header = "VICTNOW Administration"
 admin.site.site_title = "VICTNOW Admin"
 admin.site.index_title = "Welcome to VICTNOW Admin Panel"

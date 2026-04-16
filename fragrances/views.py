@@ -149,21 +149,24 @@ def login_view(request):
 def logout_view(request):
     """Handle user logout"""
     print(f"Logout view called with method: {request.method}")
-    if request.method == 'POST':
-        # Log logout activity if user is logged in
-        if request.user.is_authenticated:
-            # Clear user's cart before logout
-            Cart.clear_user_cart(request.user)
-            
-            UserActivity.log_activity(
-                user=request.user,
-                activity_type='logout',
-                description='User logged out (cart cleared)',
-                request=request
-            )
+    
+    # Log logout activity if user is logged in
+    if request.user.is_authenticated:
+        # Clear user's cart before logout
+        Cart.clear_user_cart(request.user)
         
-        logout(request)
-        messages.success(request, 'You have been successfully logged out.')
+        UserActivity.log_activity(
+            user=request.user,
+            activity_type='logout',
+            description='User logged out (cart cleared)',
+            request=request
+        )
+    
+    logout(request)
+    messages.success(request, 'You have been successfully logged out.')
+    
+    # Handle both AJAX and regular requests
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         return JsonResponse({
             'success': True, 
             'message': 'Logged out successfully',
@@ -171,7 +174,8 @@ def logout_view(request):
             'redirect_url': '/',
             'timestamp': timezone.now().timestamp()
         })
-    return redirect('home')
+    else:
+        return redirect('home')
 
 @login_required
 @never_cache

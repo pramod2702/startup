@@ -28,8 +28,8 @@
 
 {% block branding %}
 <div id="site-name">
-    <a href="/admin/dashboard/" class="dashboard-link" style="text-decoration: none; color: white;">
-        <i class="fas fa-tachometer-alt"></i> Open Dashboard
+    <a href="{% url 'admin:index' %}" class="site-link" style="text-decoration: none; color: white;">
+        VICTNOW Administration
     </a>
 </div>
 {% endblock %}
